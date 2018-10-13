@@ -1,0 +1,39 @@
+<menu id="file" value="File">
+  <popup>
+    <menuitem value="New" onclick="CreateNewDoc()" />
+    <menuitem value="Open" onclick="OpenDoc()" />
+    <menuitem value="Close" onclick="CloseDoc()" />
+  </popup>
+</menu>
+
+{"menu": {
+  "id": "file",
+  "value": "File",
+  "popup": {
+    "menuitem": [
+      {"value": "New", "onclick": "CreateNewDoc()"},
+      {"value": "Open", "onclick": "OpenDoc()"},
+      {"value": "Close", "onclick": "CloseDoc()"}
+    ]
+  }
+}}
+
+{"book": 
+ {
+  "author":"Judy Woppykins"
+  "publishDate":"September 22nd, 2014"
+  "sales":
+   [
+    "value": "98k",
+    "value": "130k",
+    "value": "288k"
+   ]
+ }
+}
+
+<book author="Jolly Madina">
+ <sales>
+   <entry value="98k">
+   <entry value="130k">
+ <sales>
+>
