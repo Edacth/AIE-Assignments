@@ -54,6 +54,6 @@ int main()
 	CloseWindow();        // Close window and OpenGL context
 	//--------------------------------------------------------------------------------------
 
-	delete[] sprite1.spriteCells;
+	
 	return 0;
 }

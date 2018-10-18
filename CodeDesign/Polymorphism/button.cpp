@@ -1,5 +1,6 @@
 #include "raylib.h"
 #include "button.h"
+#include <string>
 
 Button::Button(const std::string filename, const  int _cellCount, int _x, int _y)
 {
@@ -23,19 +24,39 @@ Button::Button(const std::string filename, const  int _cellCount, int _x, int _y
 	y = _y;
 }
 
-void Button::Draw()
+int Button::Update()
 {
-	if ( (CheckCollisionPointRec(GetMousePosition(), *this) ) && IsMouseButtonDown(MOUSE_LEFT_BUTTON))
+	if ((CheckCollisionPointRec(GetMousePosition(), *this)) && IsMouseButtonReleased(MOUSE_LEFT_BUTTON))
 	{
-		DrawTexture(spriteCells[2], x, y+4, WHITE);
+		return 3;
+	}
+	else if ((CheckCollisionPointRec(GetMousePosition(), *this)) && IsMouseButtonDown(MOUSE_LEFT_BUTTON))
+	{
+		buttonState = 2;
+		return 2;
 	}
 	else if (CheckCollisionPointRec(GetMousePosition(), *this))
 	{
-		DrawTexture(spriteCells[1], x, y, WHITE);
+		buttonState = 1;
+		return 1;
 	}
 	else if (true)
 	{
-		DrawTexture(spriteCells[0], x, y, WHITE);
+		buttonState = 0;
+		return 0;
+	}
+	return -1;
+}
+
+void Button::Draw()
+{
+	if (buttonState == 2)
+	{
+		DrawTexture(spriteCells[buttonState], x, y + 4, WHITE);
+	}
+	else
+	{
+		DrawTexture(spriteCells[buttonState], x, y, WHITE);
 	}
 	
 }

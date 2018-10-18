@@ -39,5 +39,5 @@ void Sprite::Draw()
 
 Sprite::~Sprite()
 {
-
+	delete[] spriteCells;
 }
