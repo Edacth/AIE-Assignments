@@ -10,8 +10,9 @@ Enemy::Enemy(const std::string & fileName, int _x, int _y)
 
 }
 
-bool Enemy::moveTo()
+bool Enemy::Update(Vector2 _destination)
 {
+	
 	return true;
 }
 

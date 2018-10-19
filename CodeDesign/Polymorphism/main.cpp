@@ -66,6 +66,7 @@ void main()
 				player1->destination = GetMousePosition();
 			}
 			player1->moveTo();
+			enemies[0]->Update(player1->position);
 			// Draw
 			//----------------------------------------------------------------------------------
 			BeginDrawing();

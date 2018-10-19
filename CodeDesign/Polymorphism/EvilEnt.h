@@ -6,6 +6,6 @@ class EvilEnt :
 public:
 	EvilEnt(const std::string & fileName, int _x, int _y);
 	~EvilEnt();
-	bool MoveTo();
+	bool Update(Vector2 _destination);
 };
 
