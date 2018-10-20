@@ -4,7 +4,7 @@
 
 EvilEnt::EvilEnt(const std::string & fileName, int _x, int _y) : Enemy(fileName, _x, _y)
 {
-
+	speed = 1;
 }
 
 
