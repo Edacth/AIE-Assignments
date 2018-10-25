@@ -6,11 +6,18 @@ int main()
 {
 
 	tVector<int> array1;
-	array1.push_back(1);
-	array1.push_back(3);
+	tVector<int> array2;
+	array1.push_back(5);
+	array1.push_back(10);
+	array1.push_back(15);
+	array1.push_back(20);
+	array1.push_back(25);
+	array1.push_back(30);
 
-	std::cout << array1.at(0) << std::endl;
-	std::cout << array1.at(1) << std::endl;
+	array1.print();
+	//array2 = array1;
+	array1.reserve(20);
+	array1.print();
 
 	return 0;
 }
