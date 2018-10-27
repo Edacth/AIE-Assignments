@@ -6,12 +6,14 @@
 #include "tStack.h"
 #include "projectile.h"
 #include "tQueue.h"
+#include "raylib.h"
+#include <cmath>
 
 
 int main()
 {
 
-	/*
+	
 	// Initialization
 	//--------------------------------------------------------------------------------------
 	int screenWidth = (800);
@@ -22,12 +24,18 @@ int main()
 
 	SetTargetFPS(60);
 
-	tVector<Ninja> array1;
+	tQueue<Vector2> actionQueue;
+	Vector2 playerPos = { 100, 100 };
+	Vector2 playerDir = { 0, 0 };
+	Vector2 playerDirNorm = { 0, 0 };
+	float dirLength = 0.0f;
+
+	/*tVector<Ninja> array1;
 	Ninja ninja1 = { 100, 100 };
 
 	tStack<int> spellQueue;
 	projectile baseProj;
-	tVector<projectile> projectileArr;
+	tVector<projectile> projectileArr;*/
 	
 	//--------------------------------------------------------------------------------------
 
@@ -36,7 +44,36 @@ int main()
 	{
 		// Update
 
-		if (IsKeyPressed(KEY_Q))
+		if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
+		{
+			actionQueue.push(GetMousePosition());
+		}
+		if (actionQueue.size() != 0)
+		{
+			playerDir.x = playerPos.x - actionQueue.front().x;
+			playerDir.y = playerPos.y - actionQueue.front().y;
+			dirLength = sqrt(pow(playerDir.x, 2) + pow(playerDir.y, 2));
+
+			if (playerDir.x != 0)
+			{
+				playerDirNorm.x = playerDir.x / dirLength;
+				//playerDirNorm.x = playerDir.x / abs(playerDir.x);
+			}
+			if (playerDir.y != 0)
+			{
+				playerDirNorm.y = playerDir.y / dirLength;
+				//playerDirNorm.y = playerDir.y / abs(playerDir.y);
+			}
+
+			playerPos.x -= playerDirNorm.x * 2;
+			playerPos.y -= playerDirNorm.y * 2;
+
+			if (CheckCollisionPointCircle(playerPos, actionQueue.front(), 3))
+			{
+				actionQueue.pop();
+			}
+		}
+		/*if (IsKeyPressed(KEY_Q))
 		{
 			spellQueue.push(1);
 		}
@@ -80,12 +117,12 @@ int main()
 				break;
 			}
 			
-		}
+		}*/
 
-		for (size_t i = 0; i < projectileArr.used(); i++)
+		/*for (size_t i = 0; i < projectileArr.used(); i++)
 		{
 			projectileArr[i].update();
-		}
+		}*/
 
 		if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
 		{
@@ -97,12 +134,13 @@ int main()
 		//----------------------------------------------------------------------------------
 		BeginDrawing();
 
+		DrawCircleV(playerPos, 8, RED);
 		ClearBackground(RAYWHITE);
 		for (size_t i = 0; i < 5; i++)
 		{
 			//array1[i].render();
 		}
-		for (size_t i = 0; i < 5; i++)
+		/*for (size_t i = 0; i < 5; i++)
 		{
 			switch (spellQueue.top())
 			{
@@ -127,7 +165,7 @@ int main()
 		for (size_t i = 0; i < projectileArr.used(); i++)
 		{
 			projectileArr[i].draw();
-		}
+		}*/
 
 		EndDrawing();
 		//----------------------------------------------------------------------------------
@@ -138,7 +176,7 @@ int main()
 	CloseWindow();        // Close window and OpenGL context
 						  //--------------------------------------------------------------------------------------
 	
-	*/
+	
 
 	//std::cout << array1.empty() << std::endl;
 	//array1.push_back(5);
