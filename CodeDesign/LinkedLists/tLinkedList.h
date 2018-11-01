@@ -92,15 +92,20 @@ const T& tForwardList<T>::front() const
 template<typename T>
 void tForwardList<T>::remove(const T & val)
 {
-	for (Node *itNode = head->next; itNode != nullptr; itNode = itNode->next) {
-		if (head->data == val) {
-			pop_front();
-		}
+	Node *itNode = head;
+	while ( itNode->next != nullptr) {
 		if (itNode->data == val) {
-			Node *tempNode = itNode->next;
-			itNode->next = itNode->next->next;
-			delete tempNode;
+			std::cout << "Popping front " << front() << std::endl;
+			pop_front();
+			itNode = head;
 		}
+		else if (itNode->next->data == val) {
+			Node *tempNode = itNode->next->next;
+			std::cout << "Popping " << itNode->next->data << std::endl;
+			delete itNode->next;
+			itNode->next = tempNode;
+		}
+		else { itNode = itNode->next; }
 	}
 }
 

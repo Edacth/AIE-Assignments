@@ -20,8 +20,8 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{77C600CE-3221-4A4F-B596-EA9872CB7E81}</ProjectGuid>
-    <RootNamespace>StandardTemplateLibrary</RootNamespace>
+    <ProjectGuid>{34B217C3-A752-4433-A729-2652C5DE3FB6}</ProjectGuid>
+    <RootNamespace>Sorting</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -115,11 +115,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="item.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="item.h" />
+    <ClInclude Include="HighScoreEntry.h" />
+    <ClInclude Include="HighScoreTable.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

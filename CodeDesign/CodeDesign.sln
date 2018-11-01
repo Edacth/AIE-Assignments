@@ -23,6 +23,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DynamicArrays", "DynamicArr
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "LinkedLists", "LinkedLists\LinkedLists.vcxproj", "{2A9A4EB1-22BF-47F8-951D-A60ACCBA4ECD}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Sorting", "Sorting\Sorting.vcxproj", "{34B217C3-A752-4433-A729-2652C5DE3FB6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -111,6 +113,14 @@ Global
 		{2A9A4EB1-22BF-47F8-951D-A60ACCBA4ECD}.Release|x64.Build.0 = Release|x64
 		{2A9A4EB1-22BF-47F8-951D-A60ACCBA4ECD}.Release|x86.ActiveCfg = Release|Win32
 		{2A9A4EB1-22BF-47F8-951D-A60ACCBA4ECD}.Release|x86.Build.0 = Release|Win32
+		{34B217C3-A752-4433-A729-2652C5DE3FB6}.Debug|x64.ActiveCfg = Debug|x64
+		{34B217C3-A752-4433-A729-2652C5DE3FB6}.Debug|x64.Build.0 = Debug|x64
+		{34B217C3-A752-4433-A729-2652C5DE3FB6}.Debug|x86.ActiveCfg = Debug|Win32
+		{34B217C3-A752-4433-A729-2652C5DE3FB6}.Debug|x86.Build.0 = Debug|Win32
+		{34B217C3-A752-4433-A729-2652C5DE3FB6}.Release|x64.ActiveCfg = Release|x64
+		{34B217C3-A752-4433-A729-2652C5DE3FB6}.Release|x64.Build.0 = Release|x64
+		{34B217C3-A752-4433-A729-2652C5DE3FB6}.Release|x86.ActiveCfg = Release|Win32
+		{34B217C3-A752-4433-A729-2652C5DE3FB6}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
