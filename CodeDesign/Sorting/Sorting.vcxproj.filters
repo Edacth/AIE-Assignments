@@ -26,5 +26,8 @@
     <ClInclude Include="HighScoreTable.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="mergeSort.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
