@@ -1,6 +1,9 @@
 #include "raylib.h"
 #include "stateMachine.h"
 #include "player.h"
+#include "enemy.h"
+#include "projectile.h"
+#include <vector>
 
 int main()
 {
@@ -13,7 +16,13 @@ int main()
 
 	Texture oozeTexture = LoadTexture("resources//ooze.png");
 	Texture skeletonTexture = LoadTexture("resources//skeleton.png");
+	Texture knightTexture = LoadTexture("resources//knight.png");
+	Texture boneTexture = LoadTexture("resources//bone.png");
 	Player player;
+	std::vector<Enemy> enemyArr;
+	std::vector<Projectile> projectileArr;
+	Enemy baseEnemy;
+	Projectile baseProjectile;
 	//--------------------------------------------------------------------------------------
 
 	// Main game loop
@@ -30,18 +39,27 @@ int main()
 		}
 		if (stateMachine::getState() == PlayerSelect) //SELECTION MENU
 		{
-			if (IsKeyDown(KEY_A))
+			if (IsKeyDown(KEY_A) || IsKeyDown(KEY_D))
 			{
+				if (IsKeyDown(KEY_A))
+				{
+					player = { oozeTexture ,{ (float)screenWidth / 2, (float)screenHeight / 2 } };
+				}
+				else if (IsKeyDown(KEY_D))
+				{
+					player = { skeletonTexture ,{ (float)screenWidth / 2, (float)screenHeight / 2 } };
+				}
 				stateMachine::setState(2);
-				player = { oozeTexture ,{ (float)screenWidth / 2, (float)screenHeight / 2 } };
+				enemyArr.push_back(baseEnemy = { knightTexture, {0, 0} });
+				enemyArr.push_back(baseEnemy = { knightTexture, {500, 0} });
+				for (size_t i = 0; i < enemyArr.size(); i++)
+				{
+					enemyArr[i].setTarget(&player);
+				}
 			}
-			if (IsKeyDown(KEY_D))
-			{
-				stateMachine::setState(2);
-				player = { skeletonTexture, {(float)screenWidth / 2, (float)screenHeight / 2} };
-			}
+			
 		}
-		if (stateMachine::getState() == InGame) //GAMEPLAY
+		if (stateMachine::getState() == InGame) //INGAME
 		{
 			if (IsKeyPressed(KEY_R))
 			{
@@ -62,6 +80,30 @@ int main()
 			if (IsKeyDown(KEY_D))
 			{
 				player.position.x += 2;
+			}
+			for (size_t i = 0; i < enemyArr.size(); i++)
+			{
+				enemyArr[i].update();
+			}
+			for (size_t i = 0; i < projectileArr.size(); i++)
+			{
+				projectileArr[i].update();
+			}
+			if (IsKeyPressed(KEY_RIGHT))
+			{
+				projectileArr.push_back(baseProjectile = { boneTexture, player.position, {1, 0} });
+			}
+			if (IsKeyPressed(KEY_LEFT))
+			{
+				projectileArr.push_back(baseProjectile = { boneTexture, player.position,{ -1, 0 } });
+			}
+			if (IsKeyPressed(KEY_UP))
+			{
+				projectileArr.push_back(baseProjectile = { boneTexture, player.position,{ 0, -1 } });
+			}
+			if (IsKeyPressed(KEY_DOWN))
+			{
+				projectileArr.push_back(baseProjectile = { boneTexture, player.position,{ 0, 1 } });
 			}
 		}
 		if (stateMachine::getState() == GameOver) //DEATH SCREEN
@@ -93,12 +135,29 @@ int main()
 		{
 			DrawText("<GAMEPLAY>", screenWidth / 2 - 100, 10, 30, BLACK);
 			DrawText("Press R to die.", screenWidth / 2 - 100, (screenHeight - 30), 20, BLACK);
-			player.draw();
+			player.draw(); 
+			for (size_t i = 0; i < enemyArr.size(); i++)
+			{
+				enemyArr[i].draw();
+			}
+			for (size_t i = 0; i < projectileArr.size(); i++)
+			{
+				projectileArr[i].draw();
+			}
+			
 		}
 		if (stateMachine::getState() == GameOver)
 		{
 			DrawText("YOU DIED.", screenWidth / 2 - 100, screenHeight / 2, 30, BLACK);
 			DrawText("Press spacebar to continue.", screenWidth / 2 - 100, (screenHeight) - 30, 20, BLACK);
+			for (size_t i = 0; i < enemyArr.size(); i++)
+			{
+				enemyArr.pop_back();
+			}
+			for (size_t i = 0; i < projectileArr.size(); i++)
+			{
+				projectileArr.pop_back();
+			}
 		}
 
 		EndDrawing();
