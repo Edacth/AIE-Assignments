@@ -1,6 +1,5 @@
 #include "stateMachine.h"
 
-
 stateMachine::stateMachine()
 {
 	state = 0;
