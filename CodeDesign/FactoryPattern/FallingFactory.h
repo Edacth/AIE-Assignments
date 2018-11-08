@@ -2,19 +2,22 @@
 #pragma once
 #include "raylib.h"
 #include "SimpleSprite.h"
+#include "FallingObject.h"
 
 class FallingFactory
 {
-	static SimpleSprite* spriteMasters;
+private:
+	FallingFactory();
+	~FallingFactory();
+	static FallingObject* spriteMasters;
+	static Texture2D* textureMasters;
 	static size_t spriteCount;
 
 public:
 	static void init();
 	static FallingFactory& GetInstance();
-	static SimpleSprite * getRandom();// returns a random sprite from all sprites loaded
-	static SimpleSprite * getFromType(const std::string & _sprType);// Returns a random sprite from this type of sprites.
+	static FallingObject * GetRandom();// returns a random sprite from all sprites loaded
+	static FallingObject * GetFromType(const std::string & _sprType);// Returns a random sprite from this type of sprites.
+	static FallingObject* Create(Vector2 _pos);
 
-private:
-	FallingFactory();
-	~FallingFactory();
 };

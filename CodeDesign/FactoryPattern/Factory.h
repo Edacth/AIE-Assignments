@@ -18,4 +18,5 @@ public:
 	virtual IBox * Create(std::string type);
 	static Factory& GetInstance();
 
+
 };
