@@ -18,6 +18,6 @@ public:
 	static FallingFactory& GetInstance();
 	static FallingObject * GetRandom();// returns a random sprite from all sprites loaded
 	static FallingObject * GetFromType(const std::string & _sprType);// Returns a random sprite from this type of sprites.
-	static FallingObject* Create(Vector2 _pos);
+	static FallingObject* Create(std::string _sprType);
 
 };

@@ -29,5 +29,17 @@ void FallingObject::Draw()
 void FallingObject::Update()
 {
 	pos.y += 1;
-	rot++;
+	rot += 1;
+}
+
+FallingObject* FallingObject::Clone()
+{
+	FallingObject* newObject = new FallingObject;
+	newObject->pos = { (float)GetRandomValue(0, 800), -10 };
+	newObject->scale = scale;
+	newObject->texture = texture;
+	newObject->sprType = sprType;
+	newObject->rot = rot;
+
+	return newObject;
 }

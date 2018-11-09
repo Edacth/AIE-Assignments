@@ -8,7 +8,7 @@ Texture2D* FallingFactory::textureMasters = nullptr;
 void FallingFactory::init()
 {
     //Load in the various sprites
-    spriteCount = 4;
+    spriteCount = 8;
     spriteMasters = new FallingObject[spriteCount];
     //spriteMasters[0] = *(new FallingObject("resources/spaceMeteors_001.png", "rock", .1f));
     //spriteMasters[1] = *(new FallingObject("resources/spaceMeteors_002.png", "rock", .1f));
@@ -20,6 +20,10 @@ void FallingFactory::init()
 	textureMasters[1] = LoadTexture("resources/spaceBuilding_001.png");
 	textureMasters[2] = LoadTexture("resources/spaceBuilding_003.png");
 	textureMasters[3] = LoadTexture("resources/spaceBuilding_020.png");
+	textureMasters[4] = LoadTexture("resources/spaceMeteors_001.png");
+	textureMasters[5] = LoadTexture("resources/spaceMeteors_002.png");
+	textureMasters[6] = LoadTexture("resources/spaceMeteors_003.png");
+	textureMasters[7] = LoadTexture("resources/spaceMeteors_004.png");
 }
 
 FallingFactory::FallingFactory()
@@ -29,6 +33,8 @@ FallingFactory::FallingFactory()
 
 FallingFactory::~FallingFactory()
 {
+	delete spriteMasters;
+	delete textureMasters;
 }
 
 FallingFactory& FallingFactory::GetInstance()
@@ -42,10 +48,23 @@ FallingObject* FallingFactory::GetRandom()
 	return &(spriteMasters[GetRandomValue(0, spriteCount)]);
 }
 
-FallingObject* FallingFactory::Create(Vector2 _pos)
+FallingObject* FallingFactory::Create(std::string _sprType)
 {
-	FallingObject* object = new FallingObject{ _pos, textureMasters[GetRandomValue(0, spriteCount-1)], std::string("rock"), 0.5f };
-	//return &object;
+	int spriteValue = 0;
+	float scale = 1;
+	if (_sprType == "debris")
+	{
+		spriteValue = GetRandomValue(0, 3);
+		scale = 0.5f;
+	}
+	else if (_sprType == "rock")
+	{
+		spriteValue = GetRandomValue(4, 7);
+		scale = 0.2f;
+	}
+	FallingObject* object = new FallingObject{ {(float)GetRandomValue(0, 800), -10}, textureMasters[spriteValue], _sprType, scale };
+	
 
 	return object;
+	delete object;
 }

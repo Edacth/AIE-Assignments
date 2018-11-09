@@ -15,6 +15,7 @@ public:
 	//funtions
 	void Draw();
 	void Update();
+	FallingObject* Clone();
 
 	//constructor
 	FallingObject(Vector2 _pos, const Texture2D _texture, const std::string _sprType = "", float _scale = 1);

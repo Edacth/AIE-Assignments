@@ -7,6 +7,7 @@
 #include "IFactory.h"
 #include "Factory.h"
 #include "FallingFactory.h"
+#include "tObjectPool.h"
 
 int main() 
 {
@@ -29,9 +30,18 @@ int main()
 	{
 		// Update
 		//----------------------------------------------------------------------------------
-		if (IsKeyDown(KEY_R))
+		if (IsKeyPressed(KEY_R))
 		{
-			objectList.push_back(*FallingFactory::GetInstance().Create({ (float)GetRandomValue(0, screenWidth), 0 }));
+			//objectList.push_back(*FallingFactory::GetInstance().Create("rock"));
+			//objectList.push_back(*FallingFactory::GetInstance().Create("debris"));
+
+		}
+
+		if (IsKeyPressed(KEY_T))
+		{
+			FallingObject b = *objectList.back().Clone();
+			objectList.push_back(b);
+			objectList.back().pos.x += 30;
 		}
 
 		for (size_t i = 0; i < objectList.size(); i++)
