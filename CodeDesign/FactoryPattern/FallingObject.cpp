@@ -30,7 +30,7 @@ void FallingObject::Update()
 {
 	pos.y += 1;
 	rot += 1;
-	std::cout << pos.x << " " << pos.y << std::endl;
+	//std::cout << pos.x << " " << pos.y << std::endl;
 }
 
 FallingObject* FallingObject::Clone()
@@ -50,6 +50,6 @@ void FallingObject::Init(Vector2 _pos, const Texture2D _texture, const std::stri
 	pos = _pos;
 	texture = _texture;
 	sprType = _sprType;
-	 scale = _scale;
+	scale = _scale;
 	rot = 0;
 }

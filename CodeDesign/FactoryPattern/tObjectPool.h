@@ -13,14 +13,14 @@ public:
 	T* retrieve();                      // returns a pointer to an object that will be used (returns null if none available)
 	void recycle(T* obj);               // accepts a pointer that can be used in the future
 	T* pool;
-	bool* free;
+	bool* getFree();
 	size_t getCapacity();                  // returns the total number of objects that this pool can provide
 	
 private:
 	Texture2D * textureMasters;
 	                        // pointers to objects that are currently in use
 	size_t capacity;                   // number of objects that are free to use
-
+	bool* free;
 	void init();
 
 	
@@ -48,6 +48,13 @@ void tObjectPool<T>::init()
 }
 
 template <typename T>
+tObjectPool<T>::tObjectPool(size_t initialCapacity)
+{
+	capacity = initialCapacity;
+	init();
+}
+
+template <typename T>
 tObjectPool<T>::tObjectPool()
 {
 	capacity = 20;
@@ -67,7 +74,7 @@ template <typename T>
 T* tObjectPool<T>::retrieve()
 {
 	T* ptr = nullptr;
-	for (size_t i = 0; i < getCapacity(); i++)
+	for (size_t i = 0; i < capacity; i++)
 	{
 		if (free[i] == true)
 		{
@@ -100,6 +107,13 @@ T* tObjectPool<T>::retrieve()
 template <typename T>
 void tObjectPool<T>::recycle(T* obj)
 {
+	for (size_t i = 0; i < capacity; i++)
+	{
+		if (&pool[i] == obj)
+		{
+			free[i] = true;
+		}
+	}
 
 }
 
@@ -107,4 +121,10 @@ template <typename T>
 size_t tObjectPool<T>::getCapacity()
 {
 	return capacity;
+}
+
+template <typename T>
+bool* tObjectPool<T>::getFree()
+{
+	return free;
 }

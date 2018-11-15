@@ -90,7 +90,7 @@ int main()
 	InitWindow(screenWidth, screenHeight, "raylib [core] example - basic window");
 	SetTargetFPS(60);
 	//std::vector<FallingObject> objectList;
-	tObjectPool<FallingObject> myPool;
+	tObjectPool<FallingObject> myPool(5);
 	FallingObject* b = nullptr;
 	//b = FallingFactory::GetInstance().Create({ 100, 200 });
 
@@ -107,13 +107,16 @@ int main()
 			//objectList.push_back(*FallingFactory::GetInstance().Create("rock"));
 			//objectList.push_back(*FallingFactory::GetInstance().Create("debris"));
 			myPool.retrieve();
-		}
 
-		
+		}
+		if (IsKeyPressed(KEY_T))
+		{
+			myPool.recycle(&myPool.pool[0]);
+		}
 
 		for (size_t i = 0; i < myPool.getCapacity(); i++)
 		{
-			if (myPool.free[i] == false)
+			if (myPool.getFree()[i] == false)
 			{
 				myPool.pool[i].Update();
 			}
@@ -127,7 +130,7 @@ int main()
 		//b->Draw();
 		for (size_t i = 0; i < myPool.getCapacity(); i++)
 		{
-			if (myPool.free[i] == false)
+			if (myPool.getFree()[i] == false)
 			{
 				myPool.pool[i].Draw();
 			}
