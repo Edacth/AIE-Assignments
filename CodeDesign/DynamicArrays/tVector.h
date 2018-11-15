@@ -33,7 +33,7 @@ public:
 
 
 	T &at(size_t index);                // returns the element at the given element
-	const T& at(size_t index) const;                // returns the element at the given element
+	const T& at(size_t index) const;    // returns the element at the given element
 
 	size_t used() const;                // returns current number of elements
 	size_t capacity() const;            // returns maximum number of elements we can store
