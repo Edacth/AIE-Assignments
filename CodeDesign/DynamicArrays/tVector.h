@@ -176,7 +176,6 @@ tVector<T>& tVector<T>::operator = (const tVector &vec) //= operator overload
 	reserve(vec.arrCapacity);
 	arrUsed = vec.arrUsed;
 	arrCapacity = vec.arrCapacity;
-	//Here
 
 	for (size_t i = 0; i < arrCapacity; i++)
 	{
