@@ -20,9 +20,9 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{67CE6500-A77B-4B37-BC6D-BD6186BFD5FD}</ProjectGuid>
-    <RootNamespace>Polymorphism</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
+    <ProjectGuid>{D7439A1A-F00F-44B6-9AEF-58F43DB39B75}</ProjectGuid>
+    <RootNamespace>Porklift</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -131,21 +131,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Barbarian.cpp" />
     <ClCompile Include="button.cpp" />
-    <ClCompile Include="Enemy.cpp" />
-    <ClCompile Include="EvilEnt.cpp" />
-    <ClCompile Include="Mage.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Player.cpp" />
+    <ClCompile Include="stateMachine.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Barbarian.h" />
     <ClInclude Include="button.h" />
-    <ClInclude Include="Enemy.h" />
-    <ClInclude Include="EvilEnt.h" />
-    <ClInclude Include="Mage.h" />
-    <ClInclude Include="Player.h" />
+    <ClInclude Include="stateMachine.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
