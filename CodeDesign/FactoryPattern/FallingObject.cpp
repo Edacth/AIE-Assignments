@@ -1,5 +1,6 @@
 #include "FallingObject.h"
 #include <iostream>
+#include <string>
 
 FallingObject::FallingObject(Vector2 _pos, const Texture2D _texture, const std::string _sprType, float _scale)
 {
@@ -8,11 +9,12 @@ FallingObject::FallingObject(Vector2 _pos, const Texture2D _texture, const std::
 	sprType = _sprType;
 	scale = _scale;
 	rot = 0;
+	age = 0;
 }
 
 FallingObject::FallingObject()
 {
-	
+	age = 0;
 }
 
 
@@ -24,12 +26,14 @@ void FallingObject::Draw()
 {
 	//DrawRectangleV(pos, {20, 20}, RED);
 	DrawTextureEx(texture, pos, rot, scale, WHITE);
+	DrawText((std::to_string(age)).c_str(), pos.x, pos.y, 10, BLACK);
 }
 
 void FallingObject::Update()
 {
 	pos.y += 1;
 	rot += 1;
+	age++;
 	//std::cout << pos.x << " " << pos.y << std::endl;
 }
 
@@ -52,4 +56,5 @@ void FallingObject::Init(Vector2 _pos, const Texture2D _texture, const std::stri
 	sprType = _sprType;
 	scale = _scale;
 	rot = 0;
+	age = 0;
 }

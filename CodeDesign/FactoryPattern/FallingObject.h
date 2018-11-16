@@ -7,9 +7,9 @@ public:
 	std::string sprType;
 	float scale;
 	float rot;
-	Rectangle r1, r2;//r1 = size of texture , r2 = calculated destination size
 	Texture2D texture;
 	Vector2 pos;
+	int age;
 	
 
 	//funtions

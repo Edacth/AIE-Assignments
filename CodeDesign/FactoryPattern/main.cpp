@@ -111,7 +111,13 @@ int main()
 		}
 		if (IsKeyPressed(KEY_T))
 		{
-			myPool.recycle(&myPool.pool[0]);
+			int rand;
+			do
+			{
+				rand = GetRandomValue(0, 2);
+				
+			} while (myPool.getFree()[rand] != false && myPool.freeCount() != 3);
+			myPool.recycle(&myPool.pool[rand]);
 		}
 
 		for (size_t i = 0; i < myPool.getCapacity(); i++)
@@ -140,7 +146,7 @@ int main()
 				myPool.pool[i].Draw();
 			}
 		}
-
+		DrawText((std::to_string(myPool.freeCount())).c_str(), 10, 10, 30, BLACK);
 
 		EndDrawing();
 		//----------------------------------------------------------------------------------

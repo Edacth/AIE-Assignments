@@ -13,18 +13,18 @@ public:
 	T* retrieve();                      // returns a pointer to an object that will be used (returns null if none available)
 	void recycle(T* obj);               // accepts a pointer that can be used in the future
 	T* pool;
-	bool* getFree();
-	size_t getCapacity();                  // returns the total number of objects that this pool can provide
+	bool* getFree();					//returns a pointer to the free array
+	int freeCount();					//Returns the number of free objects
+	void ageInsertionSort();			//Sorts the pool in descending order by age
+	size_t getCapacity();               // returns the total number of objects that this pool can provide
 	
 private:
 	Texture2D * textureMasters;
-	                        // pointers to objects that are currently in use
-	size_t capacity;                   // number of objects that are free to use
+										// pointers to objects that are currently in use
+	size_t capacity;                    // number of objects that are free to use
 	bool* free;
 	void init();
-	size_t elderlyIter;
 
-	
 };
 
 template <typename T>
@@ -32,7 +32,6 @@ void tObjectPool<T>::init()
 {
 	pool = new T[capacity];
 	free = new bool[capacity];
-	elderlyIter = 0;
 	for (size_t i = 0; i < capacity; i++)
 	{
 		free[i] = true;
@@ -87,12 +86,8 @@ T* tObjectPool<T>::retrieve()
 
 	if (ptr == nullptr)
 	{
-		ptr = &pool[elderlyIter];
-		elderlyIter++;
-		if (elderlyIter == capacity)
-		{
-			elderlyIter = 0;
-		}
+		ageInsertionSort();
+		ptr = &pool[0];
 	}
 
 	int spriteValue = GetRandomValue(0, 7);
@@ -111,7 +106,6 @@ T* tObjectPool<T>::retrieve()
 	ptr->Init({ (float)GetRandomValue(0, 800), -10 }, textureMasters[spriteValue], sprType, scale);
 	//{ { (float)GetRandomValue(0, 800), -10 }, textureMasters[spriteValue], sprType, scale };
 
-
 	return ptr;
 }
 
@@ -125,7 +119,6 @@ void tObjectPool<T>::recycle(T* obj)
 			free[i] = true;
 		}
 	}
-	elderlyIter = 0;
 }
 
 template <typename T>
@@ -138,4 +131,50 @@ template <typename T>
 bool* tObjectPool<T>::getFree()
 {
 	return free;
+}
+
+template <typename T>
+void tObjectPool<T>::ageInsertionSort()
+{
+	for (size_t i = 1; i < capacity; i++)
+	{
+		int ageKey = pool[i].age;
+		std::string sprTypeKey = pool[i].sprType;
+		float scaleKey = pool[i].scale;
+		float rotKey = pool[i].rot;
+		Texture2D textureKey = pool[i].texture;
+		Vector2 posKey = pool[i].pos;
+		int j = i - 1;
+		while (j >= 0 && pool[j].age < ageKey)
+		{
+			pool[j + 1].age = pool[j].age;
+			pool[j + 1].sprType = pool[j].sprType;
+			pool[j + 1].scale = pool[j].scale;
+			pool[j + 1].rot = pool[j].rot;
+			pool[j + 1].texture = pool[j].texture;
+			pool[j + 1].pos = pool[j].pos;
+
+			j = j - 1;
+			pool[j + 1].age = ageKey;
+			pool[j + 1].sprType = sprTypeKey;
+			pool[j + 1].scale = scaleKey;
+			pool[j + 1].rot = rotKey;
+			pool[j + 1].texture = textureKey;
+			pool[j + 1].pos = posKey;
+		}
+	}
+}
+
+template <typename T>
+int tObjectPool<T>::freeCount()
+{
+	int count = 0;
+	for (size_t i = 0; i < capacity; i++)
+	{
+		if (free[i] == true)
+		{
+			count++;
+		}
+	}
+	return count;
 }
