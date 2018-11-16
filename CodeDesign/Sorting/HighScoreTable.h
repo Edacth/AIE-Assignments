@@ -55,7 +55,7 @@ HighScoreTable::HighScoreTable(std::string fileName)
 	}
 	file.close();
 
-	insertionSortAscending();
+	insertionSortDecending();
 }
 
 HighScoreTable::~HighScoreTable()

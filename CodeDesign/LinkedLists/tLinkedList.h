@@ -17,7 +17,7 @@ class tForwardList
 
 	public:
 		iterator();
-		iterator(const Node* start);
+		iterator(Node* start);
 
 		bool operator==(const iterator& rhs) const; // returns true if the iterator points to the same node
 		bool operator!=(const iterator& rhs) const; // returns false if the iterator does not point to the same node
@@ -30,6 +30,7 @@ class tForwardList
 	iterator end();
 	
 	Node * head;                    // pointer to head of linked list
+
 	bool firstTime = true;			//Variable used to track if the first object is being inserted
 	iterator iter;
 public:
@@ -58,13 +59,12 @@ template<typename T>
 tForwardList<T>::tForwardList() //Default constructor
 {
 	head = nullptr;
-	
 }
 
 template <typename T> 
 tForwardList<T>::tForwardList(const tForwardList& other) //Constructor that copies another list
 {
-	
+
 	Node* nodeIter = head;
 	Node* otherNodeIter = other.head;
 	Node* newNodePtr;
@@ -79,6 +79,7 @@ tForwardList<T>::tForwardList(const tForwardList& other) //Constructor that copi
 		head = newNode;
 	}
 }
+
 
 template<typename T>
 tForwardList<T>::~tForwardList() //Deconstructor
@@ -149,12 +150,12 @@ template<typename T>
 void tForwardList<T>::print()
 {
 	//iter.curNode() = head;
-	iterator it(head);
-	while (iter.curNode() != nullptr)
+	iterator it(begin());
+	while (it != end())
 	{
-		std::cout << (iter.element()) << std::endl;
+		std::cout << (it.element()) << std::endl;
 		//iter.curNode() = iter.curNode().next;
-		++iter;
+		++it;
 	}
 }
 
@@ -180,14 +181,14 @@ void tForwardList<T>::resize(size_t size)
 	//I dont see a use for this funtion so it is TODO
 }
 
-/*
+
 template<typename T>
 bool tForwardList<T>::iterator::operator==(const iterator& rhs) const // returns true if the iterator points to the same node
 {
 	return (cur == rhs);
 
 }
-*/
+
 
 template<typename T>
 inline tForwardList<T>::iterator::iterator()
@@ -195,7 +196,7 @@ inline tForwardList<T>::iterator::iterator()
 }
 
 template<typename T>
-inline tForwardList<T>::iterator::iterator(const Node* start)
+inline tForwardList<T>::iterator::iterator(Node* start)
 {
 	cur = start;
 }
@@ -208,7 +209,7 @@ bool tForwardList<T>::iterator::operator!=(const iterator& rhs) const // returns
 
 
 template<typename T>
-T& tForwardList<T>::iterator::element() const                      // returns a reference to the element pointed to by the current node
+T& tForwardList<T>::iterator::element() const              // returns a reference to the element pointed to by the current node
 {
 	return cur->data;
 }
@@ -221,20 +222,21 @@ typename tForwardList<T>::iterator& tForwardList<T>::iterator::operator++()
 	return *this;
 }
 
-
-
-
-/*
 template<typename T>
-tForwardList<T>::iterator& tForwardList<T>::iterator::operator++()                    // pre-increment (returns a reference to this iterator after it is incremented)
+typename tForwardList<T>::iterator tForwardList<T>::begin()
+{
+	return head;
+}
+
+template<typename T>
+typename tForwardList<T>::iterator tForwardList<T>::end()
+{
+	iterator nullIter(nullptr);
+	return nullIter;
+}
+
+template<typename T>
+typename tForwardList<T>::iterator tForwardList<T>::iterator::operator++(int)                 // post-increment (returns an iterator to current node while incrementing the existing iterator)
 {
 
 }
-
-
-template<typename T>
-tForwardList<T>::iterator tForwardList<T>::iterator::operator++(int)                 // post-increment (returns an iterator to current node while incrementing the existing iterator)
-{
-
-}
-*/

@@ -35,6 +35,7 @@ int main()
 		{
 			std::cout << myInts2[i] << std::endl;
 		}
+		break;
 	}
 	case 2:
 	{
@@ -120,6 +121,7 @@ int main()
 		// De-Initialization
 		//--------------------------------------------------------------------------------------   
 		CloseWindow();
+		break;
 	}
 	case 3:
 	{
@@ -249,6 +251,7 @@ int main()
 		// De-Initialization
 		//--------------------------------------------------------------------------------------   
 		CloseWindow();
+		break;
 	}
 	default:
 		break;

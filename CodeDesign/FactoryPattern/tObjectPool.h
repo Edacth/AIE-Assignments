@@ -22,6 +22,7 @@ private:
 	size_t capacity;                   // number of objects that are free to use
 	bool* free;
 	void init();
+	size_t elderlyIter;
 
 	
 };
@@ -31,6 +32,7 @@ void tObjectPool<T>::init()
 {
 	pool = new T[capacity];
 	free = new bool[capacity];
+	elderlyIter = 0;
 	for (size_t i = 0; i < capacity; i++)
 	{
 		free[i] = true;
@@ -59,7 +61,6 @@ tObjectPool<T>::tObjectPool()
 {
 	capacity = 20;
 	init();
-
 }
 
 template <typename T>
@@ -81,6 +82,16 @@ T* tObjectPool<T>::retrieve()
 			ptr = &pool[i];
 			free[i] = false;
 			break;
+		}
+	}
+
+	if (ptr == nullptr)
+	{
+		ptr = &pool[elderlyIter];
+		elderlyIter++;
+		if (elderlyIter == capacity)
+		{
+			elderlyIter = 0;
 		}
 	}
 
@@ -114,7 +125,7 @@ void tObjectPool<T>::recycle(T* obj)
 			free[i] = true;
 		}
 	}
-
+	elderlyIter = 0;
 }
 
 template <typename T>

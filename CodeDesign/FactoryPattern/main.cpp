@@ -90,7 +90,7 @@ int main()
 	InitWindow(screenWidth, screenHeight, "raylib [core] example - basic window");
 	SetTargetFPS(60);
 	//std::vector<FallingObject> objectList;
-	tObjectPool<FallingObject> myPool(5);
+	tObjectPool<FallingObject> myPool(3);
 	FallingObject* b = nullptr;
 	//b = FallingFactory::GetInstance().Create({ 100, 200 });
 
@@ -119,7 +119,12 @@ int main()
 			if (myPool.getFree()[i] == false)
 			{
 				myPool.pool[i].Update();
+				if (myPool.pool[i].pos.y > screenHeight)
+				{
+					myPool.recycle(&myPool.pool[i]);
+				}
 			}
+
 			
 		}
 		// Draw

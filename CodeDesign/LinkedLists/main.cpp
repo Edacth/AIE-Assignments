@@ -5,9 +5,9 @@
 int main()
 {
 	tForwardList<int> testList;
-	std::cout << testList.empty() << std::endl;
+	//std::cout << testList.empty() << std::endl;
 	testList.push_front(3);
-	std::cout << testList.empty() << std::endl;
+	//std::cout << testList.empty() << std::endl;
 	testList.push_front(1);
 	testList.push_front(3);
 	testList.push_front(2);
@@ -24,11 +24,11 @@ int main()
 	tForwardList<int> testList2(testList);
 
 	testList.remove(3);
-	testList.print();
+	//testList.print();
 	//testList.clear();
 	
 	std::cout << std::endl;
-	//testList.print();
+	testList.print();
 	//testList2.print();
 	return 0;
 }
