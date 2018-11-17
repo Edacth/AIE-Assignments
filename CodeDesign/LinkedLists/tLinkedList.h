@@ -1,6 +1,8 @@
 //tLinkedList.h
 #pragma once
-
+#define _CRTDBG_MAP_ALLOC  
+#include <stdlib.h>  
+#include <crtdbg.h>  
 
 template<typename T>
 class tForwardList
@@ -65,26 +67,44 @@ template <typename T>
 tForwardList<T>::tForwardList(const tForwardList& other) //Constructor that copies another list
 {
 
-	Node* nodeIter = head;
 	Node* otherNodeIter = other.head;
-	Node* newNodePtr;
+	head = new Node{other.head->data, nullptr};
+	Node* temp = head;//Creates a node
+	otherNodeIter = otherNodeIter->next;
 	while (otherNodeIter != nullptr)
 	{
 		Node* newNode = new Node;
-		newNodePtr = newNode;
-		newNode->data = { otherNodeIter->data };
-		//std::cout << otherNodeIter->data << std::endl;
-		otherNodeIter = otherNodeIter->next;
-		newNode->next = head;
+		newNode->next = nullptr;
+		newNode->data = { otherNodeIter->data };//Copes data from other node to new node
+		head->next = newNode;
 		head = newNode;
+		otherNodeIter = otherNodeIter->next;//Move other node to next node
+		/*newNode = new Node;
+		newNodePtr->next = newNode;
+		head = newNode;*/
+		//delete newNode;
 	}
+	head = temp;
 }
 
 
 template<typename T>
-tForwardList<T>::~tForwardList() //Deconstructor
+tForwardList<T>::~tForwardList() //Destructor
 {
 
+	if (head == nullptr) {
+		// we're good
+		return;
+	}
+
+	Node * it = head;
+	while (it->next != nullptr)
+	{
+		head = it;
+		it = it->next;
+		delete head;
+	}
+	delete it;
 }
 
 template <typename T>
@@ -238,5 +258,4 @@ typename tForwardList<T>::iterator tForwardList<T>::end()
 template<typename T>
 typename tForwardList<T>::iterator tForwardList<T>::iterator::operator++(int)                 // post-increment (returns an iterator to current node while incrementing the existing iterator)
 {
-
 }

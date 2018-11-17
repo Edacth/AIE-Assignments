@@ -9,10 +9,19 @@
 #include "raylib.h"
 #include <cmath>
 #include <vector>
+#define _CRTDBG_MAP_ALLOC  
+#include <stdlib.h>  
+#include <crtdbg.h>
+#define _CRTDBG_MAP_ALLOC
+#ifdef _DEBUG
+#define DEBUG_NEW new(_NORMAL_BLOCK, __FILE__, __LINE__)
+#define new DEBUG_NEW
+#endif
 
 
 int main()
 {
+	
 	std::cout << "1 for tvector, 2 for tqueue, 3 for tstack" << std::endl;
 	int input;
 	std::cin >> input;
@@ -76,6 +85,10 @@ int main()
 			if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
 			{
 				actionQueue.push(GetMousePosition());
+			}
+			if (IsKeyPressed(KEY_P))
+			{
+				break;
 			}
 			if (actionQueue.size() != 0)
 			{
@@ -165,6 +178,10 @@ int main()
 			if (IsKeyPressed(KEY_R))
 			{
 			spellQueue.push(4);
+			}
+			if (IsKeyPressed(KEY_P))
+			{
+				break;
 			}
 			if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
 			{
@@ -257,6 +274,6 @@ int main()
 		break;
 	}
 	
-
+	_CrtDumpMemoryLeaks();
 	return 0;
 }
