@@ -1,6 +1,9 @@
 #include "raylib.h"
 #include "button.h"
 #include "stateMachine.h"
+#include "GameObject.h"
+#include "player.h"
+#include <vector>
 
 int main()
 {
@@ -11,6 +14,9 @@ int main()
 	InitWindow(screenWidth, screenHeight, "raylib [core] example - basic window");
 	SetTargetFPS(60);
 
+	Texture2D gameObjectTextures[1] = {
+		{LoadTexture("resources//barbarian.png")}
+	};
 	Button mainMenuButtons[2] = {
 		{"blue_button", 3, screenWidth / 2 - 100, screenHeight / 2 - 30},
 		{"green_button", 3, screenWidth - 60, screenHeight - 60}
@@ -18,6 +24,10 @@ int main()
 	Button optionMenuButtons[] = {
 		{ "green_button", 3, screenWidth - 60, screenHeight - 60 }
 	};
+	std::vector<GameObject*> gameObjects;
+	player basePlayer = { gameObjectTextures[0], {100 ,100} };
+	player* basePlayerPtr = &basePlayer;
+	gameObjects.push_back(basePlayerPtr);
 	//--------------------------------------------------------------------------------------
 
 	// Main game loop
@@ -35,7 +45,7 @@ int main()
 				mainMenuButtons[i].update();
 			}
 
-			if (mainMenuButtons[1].getState() == 3) //START BUTTON
+			if (mainMenuButtons[0].getState() == 3) //START BUTTON
 			{
 				stateMachine::setState(InGame);
 			}
@@ -89,7 +99,7 @@ int main()
 			}
 
 
-			DrawText("The only option in life is to Porklift", screenWidth / 2 - 300, (screenHeight / 2) - 60, 35, BLACK);
+			DrawText("Your only option is to Porklift", screenWidth / 2 - 300, (screenHeight / 2) - 60, 35, BLACK);
 			DrawText("Main Menu", screenWidth - 70, screenHeight - 80, 15, BLACK);
 
 			if (optionMenuButtons[0].getState() == 3)
@@ -105,14 +115,20 @@ int main()
 		{
 			// Update
 			//----------------------------------------------------------------------------------
-			
+			for (size_t i = 0; i < gameObjects.size(); i++)
+			{
+				gameObjects[i]->update();
+			}
 
 			// Draw
 			//----------------------------------------------------------------------------------
 			BeginDrawing();
 			ClearBackground(RAYWHITE);
 
-
+			for (size_t i = 0; i < gameObjects.size(); i++)
+			{
+				gameObjects[i]->draw();
+			}
 
 			EndDrawing();
 			//----------------------------------------------------------------------------------

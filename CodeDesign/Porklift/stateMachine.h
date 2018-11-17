@@ -20,7 +20,6 @@ private:
 public:
 	// other parts of your code have to use this function to get an instance of TestSingleton
 	static stateMachine& GetInstance();
-	static int addInts(const int a, const int b);
 	static bool setState(const int a);
 	static int getState();
 	~stateMachine();
