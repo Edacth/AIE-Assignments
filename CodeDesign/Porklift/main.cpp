@@ -3,19 +3,23 @@
 #include "stateMachine.h"
 #include "GameObject.h"
 #include "player.h"
+#include "tile.h"
 #include <vector>
 
 int main()
 {
 	// Initialization
 	//--------------------------------------------------------------------------------------
-	int screenWidth = (800);
-	int screenHeight = 400;
+	int screenWidth = (1600);
+	int screenHeight = 800;
 	InitWindow(screenWidth, screenHeight, "raylib [core] example - basic window");
 	SetTargetFPS(60);
 
 	Texture2D gameObjectTextures[1] = {
-		{LoadTexture("resources//barbarian.png")}
+		{LoadTexture("resources//forklift.png")}
+	};
+	Texture2D tileTextures[1] = {
+		{LoadTexture("resources//floor_1.png")}
 	};
 	Button mainMenuButtons[2] = {
 		{"blue_button", 3, screenWidth / 2 - 100, screenHeight / 2 - 30},
@@ -25,8 +29,12 @@ int main()
 		{ "green_button", 3, screenWidth - 60, screenHeight - 60 }
 	};
 	std::vector<GameObject*> gameObjects;
-	player basePlayer = { gameObjectTextures[0], {100 ,100} };
+	std::vector<tile*> tileVector;
+	tile tiles[10] = { {tileTextures[0], {0,600}} };
+	player basePlayer = {gameObjectTextures[0], {100 ,300}, &tileVector };
 	player* basePlayerPtr = &basePlayer;
+	tile baseTile = { tileTextures[0], {0,600} };
+	tile* baseTilePtr = &baseTile;
 	gameObjects.push_back(basePlayerPtr);
 	//--------------------------------------------------------------------------------------
 
@@ -129,7 +137,10 @@ int main()
 			{
 				gameObjects[i]->draw();
 			}
-
+			for (size_t i = 0; i < tileVector.size(); i++)
+			{
+				tileVector[i]->draw();
+			}
 			EndDrawing();
 			//----------------------------------------------------------------------------------
 			break;
