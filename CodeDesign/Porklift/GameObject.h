@@ -19,6 +19,7 @@ public:
 	void virtual draw();
 	Rectangle getRectangle();
 	void setPosition(Vector2 _position);
+	Vector2 getPosition();
 
 	GameObject();
 	~GameObject();

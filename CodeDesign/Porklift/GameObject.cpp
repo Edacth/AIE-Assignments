@@ -28,3 +28,8 @@ void GameObject::setPosition(Vector2 _position)
 {
 	position = _position;
 }
+
+Vector2 GameObject::getPosition()
+{
+	return position;
+}

@@ -1,5 +1,5 @@
 #include "player.h"
-#include "tile.h"
+
 
 player::player()
 {
@@ -12,15 +12,16 @@ player::player(Vector2 _position)
 	rectangle.y = position.y;
 }
 
-player::player(const Texture2D _texture, Vector2 _position, std::vector<tile*>* _tiles)
+player::player(const Texture2D _texture, const Texture2D _forkTexture, Vector2 _position, std::vector<tile*>* _tiles)
 {
 	texture = _texture;
 	position = _position;
 	rectangle.x = position.x;
 	rectangle.y = position.y;
 	rectangle.height = texture.height * 8;
-	rectangle.width = texture.width * 8;
+	rectangle.width = 14 * 8;
 	tilesPtr = _tiles;
+	myFork = (_forkTexture, *this);
 }
 
 player::~player()
@@ -91,9 +92,12 @@ void player::update()
 
 	rectangle.x = position.x;
 	rectangle.y = position.y;
+	//myFork.setPosition({position.x+80, position.y});
+	myFork.update();
 }
 
 void player::draw()
 {
 	DrawTextureEx(texture, position, 0.0f, 8.0f, WHITE);
+	myFork.draw();
 }

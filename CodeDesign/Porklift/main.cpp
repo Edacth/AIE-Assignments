@@ -15,8 +15,9 @@ int main()
 	InitWindow(screenWidth, screenHeight, "raylib [core] example - basic window");
 	SetTargetFPS(60);
 
-	Texture2D gameObjectTextures[1] = {
-		{LoadTexture("resources//forklift.png")}
+	Texture2D gameObjectTextures[2] = {
+		{LoadTexture("resources//forklift.png")},
+		{LoadTexture("resources//forklift_arm.png")}
 	};
 	Texture2D tileTextures[1] = {
 		{LoadTexture("resources//floor_1.png")}
@@ -30,12 +31,24 @@ int main()
 	};
 	std::vector<GameObject*> gameObjects;
 	std::vector<tile*> tileVector;
-	tile tiles[10] = { {tileTextures[0], {0,600}} };
-	player basePlayer = {gameObjectTextures[0], {100 ,300}, &tileVector };
+	tile tiles[10] = { 
+		{tileTextures[0], {0,600}},
+		{tileTextures[0], {128,600}},
+		{tileTextures[0], {0,472}},
+		{tileTextures[0], {256,472}} };
+	player basePlayer = {gameObjectTextures[0], gameObjectTextures[1], {100 ,300}, &tileVector };
 	player* basePlayerPtr = &basePlayer;
 	tile baseTile = { tileTextures[0], {0,600} };
 	tile* baseTilePtr = &baseTile;
 	gameObjects.push_back(basePlayerPtr);
+	
+		//tile* newTile = new tile(tileTextures[0], { 0,600 });
+		tileVector.push_back(&tiles[0]);
+		tileVector.push_back(&tiles[1]);
+		tileVector.push_back(&tiles[2]);
+		tileVector.push_back(&tiles[3]);
+		
+	
 	//--------------------------------------------------------------------------------------
 
 	// Main game loop
