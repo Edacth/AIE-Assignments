@@ -3,8 +3,6 @@
 #include "tile.h"
 #include "fork.h"
 
-class fork;
-
 class player :
 	public GameObject
 {

@@ -1,4 +1,5 @@
 #include "fork.h"
+#include "player.h"
 
 
 fork::fork()

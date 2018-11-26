@@ -1,6 +1,7 @@
 #pragma once
 #include "GameObject.h"
-#include "player.h";
+
+class player;
 
 class fork :
 	public GameObject

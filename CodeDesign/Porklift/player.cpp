@@ -21,7 +21,7 @@ player::player(const Texture2D _texture, const Texture2D _forkTexture, Vector2 _
 	rectangle.height = texture.height * 8;
 	rectangle.width = 14 * 8;
 	tilesPtr = _tiles;
-	myFork = (_forkTexture, *this);
+	myFork = fork{ _forkTexture, this };
 }
 
 player::~player()
