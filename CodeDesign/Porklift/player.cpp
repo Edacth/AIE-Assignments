@@ -10,9 +10,10 @@ player::player(Vector2 _position)
 	position = _position;
 	rectangle.x = position.x;
 	rectangle.y = position.y;
+	objectType = Player;
 }
 
-player::player(const Texture2D _texture, const Texture2D _forkTexture, Vector2 _position, std::vector<tile*>* _tiles)
+player::player(const Texture2D _texture, const Texture2D _forkTexture, Vector2 _position, std::vector<tile*>* _tiles, std::vector<GameObject*>* _gameObjects)
 {
 	texture = _texture;
 	position = _position;
@@ -21,7 +22,9 @@ player::player(const Texture2D _texture, const Texture2D _forkTexture, Vector2 _
 	rectangle.height = texture.height * 8;
 	rectangle.width = 14 * 8;
 	tilesPtr = _tiles;
-	myFork = fork{ _forkTexture, this };
+	gameObjectsPtr = _gameObjects;
+	myFork = fork{ _forkTexture, this, _tiles, _gameObjects };
+	objectType = Player;
 }
 
 player::~player()
@@ -34,17 +37,18 @@ void player::update()
 	{
 		for (size_t i = 0; i < 3; i++)
 		{
-			bool collision = false;
+			bool horizontalCollision = false;
 			rectangle.x -= 1;
 			for (size_t j = 0; j < tilesPtr->size(); j++)
 			{
-				if (CheckCollisionRecs(rectangle, (*(*tilesPtr)[j]).getRectangle()))
+				if (CheckCollisionRecs(rectangle, *(*(*tilesPtr)[j]).getRectangle()) ||
+					(CheckCollisionRecs(*myFork.getRectangle(), *(*(*tilesPtr)[j]).getRectangle())))
 				{
-					collision = true;
+					horizontalCollision = true;
 				}
 			}
 
-			if (!collision)
+			if (!horizontalCollision)
 			{
 				position.x -= 1;
 			}
@@ -54,43 +58,61 @@ void player::update()
 	{
 		for (size_t i = 0; i < 3; i++)
 		{
-			bool collision = false;
+			bool horizontalCollision = false;
 			rectangle.x += 1;
+			((*myFork.getRectangle()).x) += 1;
 			for (size_t j = 0; j < tilesPtr->size(); j++)
 			{
-				if (CheckCollisionRecs(rectangle, (*(*tilesPtr)[j]).getRectangle()))
+				if ( (CheckCollisionRecs(rectangle, *(*(*tilesPtr)[j]).getRectangle())) ||
+					(CheckCollisionRecs(*myFork.getRectangle(), *(*(*tilesPtr)[j]).getRectangle())))
+					
 				{
-					collision = true;
+					horizontalCollision = true;
 				}
 			}
 
-			if (!collision)
+			for (size_t j = 0; j < gameObjectsPtr->size(); j++)
+			{
+				if ((*(*gameObjectsPtr)[j]).objectType == Crate)
+				{
+					if ((CheckCollisionRecs(rectangle, *(*(*gameObjectsPtr)[j]).getRectangle())))
+
+					{
+						horizontalCollision = true;
+						(*(*gameObjectsPtr)[j]).push( {1, 0} );
+					}
+				}
+				
+			}
+
+			if (!horizontalCollision)
 			{
 				position.x += 1;
 			}
 		}
 	}
+	rectangle.x = position.x;
+	((*myFork.getRectangle()).x) = ((*myFork.getPosition()).x);
 
 	for (size_t i = 0; i < 3; i++)
 	{
-		bool collision = false;
+		bool verticalCollision = false;
 		rectangle.y += 1;
 		for (size_t i = 0; i < tilesPtr->size(); i++)
 		{
-			if (CheckCollisionRecs(rectangle, (*(*tilesPtr)[i]).getRectangle() ))
+			if (CheckCollisionRecs(rectangle, *(*(*tilesPtr)[i]).getRectangle() ))
 			{
-				collision = true;
+				verticalCollision = true;
 			}
 		}
 		
-		if (!collision)
+		if (!verticalCollision)
 		{
 			position.y += 1;
 		}
 		
 	}
 
-	rectangle.x = position.x;
 	rectangle.y = position.y;
 	//myFork.setPosition({position.x+80, position.y});
 	myFork.update();

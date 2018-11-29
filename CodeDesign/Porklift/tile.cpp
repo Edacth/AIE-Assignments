@@ -12,6 +12,7 @@ tile::tile(const Texture2D _texture, Vector2 _position)
 	rectangle.y = position.y;
 	rectangle.height = texture.height * 8;
 	rectangle.width = texture.width * 8;
+	objectType = Tile;
 }
 
 tile::~tile()

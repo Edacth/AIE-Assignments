@@ -11,7 +11,7 @@ class fork :
 public:
 	fork();
 	fork(const Texture2D _texture, player* _playerPtr);
-	fork(const Texture2D _texture, Vector2 _position, std::vector<tile*>* _tiles);
+	fork(const Texture2D _texture, player* _playerPtr, std::vector<tile*>* _tiles, std::vector<GameObject*>* _gameObjects);
 	~fork();
 
 	void update();

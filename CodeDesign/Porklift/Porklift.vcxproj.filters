@@ -36,6 +36,9 @@
     <ClCompile Include="fork.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="crate.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stateMachine.h">
@@ -54,7 +57,10 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="fork.h">
-      <Filter>Source Files</Filter>
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="crate.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

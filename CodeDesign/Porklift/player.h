@@ -12,7 +12,7 @@ protected:
 public:
 	player();
 	player(Vector2 _position);
-	player(const Texture2D _texture, const Texture2D _forkTexture, Vector2 _position, std::vector<tile*>* _tiles);
+	player(const Texture2D _texture, const Texture2D _forkTexture, Vector2 _position, std::vector<tile*>* _tiles, std::vector<GameObject*>* _gameObjects);
 	~player();
 
 	void update();

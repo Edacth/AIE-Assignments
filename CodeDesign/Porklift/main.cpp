@@ -4,6 +4,7 @@
 #include "GameObject.h"
 #include "player.h"
 #include "tile.h"
+#include "crate.h"
 #include <vector>
 
 int main()
@@ -15,9 +16,10 @@ int main()
 	InitWindow(screenWidth, screenHeight, "raylib [core] example - basic window");
 	SetTargetFPS(60);
 
-	Texture2D gameObjectTextures[2] = {
+	Texture2D gameObjectTextures[3] = {
 		{LoadTexture("resources//forklift.png")},
-		{LoadTexture("resources//forklift_arm.png")}
+		{LoadTexture("resources//forklift_arm.png")},
+		{ LoadTexture("resources//crate.png")}
 	};
 	Texture2D tileTextures[1] = {
 		{LoadTexture("resources//floor_1.png")}
@@ -35,18 +37,30 @@ int main()
 		{tileTextures[0], {0,600}},
 		{tileTextures[0], {128,600}},
 		{tileTextures[0], {0,472}},
-		{tileTextures[0], {256,472}} };
-	player basePlayer = {gameObjectTextures[0], gameObjectTextures[1], {100 ,300}, &tileVector };
+		{tileTextures[0],{ 256,600 }},
+		{tileTextures[0], {384,440}},
+		{tileTextures[0], {384,600}},
+		{tileTextures[0], {512,472}},
+		{tileTextures[0],{ 512,600 }} };
+	player basePlayer = {gameObjectTextures[0], gameObjectTextures[1], {100 ,300}, &tileVector, &gameObjects };
 	player* basePlayerPtr = &basePlayer;
+	crate baseCrate = { gameObjectTextures[2], {400, 10}, &tileVector, &gameObjects };
+	crate* baseCratePtr = &baseCrate;
 	tile baseTile = { tileTextures[0], {0,600} };
 	tile* baseTilePtr = &baseTile;
 	gameObjects.push_back(basePlayerPtr);
+	gameObjects.push_back(baseCratePtr);
 	
 		//tile* newTile = new tile(tileTextures[0], { 0,600 });
 		tileVector.push_back(&tiles[0]);
 		tileVector.push_back(&tiles[1]);
 		tileVector.push_back(&tiles[2]);
 		tileVector.push_back(&tiles[3]);
+		//tileVector.push_back(&tiles[4]);
+		tileVector.push_back(&tiles[5]);
+		tileVector.push_back(&tiles[6]);
+		tileVector.push_back(&tiles[7]);
+
 		
 	
 	//--------------------------------------------------------------------------------------

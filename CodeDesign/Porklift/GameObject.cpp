@@ -19,9 +19,9 @@ void GameObject::draw()
 	DrawRectangleV(position, { 30, 30 }, GREEN);
 }
 
-Rectangle GameObject::getRectangle()
+Rectangle* GameObject::getRectangle()
 {
-	return rectangle;
+	return &rectangle;
 }
 
 void GameObject::setPosition(Vector2 _position)
@@ -29,7 +29,12 @@ void GameObject::setPosition(Vector2 _position)
 	position = _position;
 }
 
-Vector2 GameObject::getPosition()
+Vector2* GameObject::getPosition()
 {
-	return position;
+	return &position;
+}
+
+bool GameObject::push(Vector2 direction)
+{
+	return true;
 }
