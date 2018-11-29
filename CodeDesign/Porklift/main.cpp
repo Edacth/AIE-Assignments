@@ -56,7 +56,8 @@ int main()
 	gameObjects.push_back(basePlayerPtr);
 	gameObjects.push_back(&crates[0]);
 	gameObjects.push_back(&crates[1]);
-	
+
+
 		//tile* newTile = new tile(tileTextures[0], { 0,600 });
 		tileVector.push_back(&tiles[0]);
 		tileVector.push_back(&tiles[1]);

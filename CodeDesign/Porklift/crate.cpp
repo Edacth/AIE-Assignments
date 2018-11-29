@@ -35,8 +35,19 @@ void crate::update()
 			}
 		}
 
+
 		for (size_t j = 0; j < gameObjectsPtr->size(); j++)
 		{
+			if ((*(*gameObjectsPtr)[j]).objectType == Crate && (*(*gameObjectsPtr)[j]).uuid != uuid)
+			{
+				if ((CheckCollisionRecs(rectangle, *(*(*gameObjectsPtr)[j]).getRectangle())))
+
+				{
+					verticalCollision = true;
+
+				}
+			}
+
 			if ((*(*gameObjectsPtr)[j]).objectType == Player)
 			{
 				if ((CheckCollisionRecs(rectangle, *(*(*gameObjectsPtr)[j]).getRectangle())))
@@ -122,8 +133,9 @@ bool crate::push(Vector2 direction)
 				if ((CheckCollisionRecs(rectangle, *(*(*gameObjectsPtr)[j]).getRectangle())))
 
 				{
-					verticalCollision = true;
-					(*(*gameObjectsPtr)[j]).push(direction);
+					//verticalCollision = true;
+					(*(*gameObjectsPtr)[j]).push({ direction.x, direction.y * 2 });
+					DrawText("Yup", 10, 10, 20, BLACK);
 				}
 			}
 

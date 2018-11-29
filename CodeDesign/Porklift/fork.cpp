@@ -49,28 +49,30 @@ void fork::update()
 			if (CheckCollisionRecs(rectangle, *(*(*tilesPtr)[j]).getRectangle()))
 			{
 				collision = true;
-				DrawText( "True", 10, 10, 20, BLACK);
+				
 			}
 		}
 
 		if (!collision && positionOffset.y > 40)
 		{
 			positionOffset.y -= 1;
-		}
 
-		for (size_t j = 0; j < gameObjectsPtr->size(); j++)
-		{
-			if ((*(*gameObjectsPtr)[j]).objectType == Crate)
+			for (size_t j = 0; j < gameObjectsPtr->size(); j++)
 			{
-				if ((CheckCollisionRecs(rectangle, *(*(*gameObjectsPtr)[j]).getRectangle())))
-
+				if ((*(*gameObjectsPtr)[j]).objectType == Crate)
 				{
-					
-					(*(*gameObjectsPtr)[j]).push({ 0, 1 });
-				}
-			}
+					if ((CheckCollisionRecs(rectangle, *(*(*gameObjectsPtr)[j]).getRectangle())))
 
+					{
+
+						(*(*gameObjectsPtr)[j]).push({ 0, -1 });
+					}
+				}
+
+			}
 		}
+
+		
 		
 	}
 	if (IsKeyDown(KEY_S))
@@ -90,6 +92,20 @@ void fork::update()
 		if (!collision && positionOffset.y < 120)
 		{
 			positionOffset.y += 1;
+
+			for (size_t j = 0; j < gameObjectsPtr->size(); j++)
+			{
+				if ((*(*gameObjectsPtr)[j]).objectType == Crate)
+				{
+					if ((CheckCollisionRecs(rectangle, *(*(*gameObjectsPtr)[j]).getRectangle())))
+
+					{
+
+						(*(*gameObjectsPtr)[j]).push({ 0, 1 });
+					}
+				}
+
+			}
 		}
 		
 	}

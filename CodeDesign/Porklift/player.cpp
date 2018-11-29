@@ -25,6 +25,7 @@ player::player(const Texture2D _texture, const Texture2D _forkTexture, Vector2 _
 	gameObjectsPtr = _gameObjects;
 	myFork = fork{ _forkTexture, this, _tiles, _gameObjects };
 	objectType = Player;
+	gameObjectsPtr->push_back(&myFork);
 }
 
 player::~player()
@@ -129,11 +130,11 @@ void player::update()
 
 	rectangle.y = position.y;
 	//myFork.setPosition({position.x+80, position.y});
-	myFork.update();
+	//myFork.update();
 }
 
 void player::draw()
 {
 	DrawTextureEx(texture, position, 0.0f, 8.0f, WHITE);
-	myFork.draw();
+	//myFork.draw();
 }
