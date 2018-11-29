@@ -9,8 +9,10 @@ enum objectType
 #include <iostream>
 #include "raylib.h"
 #include <vector>
+#include <string>
 
 class tile;
+class fork;
 
 class GameObject
 {
@@ -28,7 +30,9 @@ public:
 	Rectangle* getRectangle();
 	void setPosition(Vector2 _position);
 	Vector2* getPosition();
+	
 	int objectType;
+	std::string uuid;
 
 	GameObject();
 	~GameObject();

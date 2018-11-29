@@ -13,6 +13,7 @@ crate::crate(Texture _texture, Vector2 _positon, std::vector<tile*>* _tiles, std
 	rectangle.height = 7 * 8;
 	rectangle.width = 7 * 8;
 	tilesPtr = _tiles;
+	gameObjectsPtr = _gameObjects;
 	objectType = Crate;
 }
 
@@ -34,6 +35,20 @@ void crate::update()
 			}
 		}
 
+		for (size_t j = 0; j < gameObjectsPtr->size(); j++)
+		{
+			if ((*(*gameObjectsPtr)[j]).objectType == Player)
+			{
+				if ((CheckCollisionRecs(rectangle, *(*(*gameObjectsPtr)[j]).getRectangle())))
+
+				{
+					verticalCollision = true;
+					
+				}
+			}
+
+		}
+
 		if (!verticalCollision)
 		{
 			position.y += 1;
@@ -47,6 +62,7 @@ void crate::update()
 void crate::draw()
 {
 	DrawTextureEx(texture, { position.x, position.y - 10 * 7 }, 0.0f, 8.0f, WHITE);
+	DrawRectangleV(position, { 5,5 }, BLUE);
 	DrawLineEx({ rectangle.x, rectangle.y }, { rectangle.x + rectangle.width, rectangle.y }, 2.0f, RED);
 	DrawLineEx({ rectangle.x, rectangle.y + rectangle.height }, { rectangle.x + rectangle.width, rectangle.y + rectangle.height }, 2.0f, RED);
 }
@@ -54,23 +70,72 @@ void crate::draw()
 bool crate::push(Vector2 direction)
 {
 	bool horizontalCollision = false;
+	bool verticalCollision = false;
 	rectangle.x += direction.x;
 	rectangle.y += direction.y;
 
-	for (size_t j = 0; j < tilesPtr->size(); j++)
+	if (direction.x != 0)
 	{
-		if ((CheckCollisionRecs(rectangle, *(*(*tilesPtr)[j]).getRectangle())))
+		for (size_t j = 0; j < tilesPtr->size(); j++)
 		{
-			horizontalCollision = true;
+			if ((CheckCollisionRecs(rectangle, *(*(*tilesPtr)[j]).getRectangle())))
+			{
+				horizontalCollision = true;
+			}
 		}
-	}
 
-	if (!horizontalCollision)
-	{
-		position.x = rectangle.x;
+		for (size_t j = 0; j < gameObjectsPtr->size(); j++)
+		{
+			if ((*(*gameObjectsPtr)[j]).objectType == Crate && (*(*gameObjectsPtr)[j]).uuid != uuid)
+			{
+				if ((CheckCollisionRecs(rectangle, *(*(*gameObjectsPtr)[j]).getRectangle())))
+
+				{
+					horizontalCollision = true;
+					(*(*gameObjectsPtr)[j]).push(direction);
+				}
+			}
+
+		}
+
+		if (!horizontalCollision)
+		{
+			position.x = rectangle.x;
+		}
+
+		rectangle.x = position.x;
 	}
-	
-	rectangle.y = position.y;
+	else if (direction.y != 0)
+	{
+		for (size_t j = 0; j < tilesPtr->size(); j++)
+		{
+			if ((CheckCollisionRecs(rectangle, *(*(*tilesPtr)[j]).getRectangle())))
+			{
+				verticalCollision = true;
+			}
+		}
+
+		for (size_t j = 0; j < gameObjectsPtr->size(); j++)
+		{
+			if ((*(*gameObjectsPtr)[j]).objectType == Crate && (*(*gameObjectsPtr)[j]).uuid != uuid)
+			{
+				if ((CheckCollisionRecs(rectangle, *(*(*gameObjectsPtr)[j]).getRectangle())))
+
+				{
+					verticalCollision = true;
+					(*(*gameObjectsPtr)[j]).push(direction);
+				}
+			}
+
+		}
+
+		if (!verticalCollision)
+		{
+			position.y = rectangle.y;
+		}
+
+		rectangle.y = position.y;
+	}
 
 	return true;
 }

@@ -48,6 +48,20 @@ void player::update()
 				}
 			}
 
+			for (size_t j = 0; j < gameObjectsPtr->size(); j++)
+			{
+				if ((*(*gameObjectsPtr)[j]).objectType == Crate)
+				{
+					if ((CheckCollisionRecs(rectangle, *(*(*gameObjectsPtr)[j]).getRectangle())))
+
+					{
+						horizontalCollision = true;
+						(*(*gameObjectsPtr)[j]).push({ -1, 0 });
+					}
+				}
+
+			}
+
 			if (!horizontalCollision)
 			{
 				position.x -= 1;

@@ -2,7 +2,11 @@
 
 GameObject::GameObject()
 {
-
+	uuid = (std::to_string(GetRandomValue(0, 9))) +
+		(std::to_string(GetRandomValue(0, 9))) +
+		(std::to_string(GetRandomValue(0, 9))) +
+		(std::to_string(GetRandomValue(0, 9)));
+	std::cout << uuid << std::endl;
 }
 
 GameObject::~GameObject()

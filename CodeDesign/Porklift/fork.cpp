@@ -19,6 +19,7 @@ fork::fork(const Texture2D _texture, player* _playerPtr, std::vector<tile*>* _ti
 {
 	texture = _texture;
 	playerPtr = _playerPtr;
+	gameObjectsPtr = _gameObjects;
 	position.x = (*playerPtr->getPosition()).x + positionOffset.x;
 	position.x = (*playerPtr->getPosition()).y + positionOffset.y;
 	rectangle.x = position.x;
@@ -56,6 +57,20 @@ void fork::update()
 		{
 			positionOffset.y -= 1;
 		}
+
+		for (size_t j = 0; j < gameObjectsPtr->size(); j++)
+		{
+			if ((*(*gameObjectsPtr)[j]).objectType == Crate)
+			{
+				if ((CheckCollisionRecs(rectangle, *(*(*gameObjectsPtr)[j]).getRectangle())))
+
+				{
+					
+					(*(*gameObjectsPtr)[j]).push({ 0, 1 });
+				}
+			}
+
+		}
 		
 	}
 	if (IsKeyDown(KEY_S))
@@ -72,7 +87,7 @@ void fork::update()
 			}
 		}
 
-		if (!collision && positionOffset.y < 104)
+		if (!collision && positionOffset.y < 120)
 		{
 			positionOffset.y += 1;
 		}

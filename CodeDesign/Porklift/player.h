@@ -7,9 +7,11 @@ class player :
 	public GameObject
 {
 protected:
-	fork myFork;
+	
 
 public:
+	fork myFork;
+
 	player();
 	player(Vector2 _position);
 	player(const Texture2D _texture, const Texture2D _forkTexture, Vector2 _position, std::vector<tile*>* _tiles, std::vector<GameObject*>* _gameObjects);
