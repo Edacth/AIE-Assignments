@@ -90,7 +90,8 @@ int main()
 	InitWindow(screenWidth, screenHeight, "raylib [core] example - basic window");
 	SetTargetFPS(60);
 	//std::vector<FallingObject> objectList;
-	tObjectPool<FallingObject> myPool(3);
+	const int poolSize = 5;
+	tObjectPool<FallingObject> myPool(poolSize);
 	FallingObject* b = nullptr;
 	//b = FallingFactory::GetInstance().Create({ 100, 200 });
 
@@ -114,7 +115,7 @@ int main()
 			int rand;
 			do
 			{
-				rand = GetRandomValue(0, 2);
+				rand = GetRandomValue(0, poolSize-1);
 				
 			} while (myPool.getFree()[rand] != false && myPool.freeCount() != 3);
 			myPool.recycle(&myPool.pool[rand]);

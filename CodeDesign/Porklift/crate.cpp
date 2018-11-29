@@ -25,42 +25,9 @@ void crate::update()
 {
 	for (size_t i = 0; i < 3; i++)
 	{
-		bool verticalCollision = false;
-		rectangle.y += 1;
-		for (size_t i = 0; i < tilesPtr->size(); i++)
-		{
-			if (CheckCollisionRecs(rectangle, *(*(*tilesPtr)[i]).getRectangle()))
-			{
-				verticalCollision = true;
-			}
-		}
+		
 
-
-		for (size_t j = 0; j < gameObjectsPtr->size(); j++)
-		{
-			if ((*(*gameObjectsPtr)[j]).objectType == Crate && (*(*gameObjectsPtr)[j]).uuid != uuid)
-			{
-				if ((CheckCollisionRecs(rectangle, *(*(*gameObjectsPtr)[j]).getRectangle())))
-
-				{
-					verticalCollision = true;
-
-				}
-			}
-
-			if ((*(*gameObjectsPtr)[j]).objectType == Player)
-			{
-				if ((CheckCollisionRecs(rectangle, *(*(*gameObjectsPtr)[j]).getRectangle())))
-
-				{
-					verticalCollision = true;
-					
-				}
-			}
-
-		}
-
-		if (!verticalCollision)
+		if (!isGrounded())
 		{
 			position.y += 1;
 		}
@@ -150,4 +117,44 @@ bool crate::push(Vector2 direction)
 	}
 
 	return true;
+}
+
+bool crate::isGrounded()
+{
+	bool verticalCollision = false;
+	rectangle.y += 1;
+	for (size_t i = 0; i < tilesPtr->size(); i++)
+	{
+		if (CheckCollisionRecs(rectangle, *(*(*tilesPtr)[i]).getRectangle()))
+		{
+			//verticalCollision = true;
+			return true;
+		}
+	}
+
+
+	for (size_t j = 0; j < gameObjectsPtr->size(); j++)
+	{
+		if ((*(*gameObjectsPtr)[j]).objectType == Crate && (*(*gameObjectsPtr)[j]).uuid != uuid)
+		{
+			if ((CheckCollisionRecs(rectangle, *(*(*gameObjectsPtr)[j]).getRectangle())))
+
+			{
+				//verticalCollision = true;
+				return true;
+			}
+		}
+
+		if ((*(*gameObjectsPtr)[j]).objectType == Player)
+		{
+			if ((CheckCollisionRecs(rectangle, *(*(*gameObjectsPtr)[j]).getRectangle())))
+
+			{
+				//verticalCollision = true;
+				return true;
+			}
+		}
+
+	}
+	return false;
 }

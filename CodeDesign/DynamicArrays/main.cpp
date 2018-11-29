@@ -38,8 +38,21 @@ int main()
 		tVector<int> myInts2(myInts);
 		myInts[0] = 10;
 
-		myInts2.pop_back();
+		std::cout << "myInts" << std::endl;
+		for (size_t i = 0; i < myInts.used(); i++)
+		{
+			std::cout << myInts[i] << std::endl;
+		}
 
+		myInts.pop_back();
+
+		std::cout << "myInts" << std::endl;
+		for (size_t i = 0; i < myInts.used(); i++)
+		{
+			std::cout << myInts[i] << std::endl;
+		}
+
+		std::cout << "myInt2" << std::endl;
 		for (size_t i = 0; i < myInts2.used(); i++)
 		{
 			std::cout << myInts2[i] << std::endl;

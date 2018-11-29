@@ -14,4 +14,5 @@ public:
 	void update();
 	void draw();
 	bool push(Vector2 direction);
+	bool isGrounded();
 };

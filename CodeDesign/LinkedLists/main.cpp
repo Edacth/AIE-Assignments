@@ -22,7 +22,7 @@ int main()
 	testList.push_front(9);
 	
 
-	//tForwardList<int> testList2(testList);
+	tForwardList<int> testList2(testList);
 
 	//testList.remove(3);
 	//testList.print();
@@ -30,7 +30,9 @@ int main()
 	
 	std::cout << std::endl;
 	testList.print();
-	//testList2.print();
+	std::cout << "=====" << std::endl;
+	testList2.print();
+
 	testList.clear();
 	_CrtDumpMemoryLeaks();
 	return 0;
