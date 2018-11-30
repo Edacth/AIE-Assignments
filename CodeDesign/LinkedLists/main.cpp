@@ -7,22 +7,18 @@ int main()
 	//_crtBreakAlloc = 193;
 	tForwardList<int> testList;
 	//std::cout << testList.empty() << std::endl;
-	testList.push_front(3);
 	//std::cout << testList.empty() << std::endl;
 	testList.push_front(1);
-	testList.push_front(3);
 	testList.push_front(2);
 	testList.push_front(3);
-	testList.push_front(3);
-	testList.push_front(4);
-	testList.push_front(3);
-	testList.push_front(3);
-	testList.push_front(3);
-	testList.push_front(9);
-	testList.push_front(9);
-	
 
-	tForwardList<int> testList2(testList);
+	testList.push_back(100);
+	
+	//tForwardList<int> emptyList;
+
+	testList.resize(10);
+	//tForwardList<int> testList2(testList);
+	//tForwardList<int> testList2 = testList;
 
 	//testList.remove(3);
 	//testList.print();
@@ -31,9 +27,10 @@ int main()
 	std::cout << std::endl;
 	testList.print();
 	std::cout << "=====" << std::endl;
-	testList2.print();
+	testList.push_front(5);
+	testList.push_front(6);
+	testList.print();
 
 	testList.clear();
-	_CrtDumpMemoryLeaks();
 	return 0;
 }

@@ -106,18 +106,16 @@ bool tVector<T>::empty()
 template <typename T>
 void tVector<T>::resize(size_t newCapacity) //Creates a new array of the passed in size
 {
-	T* newArr = new T[newCapacity];
-	if (arrUsed > newCapacity)
+	if (capacity() != newCapacity)
 	{
-		arrUsed = newCapacity;
+		
+		if (arrUsed > newCapacity)
+		{
+			arrUsed = newCapacity;
+		}
+		reserve(newCapacity);
 	}
-	for (size_t i = 0; i < arrUsed; i++)
-	{
-		newArr[i] = arr[i];
-	}
-	delete[] arr;
-	arr = newArr;
-	arrCapacity = newCapacity;
+	
 }
 
 template <typename T>
@@ -145,14 +143,17 @@ void tVector<T>::clear() //Empties the array by creating a new one
 template <typename T>
 void tVector<T>::reserve(size_t newCapacity) //CREATES A NEW BIGGER ARRAY IF NEEDED
 {
-	T* newArr = new T[newCapacity];
-	for (size_t i = 0; i < arrUsed; i++)
+	if (capacity() != newCapacity)
 	{
-		newArr[i] = arr[i];
+		T* newArr = new T[newCapacity];
+		for (size_t i = 0; i < arrUsed; i++)
+		{
+			newArr[i] = arr[i];
+		}
+		delete[] arr;
+		arr = newArr;
+		arrCapacity = newCapacity;
 	}
-	delete[] arr;
-	arr = newArr;
-	arrCapacity = newCapacity;
 }
 
 template <typename T>

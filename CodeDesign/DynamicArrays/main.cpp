@@ -34,6 +34,7 @@ int main()
 		myInts.push_back(1);
 		myInts.push_back(2);
 		myInts.push_back(3);
+		myInts.push_back(4);
 
 		tVector<int> myInts2(myInts);
 		myInts[0] = 10;
@@ -44,7 +45,9 @@ int main()
 			std::cout << myInts[i] << std::endl;
 		}
 
-		myInts.pop_back();
+		//myInts.pop_back();
+		myInts.resize(2);
+		std::cout << "myInts.capacity() = " << myInts.capacity() << std::endl;
 
 		std::cout << "myInts" << std::endl;
 		for (size_t i = 0; i < myInts.used(); i++)

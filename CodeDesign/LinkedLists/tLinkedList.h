@@ -9,8 +9,8 @@ class tForwardList
 {
 	struct Node
 	{
-		T data;                     // data for the element stored
-		Node * next;                // pointer to node following this node
+		T data;										// data for the element stored
+		Node * next;								// pointer to node following this node
 	};
 	
 	class iterator
@@ -23,7 +23,8 @@ class tForwardList
 
 		bool operator==(const iterator& rhs) const; // returns true if the iterator points to the same node
 		bool operator!=(const iterator& rhs) const; // returns false if the iterator does not point to the same node
-		T& element() const;                       // returns a reference to the element pointed to by the current node
+		T& element() const;                         // returns a reference to the element pointed to by the current node
+		Node node();								// returns are reference to the node occupied by this iterator
 		iterator& operator++();                     // pre-increment (returns a reference to this iterator after it is incremented)
 		iterator operator++(int);                   // post-increment (returns an iterator to current node while incrementing the existing iterator)
 	};
@@ -31,7 +32,7 @@ class tForwardList
 	iterator begin();
 	iterator end();
 	
-	Node * head;                    // pointer to head of linked list
+	Node* head;                    // pointer to head of linked list
 
 	bool firstTime = true;			//Variable used to track if the first object is being inserted
 	iterator iter;
@@ -42,6 +43,7 @@ public:
 	tForwardList& operator=(const tForwardList &rhs); // = operator overload
 
 	void push_front(const T& val);  // adds element to front (i.e. head)
+	void push_back(const T& val);	// adds element to back (i.e. tail)
 	void pop_front();               // removes element from front
 
 	T& front();                     // returns the element at the head
@@ -63,28 +65,19 @@ tForwardList<T>::tForwardList() //Default constructor
 	head = nullptr;
 }
 
+/*THIS IS UNUSED AS OF NOW. IT MAY BE NEEDED LATER. I AM NOT SURE.*/
+//template<typename T>
+//tForwardList<T>::tForwardList<int>() //Default constructor for ints
+//{
+//	head = nullptr;
+//	data = 0;
+//}
+
 template <typename T> 
 tForwardList<T>::tForwardList(const tForwardList& other) //Constructor that copies another list
 {
-
-	Node* otherNodeIter = other.head;
-	head = new Node{other.head->data, nullptr};
-	Node* temp = head;//Creates a node
-	otherNodeIter = otherNodeIter->next;
-	while (otherNodeIter != nullptr)
-	{
-		Node* newNode = new Node;
-		newNode->next = nullptr;
-		newNode->data = { otherNodeIter->data };//Copes data from other node to new node
-		head->next = newNode;
-		head = newNode;
-		otherNodeIter = otherNodeIter->next;//Move other node to next node
-		/*newNode = new Node;
-		newNodePtr->next = newNode;
-		head = newNode;*/
-		//delete newNode;
-	}
-	head = temp;
+	*this = other;
+	
 }
 
 
@@ -93,7 +86,6 @@ tForwardList<T>::~tForwardList() //Destructor
 {
 
 	if (head == nullptr) {
-		// we're good
 		return;
 	}
 
@@ -110,7 +102,33 @@ tForwardList<T>::~tForwardList() //Destructor
 template <typename T>
 tForwardList<T>& tForwardList<T>::operator = (const tForwardList &rhs) //= operator overload
 {
-	tForwardList(vec);
+	/*tForwardList(vec);
+	return *this;*/
+
+
+	Node* rhsNodeIter = rhs.head;
+	if (rhs.head == nullptr)
+	{
+		return *this;
+	}
+	head = new Node{ rhs.head->data, nullptr };
+	Node* temp = head;//Creates a node
+	rhsNodeIter = rhsNodeIter->next;
+	while (rhsNodeIter != nullptr)
+	{
+		Node* newNode = new Node;
+		newNode->next = nullptr;
+		newNode->data = { rhsNodeIter->data };//Copes data from other node to new node
+		head->next = newNode;
+		head = newNode;
+		rhsNodeIter = rhsNodeIter->next;//Move other node to next node
+											/*newNode = new Node;
+											newNodePtr->next = newNode;
+											head = newNode;*/
+											//delete newNode;
+	}
+	head = temp;
+
 	return *this;
 }
 
@@ -122,6 +140,26 @@ void tForwardList<T>::push_front(const T& val) //adds element to front (i.e. hea
 	newNode->next = head;
 	head = newNode;
 	
+}
+
+template<typename T>
+void tForwardList<T>::push_back(const T& val) // adds element to back (i.e. tail)
+{
+	Node * it = head;
+	while (it->next != nullptr)
+	{
+		it = it->next;
+		
+	}
+
+	Node * newNode = new Node;
+	newNode->data = val;
+	newNode->next = nullptr;
+
+	it->next = newNode;
+
+	//delete it;
+
 }
 
 template<typename T>
@@ -198,7 +236,22 @@ void tForwardList<T>::clear()
 template<typename T>
 void tForwardList<T>::resize(size_t size)
 {
-	//I dont see a use for this funtion so it is TODO
+	int count = 0;
+	iterator it(begin());
+	while (it != end())
+	{
+		count++;
+		++it;
+	}
+	if (count < size)
+	{
+		for (size_t i = count; i < size; i++)
+		{
+			push_back(0);
+		}
+		
+	}
+
 }
 
 
@@ -235,10 +288,15 @@ T& tForwardList<T>::iterator::element() const              // returns a referenc
 }
 
 template<typename T>
+typename tForwardList<T>::Node tForwardList<T>::iterator::node()
+{
+	return cur;
+}
+
+template<typename T>
 typename tForwardList<T>::iterator& tForwardList<T>::iterator::operator++()
 {
 	cur = cur->next;
-	// TODO: insert return statement here
 	return *this;
 }
 
