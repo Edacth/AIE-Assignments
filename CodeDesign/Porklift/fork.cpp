@@ -44,6 +44,8 @@ void fork::update()
 
 		bool collision = false;
 		rectangle.y -= 1;
+
+		/*Detect if the arm will collide with a tile*/
 		for (size_t j = 0; j < tilesPtr->size(); j++)
 		{
 			if (CheckCollisionRecs(rectangle, *(*(*tilesPtr)[j]).getRectangle()))
@@ -53,23 +55,28 @@ void fork::update()
 			}
 		}
 
+		for (size_t j = 0; j < gameObjectsPtr->size(); j++)
+		{
+			if ((*(*gameObjectsPtr)[j]).objectType == Crate)
+			{
+				if ((CheckCollisionRecs(rectangle, *(*(*gameObjectsPtr)[j]).getRectangle())) && positionOffset.y > 0)
+
+				{
+					collision = true;
+					if ((*(*gameObjectsPtr)[j]).push({ 0, -1 }))
+					{
+						collision = false;
+					}
+				}
+			}
+
+		}
+
 		if (!collision && positionOffset.y > 0)
 		{
 			positionOffset.y -= 1;
 
-			for (size_t j = 0; j < gameObjectsPtr->size(); j++)
-			{
-				if ((*(*gameObjectsPtr)[j]).objectType == Crate)
-				{
-					if ((CheckCollisionRecs(rectangle, *(*(*gameObjectsPtr)[j]).getRectangle())))
-
-					{
-
-						(*(*gameObjectsPtr)[j]).push({ 0, -1 });
-					}
-				}
-
-			}
+			
 		}
 
 		
@@ -93,9 +100,11 @@ void fork::update()
 
 		}
 
-		/*Detect if the arm will collide with a tile*/
+		
 		bool collision = false;
 		rectangle.y += 1;
+
+		/*Detect if the arm will collide with a tile*/
 		for (size_t j = 0; j < tilesPtr->size(); j++)
 		{
 			if (CheckCollisionRecs(rectangle, *(*(*tilesPtr)[j]).getRectangle()))
@@ -117,9 +126,7 @@ void fork::update()
 					DrawText("True", 10, 10, 20, BLACK);
 				}
 			}
-
 		}
-
 
 		for (size_t j = 0; j < gameObjectsPtr->size(); j++)
 		{
@@ -155,21 +162,21 @@ void fork::update()
 		{
 			for (size_t j = 0; j < gameObjectsPtr->size(); j++)
 			{
-				if ((*(*gameObjectsPtr)[j]).objectType == Crate)
+				if ((*(*gameObjectsPtr)[j]).objectType == Crate 
+					&& CheckCollisionRecs(rectangle, *(*(*gameObjectsPtr)[j]).getRectangle())
+					&& !(*(*gameObjectsPtr)[j]).isGrounded())
 				{
-					if ((CheckCollisionRecs(rectangle, *(*(*gameObjectsPtr)[j]).getRectangle())) 
-						&& !(*(*gameObjectsPtr)[j]).isGrounded())
+					
+					if ( (position.x - ((*playerPtr->getPosition()).x + positionOffset.x)) < 0)
 					{
-						if ( (position.x - ((*playerPtr->getPosition()).x + positionOffset.x)) < 0)
-						{
-							(*(*gameObjectsPtr)[j]).push({ 1, 0 });
-						}
-						else
-						{
-							(*(*gameObjectsPtr)[j]).push({ -1, 0 });
-						}
-
+						(*(*gameObjectsPtr)[j]).push({ 1, 0 });
 					}
+					else
+					{
+						(*(*gameObjectsPtr)[j]).push({ -1, 0 });
+					}
+
+					
 				}
 
 			}

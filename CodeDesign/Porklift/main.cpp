@@ -47,8 +47,8 @@ int main()
 	player basePlayer = {gameObjectTextures[0], gameObjectTextures[1], {200 ,200}, &tileVector, &gameObjects };
 	player* basePlayerPtr = &basePlayer;
 	crate crates[10] = {
-		{ gameObjectTextures[2], {300, 10}, &tileVector, &gameObjects },
-		{ gameObjectTextures[2], {400, 10}, &tileVector, &gameObjects }
+		{ gameObjectTextures[2], {420, 20}, &tileVector, &gameObjects },
+		{ gameObjectTextures[2], {400, 300}, &tileVector, &gameObjects }
 	};
 	//crate* baseCratePtr = &baseCrate;
 	tile baseTile = { tileTextures[0], {0,600} };

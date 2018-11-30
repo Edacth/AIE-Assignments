@@ -144,8 +144,12 @@ bool crate::push(Vector2 direction)
 				if ((CheckCollisionRecs(rectangle, *(*(*gameObjectsPtr)[j]).getRectangle())))
 
 				{
-					//verticalCollision = true;
-					(*(*gameObjectsPtr)[j]).push({ direction.x, direction.y * 2 });
+					verticalCollision = true;
+					
+					if ((*(*gameObjectsPtr)[j]).push({ direction.x, direction.y * 2 }))
+					{
+						verticalCollision = false;
+					}
 					DrawText("Yup", 10, 10, 20, BLACK);
 				}
 			}
@@ -173,6 +177,7 @@ bool crate::isGrounded()
 		if (CheckCollisionRecs(rectangle, *(*(*tilesPtr)[i]).getRectangle()))
 		{
 			//verticalCollision = true;
+			rectangle.y = position.y;
 			return true;
 		}
 	}
@@ -186,6 +191,7 @@ bool crate::isGrounded()
 
 			{
 				//verticalCollision = true;
+				rectangle.y = position.y;
 				return true;
 			}
 		}
@@ -193,5 +199,7 @@ bool crate::isGrounded()
 		
 
 	}
+
+	rectangle.y = position.y;
 	return false;
 }
