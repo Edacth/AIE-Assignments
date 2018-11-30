@@ -42,3 +42,8 @@ bool GameObject::push(Vector2 direction)
 {
 	return true;
 }
+
+bool GameObject::isGrounded()
+{
+	return false;
+}

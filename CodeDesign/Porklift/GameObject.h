@@ -30,6 +30,7 @@ public:
 	Rectangle* getRectangle();
 	void setPosition(Vector2 _position);
 	Vector2* getPosition();
+	bool virtual isGrounded();
 	
 	int objectType;
 	std::string uuid;

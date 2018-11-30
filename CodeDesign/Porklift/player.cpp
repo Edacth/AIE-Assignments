@@ -19,7 +19,7 @@ player::player(const Texture2D _texture, const Texture2D _forkTexture, Vector2 _
 	position = _position;
 	rectangle.x = position.x;
 	rectangle.y = position.y;
-	rectangle.height = texture.height * 8;
+	rectangle.height = 11 * 8;
 	rectangle.width = 14 * 8;
 	tilesPtr = _tiles;
 	gameObjectsPtr = _gameObjects;
@@ -57,7 +57,10 @@ void player::update()
 
 					{
 						horizontalCollision = true;
-						(*(*gameObjectsPtr)[j]).push({ -1, 0 });
+						if ((*(*gameObjectsPtr)[j]).push({ -1, 0 }))
+						{
+							horizontalCollision = false;
+						}
 					}
 				}
 
@@ -94,7 +97,10 @@ void player::update()
 
 					{
 						horizontalCollision = true;
-						(*(*gameObjectsPtr)[j]).push( {1, 0} );
+						if ((*(*gameObjectsPtr)[j]).push({ 1, 0 }))
+						{
+							horizontalCollision = false;
+						}
 					}
 				}
 				
