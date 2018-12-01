@@ -45,6 +45,7 @@ public:
 	void push_front(const T& val);  // adds element to front (i.e. head)
 	void push_back(const T& val);	// adds element to back (i.e. tail)
 	void pop_front();               // removes element from front
+	void pop_back();               // removes element from front
 
 	T& front();                     // returns the element at the head
 	const T& front() const;         // returns the element at the head (const)
@@ -172,6 +173,21 @@ void tForwardList<T>::pop_front()
 }
 
 template<typename T>
+void tForwardList<T>::pop_back()
+{
+	Node * it = head;
+	while (it->next->next != nullptr)
+	{
+		it = it->next;
+
+	}
+
+	delete it->next;
+
+	it->next = nullptr;
+}
+
+template<typename T>
 T& tForwardList<T>::front()
 {
 	return head->data;
@@ -214,6 +230,7 @@ void tForwardList<T>::print()
 		std::cout << (it.element()) << std::endl;
 		//iter.curNode() = iter.curNode().next;
 		++it;
+		//it++;
 	}
 }
 
@@ -250,6 +267,13 @@ void tForwardList<T>::resize(size_t size)
 			push_back(0);
 		}
 		
+	}
+	else if (count > size)
+	{
+		for (size_t i = 0; i < count - size; i++)
+		{
+			pop_back();
+		}
 	}
 
 }
@@ -316,4 +340,7 @@ typename tForwardList<T>::iterator tForwardList<T>::end()
 template<typename T>
 typename tForwardList<T>::iterator tForwardList<T>::iterator::operator++(int)                 // post-increment (returns an iterator to current node while incrementing the existing iterator)
 {
+	Node* temp = cur;
+	cur = cur->next;
+	return temp;
 }

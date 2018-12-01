@@ -26,14 +26,14 @@ void FallingObject::Draw()
 {
 	//DrawRectangleV(pos, {20, 20}, RED);
 	DrawTextureEx(texture, pos, rot, scale, WHITE);
-	DrawText((std::to_string(age)).c_str(), pos.x, pos.y, 10, BLACK);
+	//DrawText((std::to_string(age)).c_str(), pos.x, pos.y, 10, BLACK);
 }
 
 void FallingObject::Update()
 {
 	pos.y += 1;
 	rot += 1;
-	age++;
+	//age++;
 	//std::cout << pos.x << " " << pos.y << std::endl;
 }
 

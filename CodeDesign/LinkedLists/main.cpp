@@ -11,12 +11,15 @@ int main()
 	testList.push_front(1);
 	testList.push_front(2);
 	testList.push_front(3);
+	testList.push_front(4);
+	testList.push_front(5);
+	testList.push_front(6);
 
 	testList.push_back(100);
 	
 	//tForwardList<int> emptyList;
 
-	testList.resize(10);
+	
 	//tForwardList<int> testList2(testList);
 	//tForwardList<int> testList2 = testList;
 
@@ -27,8 +30,7 @@ int main()
 	std::cout << std::endl;
 	testList.print();
 	std::cout << "=====" << std::endl;
-	testList.push_front(5);
-	testList.push_front(6);
+	testList.resize(3);
 	testList.print();
 
 	testList.clear();

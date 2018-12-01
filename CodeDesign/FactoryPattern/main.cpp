@@ -121,6 +121,7 @@ int main()
 			myPool.recycle(&myPool.pool[rand]);
 		}
 
+		myPool.updateAge();
 		for (size_t i = 0; i < myPool.getCapacity(); i++)
 		{
 			if (myPool.getFree()[i] == false)
