@@ -65,3 +65,45 @@ bool cMath::isPowerOfTwo(int val)
 
 	return (pow == val);
 }
+
+/*Returns the next power of two after the given value.*/
+/*The behavior of this function if the next power of two
+is beyond the range of int is not defined.*/
+int cMath::nextPowerOfTwo(int val)
+{
+	int nextPower = 0;
+	for (size_t i = 0; nextPower <= val; i++)
+	{
+		nextPower = cMath::pow(2, i);
+	}
+
+	return nextPower;
+}
+
+/*Moves the current value towards the target value. The maximum change should not exceed maxDelta*/
+float cMath::moveTowards(float current, float target, float maxDelta)
+{
+	if (current < target)
+	{
+		if (current + maxDelta <= target)
+		{
+			return current + maxDelta;
+		}
+		else
+		{
+			return target;
+		}
+	}
+	else if (current > target)
+	{
+		if (current - maxDelta >= target)
+		{
+			return current - maxDelta;
+		}
+		else
+		{
+			return target;
+		}
+	}
+	return current;
+}

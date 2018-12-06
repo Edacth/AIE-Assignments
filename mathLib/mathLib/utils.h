@@ -30,4 +30,12 @@ namespace cMath
 
 	/*Returns true if the value is a power of two, otherwise returns false.*/
 	bool isPowerOfTwo(int val);
+
+	/*Returns the next power of two after the given value.*/
+	/*The behavior of this function if the next power of two 
+	is beyond the range of int is not defined.*/
+	int nextPowerOfTwo(int val);
+
+	/*Moves the current value towards the target value. The maximum change should not exceed maxDelta*/
+	float moveTowards(float current, float target, float maxDelta);
 }

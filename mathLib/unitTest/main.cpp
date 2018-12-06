@@ -1,31 +1,58 @@
 #include <iostream>
+#include <cassert>
 #include "utils.h"
+#include "vec2.h"
 
 int main()
 {
 
-	int minVal = cMath::min(2, 3);
-	std::cout << minVal << std::endl;
+	assert(cMath::min(-5, 11) == -5);
 
-	int maxVal = cMath::max(2, -1);
-	std::cout << maxVal << std::endl;
+	assert(cMath::max(2, -1) == 2);
 
-	int clampVal = cMath::clamp(122, 4, 10);
-	std::cout << clampVal << std::endl;
+	assert(cMath::clamp(122, 4, 10) == 10);
 
-	std::cout << 6 * cMath::DEG_TO_RAD << std::endl;
+	assert(6 * cMath::DEG_TO_RAD - 0.10472 < 0.00001);
 
-	std::cout << 6 * cMath::RAD_TO_DEG << std::endl;
+	assert(6 * cMath::RAD_TO_DEG - 343.775 < 0.00001);
 
-	std::cout << cMath::abs(-5) << std::endl;
-	std::cout << cMath::abs(5) << std::endl;
-	std::cout << cMath::abs(0) << std::endl;
+	assert(cMath::abs(-5) == 5);
+	assert(cMath::abs(5) == 5);
+	assert(cMath::abs(0) == 0);
 
-	std::cout << cMath::pow(5, 5) << std::endl;
-	std::cout << cMath::pow(5, 0) << std::endl;
+	assert(cMath::pow(5, 5) == 3125);
+	assert(cMath::pow(5, 0) == 1);
 
-	std::cout << cMath::isPowerOfTwo(34) << std::endl;
+	assert(cMath::isPowerOfTwo(34) == 0);
+	assert(cMath::isPowerOfTwo(16) == 1);
+
+	assert(cMath::nextPowerOfTwo(1024) == 2048);
+
+	assert(cMath::moveTowards(10, -15, 11) == -1);
 
 
+	vec2 myVec1(10, -7);
+	vec2 myVec2(3, 6);
+	vec2 myVec3(13, -1);
+	vec2 myVec4(7, -3);
+	vec2 myVec5(-7, 3);
+	vec2 myVec6(3, -7);
+
+	//std::cout << myVec1 + myVec2 << std::endl;
+	assert( (myVec1 + myVec2).x == 13);
+	assert( (myVec1 + myVec2).y == -1);
+
+	assert(myVec1 + myVec2 == myVec3);
+	assert(myVec1 - myVec2 == myVec4);
+
+	myVec1 += myVec2;
+	assert(myVec1 == myVec3);
+
+	assert(myVec1 != myVec2);
+
+	assert(-myVec4 == myVec5);
+
+	assert(myVec5[0] == myVec6.y);
+	assert(myVec5[1] == myVec6.x);
 	return 0;
 }
