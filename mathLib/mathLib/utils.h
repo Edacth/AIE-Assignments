@@ -28,6 +28,9 @@ namespace cMath
 	/*Returns base to the power of exp (i.e. base^power)*/
 	int pow(int base, int power);
 
+	/*Float version of pow*/
+	int pow(float base, int power);
+
 	/*Returns true if the value is a power of two, otherwise returns false.*/
 	bool isPowerOfTwo(int val);
 

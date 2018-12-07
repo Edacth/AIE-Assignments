@@ -5,6 +5,8 @@
 
 int main()
 {
+	float powTest1 = cMath::pow(13.5f, 2);
+	std::cout << powTest1 << std::endl;
 
 	assert(cMath::min(-5, 11) == -5);
 
@@ -54,6 +56,8 @@ int main()
 
 	assert(myVec5[0] == myVec6.y);
 	assert(myVec5[1] == myVec6.x);
+
+	
 	
 	return 0;
 }

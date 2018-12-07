@@ -97,6 +97,8 @@ vec4& vec4::scale(const vec4 &rhs)
 	x *= rhs.x;
 	y *= rhs.y;
 	z *= rhs.z;
+
+	return *this;
 }
 
 vec4 vec4::getScaled(const vec4 &rhs) const

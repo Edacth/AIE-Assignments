@@ -53,6 +53,23 @@ int cMath::pow(int base, int power)
 	return acc;
 }
 
+/*Returns base to the power of exp (i.e. base^power)*/
+int cMath::pow(float base, int power)
+{
+	if (power == 0)
+	{
+		return 1;
+	}
+
+	float acc = base; //accumulator
+	for (size_t i = 0; i < power - 1; i++)
+	{
+		acc *= base;
+	}
+
+	return acc;
+}
+
 /*Returns true if the value is a power of two, otherwise returns false.*/
 bool cMath::isPowerOfTwo(int val)
 {
