@@ -72,7 +72,7 @@ float vec3::magnitude() const
 	return (std::sqrt(cMath::pow(x, 2) + cMath::pow(y, 2) + cMath::pow(z, 2)));
 }
 
-vec3& vec3::normalize()
+vec3& vec3::normalise()
 {
 	float mag = magnitude();
 	x /= mag;
@@ -81,7 +81,7 @@ vec3& vec3::normalize()
 	return *this;
 }
 
-vec3 vec3::getNormalized() const
+vec3 vec3::getNormalised() const
 {
 	float mag = magnitude();
 	return { x / mag, y / mag, z / mag };
@@ -125,4 +125,16 @@ vec3& vec3::operator/=(const float rhs)
 	y /= rhs;
 	z /= rhs;
 	return *this;
+}
+
+float vec3::dot(const vec3 &rhs) const
+{
+	return (x * rhs.x + y * rhs.y + z * rhs.z);
+}
+
+vec3 vec3::cross(const vec3 &rhs) const
+{
+	return { y * rhs.z - z * rhs.y,
+			z * rhs.x - x * rhs.z,
+			x * rhs.y - y * rhs.x };
 }

@@ -69,7 +69,7 @@ float vec2::magnitude() const
 	return (std::sqrt(cMath::pow(x, 2) + cMath::pow(y, 2)));
 }
 
-vec2& vec2::normalize()
+vec2& vec2::normalise()
 {
 	float mag = magnitude();
 	x /= mag;
@@ -77,7 +77,7 @@ vec2& vec2::normalize()
 	return *this;
 }
 
-vec2 vec2::getNormalized() const
+vec2 vec2::getNormalised() const
 {
 	float mag = magnitude();
 	return {x / mag, y / mag};
@@ -120,3 +120,7 @@ vec2& vec2::operator/=(const float rhs)
 	return *this;
 }
 
+float vec2::dot(const vec2 &rhs) const
+{
+	return (x * rhs.x + y * rhs.y);
+}

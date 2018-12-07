@@ -23,8 +23,8 @@ struct vec3
 
 	float magnitude() const;
 
-	vec3 &normalize();
-	vec3 getNormalized() const;
+	vec3 &normalise();
+	vec3 getNormalised() const;
 
 	vec3 &scale(const vec3 &rhs);
 	vec3 getScaled(const vec3 &rhs) const;
@@ -34,4 +34,8 @@ struct vec3
 
 	vec3 &operator*=(const float rhs);
 	vec3 &operator/=(const float rhs);
+
+	float dot(const vec3 &rhs) const;
+
+	vec3 cross(const vec3 &rhs) const;
 };

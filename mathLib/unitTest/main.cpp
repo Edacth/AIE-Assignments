@@ -2,11 +2,20 @@
 #include <cassert>
 #include "utils.h"
 #include "vec2.h"
+#include "vec3.h"
+#include "vec4.h"
+
 
 int main()
 {
-	float powTest1 = cMath::pow(13.5f, 2);
-	std::cout << powTest1 << std::endl;
+	vec4 v4a= { 13.5f, -48.23f, 862, 0 };
+	vec4 v4b= { 5, 3.99f, -12, 1 };
+	vec3 v3a = vec3(13.5f, -48.23f, 862);
+	vec3 v3b = vec3(5, 3.99f, -12);
+
+	float dotProduct1 = v4a.dot(v4b);
+	float dotProduct2 = v3a.dot(v3b);
+	
 
 	assert(cMath::min(-5, 11) == -5);
 

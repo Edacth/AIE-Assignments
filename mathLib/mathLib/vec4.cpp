@@ -7,129 +7,144 @@ vec4::vec4()
 {
 }
 
-vec4::vec4(float _w, float _x, float _y, float _z)
+vec4::vec4(float _x, float _y, float _z, float _w)
 {
-	w = _w;
+	
 	x = _x;
 	y = _y;
 	z = _z;
+	w = _w;
 }
 
 vec4 vec4::operator+(const vec4 &rhs) const
 {
-	return {w + rhs.w, x + rhs.x, y + rhs.y, z + rhs.z };
+	return {x + rhs.x, y + rhs.y, z + rhs.z, w + rhs.w };
 }
 
 vec4 vec4::operator-(const vec4 &rhs) const
 {
-	return {w - rhs.w, x - rhs.x, y - rhs.y, z - rhs.z };
+	return {x - rhs.x, y - rhs.y, z - rhs.z, w - rhs.w };
 }
 
 vec4& vec4::operator+=(const vec4 &rhs)
 {
-	w += rhs.w;
 	x += rhs.x;
 	y += rhs.y;
 	z += rhs.z;
+	w += rhs.w;
 	return *this;
 }
 
 vec4& vec4::operator-=(const vec4 &rhs)
 {
-	w -= rhs.w;
 	x -= rhs.x;
 	y -= rhs.y;
 	z -= rhs.z;
+	w -= rhs.w;
 	return *this;
 }
 
 bool vec4::operator==(const vec4 &rhs) const
 {
 	float errorMargin = FLT_EPSILON * 100;
-	return (w - rhs.w < errorMargin && x - rhs.x < errorMargin && y - rhs.y < errorMargin && z - rhs.z < errorMargin) ? true : false;
+	return ( x - rhs.x < errorMargin && y - rhs.y < errorMargin && z - rhs.z < errorMargin && w - rhs.w < errorMargin) ? true : false;
 }
 
 bool vec4::operator!=(const vec4 &rhs) const
 {
 	float errorMargin = FLT_EPSILON * 100;
-	return (w - rhs.w < errorMargin && x - rhs.x < errorMargin && y - rhs.y < errorMargin && z - rhs.z < errorMargin) ? false : true;
+	return (x - rhs.x < errorMargin && y - rhs.y < errorMargin && z - rhs.z < errorMargin && w - rhs.w < errorMargin) ? false : true;
 }
 
 vec4 vec4::operator-() const
 {
-	return {w * -1, x * -1, y * -1, z * -1 };
+	return {x * -1, y * -1, z * -1, w * -1, };
 }
 
 vec4::operator float *()
 {
-	return &w;
+	return &x;
 }
 
 vec4::operator const float *() const
 {
-	return &w;
+	return &x;
 }
 
 float vec4::magnitude() const
 {
-	return (std::sqrt(cMath::pow(x, 2) + cMath::pow(y, 2) + cMath::pow(z, 2)));
+	return (std::sqrt(cMath::pow(x, 2) + cMath::pow(y, 2) + cMath::pow(z, 2) + cMath::pow(w, 2)));
 }
 
-vec4& vec4::normalize()
+vec4& vec4::normalise()
 {
 	float mag = magnitude();
-	w /= mag;
 	x /= mag;
 	y /= mag;
 	z /= mag;
+	w /= mag;
 	return *this;
 }
 
-vec4 vec4::getNormalized() const
+vec4 vec4::getNormalised() const
 {
 	float mag = magnitude();
-	return {w / mag, x / mag, y / mag, z / mag };
+	return {x / mag, y / mag, z / mag, w / mag };
 }
 
 vec4& vec4::scale(const vec4 &rhs)
 {
-	w *= rhs.w;
 	x *= rhs.x;
 	y *= rhs.y;
 	z *= rhs.z;
-
+	w *= rhs.w;
 	return *this;
 }
 
 vec4 vec4::getScaled(const vec4 &rhs) const
 {
-	return {w * rhs.w, x * rhs.x, y * rhs.y, z * rhs.z };
+	return {x * rhs.x, y * rhs.y, z * rhs.z, w * rhs.w };
 }
 
 vec4 vec4::operator*(const float rhs) const
 {
-	return {w * rhs, x * rhs, y * rhs, z * rhs };
+	return {x * rhs, y * rhs, z * rhs, w * rhs };
 }
 
 vec4 operator*(const float lhs, const vec4 &rhs)
 {
-	return {rhs.w * lhs, rhs.x * lhs, rhs.y * lhs, rhs.z * lhs };
+	return {rhs.x * lhs, rhs.y * lhs, rhs.z * lhs, rhs.w * lhs };
 }
 
 vec4& vec4::operator*=(const float rhs)
 {
-	w *= rhs;
 	x *= rhs;
 	y *= rhs;
 	z *= rhs;
+	w *= rhs;
 	return *this;
 }
 
 vec4& vec4::operator/=(const float rhs)
 {
-	w /= rhs;
 	x /= rhs;
 	y /= rhs;
 	z /= rhs;
+	w /= rhs;
 	return *this;
+}
+
+//TODO Waiting on Terry confirmaion to complete this funtion
+float vec4::dot(const vec4 &rhs) const
+{
+	return (x * rhs.x + y * rhs.y + z * rhs.z);
+}
+
+//TODO Waiting on Terry confirmaion to complete this funtion
+vec4 vec4::cross(const vec4 &rhs) const
+{
+	return {y * rhs.z - z * rhs.y,
+			z * rhs.x - x * rhs.z,
+			x * rhs.y - y * rhs.x,
+			w};
 }

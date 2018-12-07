@@ -54,7 +54,7 @@ int cMath::pow(int base, int power)
 }
 
 /*Returns base to the power of exp (i.e. base^power)*/
-int cMath::pow(float base, int power)
+float cMath::pow(float base, int power)
 {
 	if (power == 0)
 	{

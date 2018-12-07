@@ -23,8 +23,8 @@ struct vec2
 
 	float magnitude() const;
 
-	vec2 &normalize();
-	vec2 getNormalized() const;
+	vec2 &normalise();
+	vec2 getNormalised() const;
 
 	vec2 &scale(const vec2 &rhs);
 	vec2 getScaled(const vec2 &rhs) const;
@@ -34,6 +34,8 @@ struct vec2
 
 	vec2 &operator*=(const float rhs);
 	vec2 &operator/=(const float rhs);
+
+	float dot(const vec2 &rhs) const;
 
 	#ifdef RAYLIB_H
 	operator Vector2();

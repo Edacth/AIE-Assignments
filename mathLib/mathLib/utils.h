@@ -29,7 +29,7 @@ namespace cMath
 	int pow(int base, int power);
 
 	/*Float version of pow*/
-	int pow(float base, int power);
+	float pow(float base, int power);
 
 	/*Returns true if the value is a power of two, otherwise returns false.*/
 	bool isPowerOfTwo(int val);
