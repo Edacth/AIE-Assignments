@@ -38,4 +38,5 @@ namespace cMath
 
 	/*Moves the current value towards the target value. The maximum change should not exceed maxDelta*/
 	float moveTowards(float current, float target, float maxDelta);
+
 }

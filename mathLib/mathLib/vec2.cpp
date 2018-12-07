@@ -1,5 +1,7 @@
 #include "vec2.h"
+#include "utils.h"
 #include <cfloat>
+#include <iostream>
 
 vec2::vec2()
 {
@@ -62,7 +64,57 @@ vec2::operator const float *() const
 	return &x;
 }
 
-vec2::Vector2()
+float vec2::magnitude() const
 {
-
+	return (std::sqrt(cMath::pow(x, 2) + cMath::pow(y, 2)));
 }
+
+vec2& vec2::normalize()
+{
+	float mag = magnitude();
+	x /= mag;
+	y /= mag;
+	return *this;
+}
+
+vec2 vec2::getNormalized() const
+{
+	float mag = magnitude();
+	return {x / mag, y / mag};
+}
+
+vec2& vec2::scale(const vec2 &rhs)
+{
+	x *= rhs.x;
+	y *= rhs.y;
+}
+
+vec2 vec2::getScaled(const vec2 &rhs) const
+{
+	return { x * rhs.x, y * rhs.y };
+}
+
+vec2 vec2::operator*(const float rhs) const
+{
+	return {x * rhs, y * rhs};
+}
+
+vec2 operator*(const float lhs, const vec2 &rhs)
+{
+	return {rhs.x * lhs, rhs.y * lhs};
+}
+
+vec2& vec2::operator*=(const float rhs)
+{
+	x *= rhs;
+	y *= rhs;
+	return *this;
+}
+
+vec2& vec2::operator/=(const float rhs)
+{
+	x /= rhs;
+	y /= rhs;
+	return *this;
+}
+

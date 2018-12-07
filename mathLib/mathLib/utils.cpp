@@ -62,7 +62,7 @@ bool cMath::isPowerOfTwo(int val)
 	{
 		pow *= 2;
 	}
-
+	
 	return (pow == val);
 }
 

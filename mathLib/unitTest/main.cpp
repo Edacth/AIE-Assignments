@@ -54,5 +54,6 @@ int main()
 
 	assert(myVec5[0] == myVec6.y);
 	assert(myVec5[1] == myVec6.x);
+	
 	return 0;
 }

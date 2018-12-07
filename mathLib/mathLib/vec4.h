@@ -20,4 +20,18 @@ struct vec4
 
 	operator float *();
 	operator const float *() const;
+
+	float magnitude() const;
+
+	vec4 &normalize();
+	vec4 getNormalized() const;
+
+	vec4 &scale(const vec4 &rhs);
+	vec4 getScaled(const vec4 &rhs) const;
+
+	vec4 operator*(const float rhs) const;
+	friend vec4 operator*(const float lhs, const vec4 &rhs);
+
+	vec4 &operator*=(const float rhs);
+	vec4 &operator/=(const float rhs);
 };
