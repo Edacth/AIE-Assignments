@@ -2,6 +2,10 @@
 #undef PI
 #include "utils.h"
 #include "vec2.h"
+#include "GameObject.h"
+#include "player.h"
+#include "enemy.h"
+#include <vector>
 
 int main()
 {
@@ -13,8 +17,15 @@ int main()
 	SetTargetFPS(60);
 
 	vec2 mousePos;
-	Vector2 myVector = { 30, 30 };
-	vec2 boxSize(myVector);
+
+
+	std::vector<GameObject*> gameObjects;
+	player basePlayer = { { 200 ,200 }, &gameObjects };
+	player* basePlayerPtr = &basePlayer;
+	enemy baseEnemy = { { 300 ,300 }, &gameObjects };
+	enemy* baseEnemyPtr = &baseEnemy;
+	gameObjects.push_back(basePlayerPtr);
+	gameObjects.push_back(baseEnemyPtr);
 	//--------------------------------------------------------------------------------------
 
 	// Main game loop
@@ -23,13 +34,20 @@ int main()
 		// Update
 		//----------------------------------------------------------------------------------
 		mousePos = GetMousePosition();
+		for (size_t i = 0; i < gameObjects.size(); i++)
+		{
+			gameObjects[i]->update();
+		}
 
 		// Draw
 		//----------------------------------------------------------------------------------
 		BeginDrawing();
 		ClearBackground(RAYWHITE);
 
-		DrawRectangleV(mousePos, boxSize, RED);
+		for (size_t i = 0; i < gameObjects.size(); i++)
+		{
+			gameObjects[i]->draw();
+		}
 
 		EndDrawing();
 		//----------------------------------------------------------------------------------
