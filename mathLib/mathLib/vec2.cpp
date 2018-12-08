@@ -3,6 +3,8 @@
 #include <cfloat>
 #include <iostream>
 
+
+
 vec2::vec2()
 {
 }
@@ -12,6 +14,7 @@ vec2::vec2(float _x, float _y)
 	x = _x;
 	y = _y;
 }
+
 
 vec2 vec2::operator+(const vec2 &rhs) const
 {
