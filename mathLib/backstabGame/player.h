@@ -6,6 +6,7 @@ class player :
 	public GameObject
 {
 protected:
+	vec2 mousePos;
 	vec2 directionToCursor;
 	float speed;
 

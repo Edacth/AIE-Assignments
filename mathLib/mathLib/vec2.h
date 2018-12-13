@@ -47,12 +47,15 @@ struct vec2
 	operator const float *() const;
 
 	float magnitude() const;
+	float sqrMagnitude() const;
 
 	vec2 &normalise();
 	vec2 getNormalised() const;
 
 	vec2 &scale(const vec2 &rhs);
+	vec2 &scale(const float scale);
 	vec2 getScaled(const vec2 &rhs) const;
+	vec2 getScaled(const float scale) const;
 
 	vec2 operator*(const float rhs) const;
 	friend vec2 operator*(const float lhs, const vec2 &rhs);
@@ -62,4 +65,7 @@ struct vec2
 
 	float dot(const vec2 &rhs) const;
 
+	
 };
+
+vec2 moveTowards(const vec2 current, const vec2 target, float maxDelta);
