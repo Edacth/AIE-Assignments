@@ -43,13 +43,13 @@ vec3& vec3::operator-=(const vec3 &rhs)
 bool vec3::operator==(const vec3 &rhs) const
 {
 	float errorMargin = FLT_EPSILON * 100;
-	return (x - rhs.x < errorMargin && y - rhs.y < errorMargin && z - rhs.z < errorMargin) ? true : false;
+	return (abs(x - rhs.x) < errorMargin && abs(y - rhs.y) < errorMargin && abs(z - rhs.z) < errorMargin) ? true : false;
 }
 
 bool vec3::operator!=(const vec3 &rhs) const
 {
 	float errorMargin = FLT_EPSILON * 100;
-	return (x - rhs.x < errorMargin && y - rhs.y < errorMargin &&  z - rhs.z < errorMargin) ? false : true;
+	return (abs(x - rhs.x) < errorMargin && abs(y - rhs.y) < errorMargin && abs(z - rhs.z) < errorMargin) ? false : true;
 }
 
 vec3 vec3::operator-() const

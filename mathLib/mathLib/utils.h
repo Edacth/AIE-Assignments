@@ -42,4 +42,46 @@ namespace cMath
 	/*Moves the current value towards the target value. The maximum change should not exceed maxDelta*/
 	float moveTowards(float current, float target, float maxDelta);
 
+	/*Linearly Interpolate between two values*/
+	// implementation one
+	template <typename T>
+	T lerp(const T& a, const T& b, float t)
+	{
+		return a * (1 - t) + b * t;
+	}
+	
+	// implementation two
+	template <typename T>
+	T lerp2(const T& a, const T& b, float t)
+	{
+		return a + (b - a) * t;
+	}
+
+	template <typename T>
+	T quadraticBezier(const T& a, const T& b, const T& c, float t)
+	{
+		T x = lerp(a, b, t);
+		T y = lerp(b, c, t);
+		return lerp(x, y, t);
+	}
+
+	template <typename T>
+	T quadraticBezier(const T& a, const T& b, const T& c, const T& d, float t)
+	{
+		T x = lerp(a, b, t);
+		T y = lerp(b, c, t);
+		T z = lerp(c, d, t);
+		return quadraticBezier(x, y, z, t);
+	}
+
+	template <typename T>
+	T cubicBezier(const T& a, const T& b, const T& c, const T& d, float t)
+	{
+		float x = lerp(a, b, t);
+		float y = lerp(b, c, t);
+		float z = lerp(c, d, t);
+		float u = lerp(x, y, t);
+		float v = lerp(y, z, t);
+		return lerp(u, v, t);
+	}
 }

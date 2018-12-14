@@ -66,7 +66,8 @@ int main()
 	assert(myVec5[0] == myVec6.y);
 	assert(myVec5[1] == myVec6.x);
 
-	
+	std::cout << cMath::lerp(3.0f, 6.0f, -.8) << std::endl;
+	std::cout << cMath::lerp2(3.0f, 6.0f, -.8) << std::endl;
 	
 	return 0;
 }

@@ -65,7 +65,7 @@ struct vec2
 
 	float dot(const vec2 &rhs) const;
 
-	
 };
 
 vec2 moveTowards(const vec2 current, const vec2 target, float maxDelta);
+

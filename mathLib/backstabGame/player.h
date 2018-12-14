@@ -9,6 +9,7 @@ protected:
 	vec2 mousePos;
 	vec2 directionToCursor;
 	float speed;
+	double angle;
 
 public:
 

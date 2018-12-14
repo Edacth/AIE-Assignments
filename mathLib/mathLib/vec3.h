@@ -39,3 +39,4 @@ struct vec3
 
 	vec3 cross(const vec3 &rhs) const;
 };
+

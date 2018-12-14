@@ -41,13 +41,13 @@ vec2& vec2::operator-=(const vec2 &rhs)
 bool vec2::operator==(const vec2 &rhs) const
 {
 	float errorMargin = FLT_EPSILON * 100;
-	return (x - rhs.x < errorMargin && y - rhs.y < errorMargin) ? true : false;
+	return (abs(x - rhs.x) < errorMargin && abs(y - rhs.y) < errorMargin) ? true : false;
 }
 
 bool vec2::operator!=(const vec2 &rhs) const
 {
 	float errorMargin = FLT_EPSILON * 100;
-	return (x - rhs.x < errorMargin && y - rhs.y < errorMargin) ? false : true;
+	return (abs(x - rhs.x) < errorMargin && abs(y - rhs.y) < errorMargin) ? false : true;
 }
 
 vec2 vec2::operator-() const
@@ -161,3 +161,4 @@ vec2 moveTowards(const vec2 current, const vec2 target, float maxDelta)
 	
 	return current;
 }
+
