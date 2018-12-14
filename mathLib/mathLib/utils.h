@@ -1,9 +1,8 @@
 #pragma once
+#include <ctgmath>
 
 namespace cMath
 {
-
-
 	/*Returns the smaller of the two values*/
 	int min(int a, int b);
 
@@ -84,4 +83,37 @@ namespace cMath
 		float v = lerp(y, z, t);
 		return lerp(u, v, t);
 	}
+
+	extern int seed;
+	/* returns a random value between min and max */
+	template <typename T>
+	T rand(T min, T max)
+	{
+		T n = max - min + 1;
+		T _seed = seed;
+		cMath::regenSeed();
+		return _seed % n + 1;
+	}
+
+	/* returns a random value between min and max
+	 - the value may contain decimal components */
+	template <typename T>
+	T randDecimal(T min, T max)
+	{
+		T n = max - min + 1.0f;
+		n *= 100;
+		T _seed = seed;
+		cMath::regenSeed();
+		return (fmod(_seed, n) + 1) /100;
+	}
+
+	/* seed the random number generator */
+	void seedRand(int seedValue);
+
+	/* returns the seed used for the random number generator */
+	int getRandSeed();
+
+	/*Runs the seed through the middle square method*/
+	void regenSeed();
 }
+

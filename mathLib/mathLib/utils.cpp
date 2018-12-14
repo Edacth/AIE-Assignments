@@ -1,4 +1,12 @@
 #include "utils.h"
+#include <string>
+#include <iostream>
+
+
+namespace cMath
+{
+	int seed = 0;
+}
 
 /*Returns a value no smaller than min and no larger than max*/
 int cMath::min(int a, int b)
@@ -123,4 +131,33 @@ float cMath::moveTowards(float current, float target, float maxDelta)
 		}
 	}
 	return current;
+}
+
+void cMath::seedRand(int seedValue)
+{
+	seed = seedValue;
+}
+
+int cMath::getRandSeed()
+{
+	return seed;
+}
+
+void cMath::regenSeed()
+{
+	int seedSqr = cMath::pow(seed, 2);
+	std::string strSeed = std::to_string(seedSqr);
+	while (strSeed.length() < 6)
+	{
+		strSeed.insert(0, "0");
+	}
+	std::string trimmedStrSeed = "------";
+	int j = 0;
+	for (size_t i = strSeed.length()/2-3; i < strSeed.length() / 2 + 3; i++)
+	{
+		trimmedStrSeed[j] = strSeed[i];
+		j++;
+	}
+	seed = std::stoi(trimmedStrSeed, nullptr, 10);
+	//std::cout << "New seed: " << seed << std::endl;
 }
