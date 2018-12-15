@@ -7,6 +7,10 @@ class enemy :
 {
 protected:
 	vec2 lookDir;
+	vec2 normLookDir;
+	vec2 directionToPlayer;
+	vec2 normDirectionToPlayer;
+	float rot = 0;
 
 public:
 
