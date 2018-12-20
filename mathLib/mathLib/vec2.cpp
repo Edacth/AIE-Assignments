@@ -129,6 +129,11 @@ vec2 vec2::getPerpCCW() const
 	return { -y, x };
 }
 
+float vec2::angleBetween(const vec2 & rhs) const
+{
+	return 0.0f;
+}
+
 vec2 vec2::operator*(const float rhs) const
 {
 	return {x * rhs, y * rhs};
