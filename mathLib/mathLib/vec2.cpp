@@ -13,6 +13,20 @@ vec2::vec2(float _x, float _y)
 	y = _y;
 }
 
+float vec2::magnitude() const
+{
+	return (std::sqrt(cMath::pow(x, 2) + cMath::pow(y, 2)));
+}
+
+float vec2::sqrMagnitude() const
+{
+	return (cMath::pow(x, 2) + cMath::pow(y, 2));
+}
+
+float vec2::dot(const vec2 &rhs) const
+{
+	return (x * rhs.x + y * rhs.y);
+}
 
 vec2 vec2::operator+(const vec2 &rhs) const
 {
@@ -65,16 +79,6 @@ vec2::operator const float *() const
 	return &x;
 }
 
-float vec2::magnitude() const
-{
-	return (std::sqrt(cMath::pow(x, 2) + cMath::pow(y, 2)));
-}
-
-float vec2::sqrMagnitude() const
-{
-	return (cMath::pow(x, 2) + cMath::pow(y, 2));
-}
-
 vec2& vec2::normalise()
 {
 	float mag = magnitude();
@@ -115,9 +119,24 @@ vec2 vec2::getScaled(const float scale) const
 	return { x * scale, y * scale };
 }
 
+vec2 vec2::getPerpCW() const
+{
+	return {y, -x};
+}
+
+vec2 vec2::getPerpCCW() const
+{
+	return { -y, x };
+}
+
 vec2 vec2::operator*(const float rhs) const
 {
 	return {x * rhs, y * rhs};
+}
+
+vec2 vec2::operator/(const float rhs) const
+{
+	return { x / rhs, y / rhs };
 }
 
 vec2 operator*(const float lhs, const vec2 &rhs)
@@ -139,10 +158,6 @@ vec2& vec2::operator/=(const float rhs)
 	return *this;
 }
 
-float vec2::dot(const vec2 &rhs) const
-{
-	return (x * rhs.x + y * rhs.y);
-}
 
 vec2 moveTowards(const vec2 current, const vec2 target, float maxDelta)
 {

@@ -32,22 +32,8 @@ struct vec2
 	vec2();
 	vec2(float _x, float _y);
 
-	vec2 operator+(const vec2 &rhs) const;
-	vec2 operator-(const vec2 &rhs) const;
-
-	vec2& operator+=(const vec2 &rhs);
-	vec2& operator-=(const vec2 &rhs);
-
-	bool operator==(const vec2 &rhs) const;
-	bool operator!=(const vec2 &rhs) const;
-
-	vec2 operator-() const;
-
-	operator float *();
-	operator const float *() const;
-
 	float magnitude() const;
-	float sqrMagnitude() const;
+	float dot(const vec2 &rhs) const;
 
 	vec2 &normalise();
 	vec2 getNormalised() const;
@@ -57,15 +43,34 @@ struct vec2
 	vec2 getScaled(const vec2 &rhs) const;
 	vec2 getScaled(const float scale) const;
 
+	vec2 getPerpCW() const;
+	vec2 getPerpCCW() const;
+
+	float angleBetween(const vec2 &rhs) const;
+
+	vec2 operator+(const vec2 &rhs) const;
+	vec2 operator-(const vec2 &rhs) const;
 	vec2 operator*(const float rhs) const;
 	friend vec2 operator*(const float lhs, const vec2 &rhs);
+	vec2 operator/(const float rhs) const;
 
+	vec2& operator+=(const vec2 &rhs);
+	vec2& operator-=(const vec2 &rhs);
 	vec2 &operator*=(const float rhs);
 	vec2 &operator/=(const float rhs);
 
-	float dot(const vec2 &rhs) const;
+	bool operator==(const vec2 &rhs) const;
+	bool operator!=(const vec2 &rhs) const;
+
+	vec2 operator-() const;
+
+	operator float *();
+	operator const float *() const;
+
+	float sqrMagnitude() const;
 
 };
+vec2 operator*(const float lhs, const vec2 &rhs);
 
 vec2 moveTowards(const vec2 current, const vec2 target, float maxDelta);
 

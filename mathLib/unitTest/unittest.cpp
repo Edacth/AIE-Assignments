@@ -1,13 +1,4 @@
 #include "unittest.h"
-#include <iostream>
-#include <iomanip>
-#include "vec2.h"
-#include "vec3.h"
-#include "vec4.h"
-
-typedef vec2 Vector2;
-typedef vec3 Vector3;
-typedef vec4 Vector4;
 
 #ifndef NO_DEFAULT_STREAM_OPERATOR
 
@@ -21,6 +12,7 @@ typedef vec4 Vector4;
 		float* a = (float*)rhs;
 		os << std::setprecision(12) << a[0] << "," << std::setprecision(12) << a[1] << "," << std::setprecision(12) << a[2] << "," << std::setprecision(12) << a[3]; return os; }
 	
+	/* -Commented out until I implement Matricies- */
 	/*std::ostream& operator << (std::ostream& os, Matrix3& rhs) {
 		float* a = (float*)rhs;
 		for (int i = 0; i < 9; ++i) {
@@ -44,82 +36,116 @@ typedef vec4 Vector4;
 
 static const float DEFAULT_TOLERANCE = 0.00001f;
 
-bool compare(float a, float b, float tolerance = DEFAULT_TOLERANCE) {
-	if (abs(a - b) > tolerance)
-		return false;
-	return true;
+/* Compare funtions */
+	bool compare(const float a, const float b, float tolerance = DEFAULT_TOLERANCE) {
+		if (abs(a - b) > tolerance)
+			return false;
+		return true;
+	}
+
+	bool compare(const Vector2& A,const Vector2& B, float tolerance = DEFAULT_TOLERANCE) {
+		if (abs(A[0] - B[0]) > tolerance ||
+			abs(A[1] - B[1]) > tolerance)
+			return false;
+		return true;
+	}
+
+	bool compare(const Vector3& A,const Vector3& B, float tolerance = DEFAULT_TOLERANCE) {
+		if (abs(A[0] - B[0]) > tolerance ||
+			abs(A[1] - B[1]) > tolerance ||
+			abs(A[2] - B[2]) > tolerance)
+			return false;
+		return true;
+	}
+
+	bool compare(const Vector4& A, const Vector4& B, float tolerance = DEFAULT_TOLERANCE) {
+		if (abs(A[0] - B[0]) > tolerance ||
+			abs(A[1] - B[1]) > tolerance ||
+			abs(A[2] - B[2]) > tolerance ||
+			abs(A[3] - B[3]) > tolerance)
+			return false;
+		return true;
+	}
+
+	/* -Commented out until I implement Matricies- */
+	//bool compare( Matrix3& A,  Matrix3& B, float tolerance = DEFAULT_TOLERANCE) {
+	//	 float* a = ( float*)A;
+	//	 float* b = ( float*)B;
+	//	if (abs(a[0] - b[0]) > tolerance || abs(a[1] - b[1]) > tolerance || abs(a[2] - b[2]) > tolerance ||
+	//		abs(a[3] - b[3]) > tolerance || abs(a[4] - b[4]) > tolerance || abs(a[5] - b[5]) > tolerance ||
+	//		abs(a[6] - b[6]) > tolerance || abs(a[7] - b[7]) > tolerance || abs(a[8] - b[8]) > tolerance)
+	//		return false;
+	//	return true;
+	//}
+
+	//bool compare( Matrix4& A,  Matrix4& B, float tolerance = DEFAULT_TOLERANCE) {
+	//	 float* a = ( float*)A;
+	//	 float* b = ( float*)B;
+	//	if (abs(a[0] - b[0]) > tolerance || abs(a[1] - b[1]) > tolerance || abs(a[2] - b[2]) > tolerance || abs(a[3] - b[3]) > tolerance ||
+	//		abs(a[4] - b[4]) > tolerance || abs(a[5] - b[5]) > tolerance || abs(a[6] - b[6]) > tolerance || abs(a[7] - b[7]) > tolerance ||
+	//		abs(a[8] - b[8]) > tolerance || abs(a[9] - b[9]) > tolerance || abs(a[10] - b[10]) > tolerance || abs(a[11] - b[11]) > tolerance ||
+	//		abs(a[12] - b[12]) > tolerance || abs(a[13] - b[13]) > tolerance || abs(a[14] - b[14]) > tolerance || abs(a[15] - b[15]) > tolerance)
+	//		return false;
+	//	return true;
+	//}
+
+
+bool assert(const char * testName, const bool expression)
+{
+	if (expression)
+	{
+		std::cout << " [PASS] " << testName << std::endl;
+		return true;
+	}
+	std::cout << " [FAIL] " << testName << std::endl;
+	return false;
 }
-
-bool compare( Vector2& A,  Vector2& B, float tolerance = DEFAULT_TOLERANCE) {
-	 float* a = (float*)A;
-	 float* b = (float*)B;
-	if (abs(a[0] - b[0]) > tolerance || 
-		abs(a[1] - b[1]) > tolerance)
-		return false;
-	return true;
-}
-
-bool compare( Vector3& A,  Vector3& B, float tolerance = DEFAULT_TOLERANCE) {
-	 float* a = ( float*)A;
-	 float* b = ( float*)B;
-	if (abs(a[0] - b[0]) > tolerance || 
-		abs(a[1] - b[1]) > tolerance || 
-		abs(a[2] - b[2]) > tolerance)
-		return false;
-	return true;
-}
-
-bool compare( Vector4& A,  Vector4& B, float tolerance = DEFAULT_TOLERANCE) {
-	 float* a = ( float*)A;
-	 float* b = ( float*)B;
-	if (abs(a[0] - b[0]) > tolerance || 
-		abs(a[1] - b[1]) > tolerance || 
-		abs(a[2] - b[2]) > tolerance || 
-		abs(a[3] - b[3]) > tolerance)
-		return false;
-	return true;
-}
-
-//bool compare( Matrix3& A,  Matrix3& B, float tolerance = DEFAULT_TOLERANCE) {
-//	 float* a = ( float*)A;
-//	 float* b = ( float*)B;
-//	if (abs(a[0] - b[0]) > tolerance || abs(a[1] - b[1]) > tolerance || abs(a[2] - b[2]) > tolerance ||
-//		abs(a[3] - b[3]) > tolerance || abs(a[4] - b[4]) > tolerance || abs(a[5] - b[5]) > tolerance ||
-//		abs(a[6] - b[6]) > tolerance || abs(a[7] - b[7]) > tolerance || abs(a[8] - b[8]) > tolerance)
-//		return false;
-//	return true;
-//}
-
-//bool compare( Matrix4& A,  Matrix4& B, float tolerance = DEFAULT_TOLERANCE) {
-//	 float* a = ( float*)A;
-//	 float* b = ( float*)B;
-//	if (abs(a[0] - b[0]) > tolerance || abs(a[1] - b[1]) > tolerance || abs(a[2] - b[2]) > tolerance || abs(a[3] - b[3]) > tolerance ||
-//		abs(a[4] - b[4]) > tolerance || abs(a[5] - b[5]) > tolerance || abs(a[6] - b[6]) > tolerance || abs(a[7] - b[7]) > tolerance ||
-//		abs(a[8] - b[8]) > tolerance || abs(a[9] - b[9]) > tolerance || abs(a[10] - b[10]) > tolerance || abs(a[11] - b[11]) > tolerance ||
-//		abs(a[12] - b[12]) > tolerance || abs(a[13] - b[13]) > tolerance || abs(a[14] - b[14]) > tolerance || abs(a[15] - b[15]) > tolerance)
-//		return false;
-//	return true;
-//}
 
 template <typename T>
-bool TestFunc(const char* msg, T& a, T& b) {
+bool assert(const char * testName, const T& expected, const T& actual)
+{
+	if (compare(expected, actual))
+	{
+		std::cout << " [PASS] " << testName << std::endl;
+		return true;
+	}
+	std::cout << " [FAIL] " << testName << std::endl;
+	return false;
+}
+//This is for comparing a float with a const float
+//template <typename T>
+//bool assert(const char * testName, T& expected, float actual)
+//{
+//	if (compare(expected, actual))
+//	{
+//		std::cout << " [PASS] " << testName << std::endl;
+//		return true;
+//	}
+//	std::cout << " [FAIL] " << testName << std::endl;
+//	return false;
+//}
+
+
+template <typename T>
+bool TestFunc(const char* msg, const T& a, const T& b) {
 	if (compare(a, b) == false) {
 		std::cout << "Test failed: " << msg << "\n\tA: (" << a << ")\n\t - does not match - \n\tB: (" << b << ")\n";
 		return false;
 	}
 	return true;
 }
-// needed for comparing a float variable with a const float
-template <typename T>
-bool TestFunc(const char* msg, T& a, float b) {
-	if (compare(a, b) == false) {
-		std::cout << "Test failed: " << msg << "\n\tA: (" << a << ")\n\t - does not match -\n\tB: (" << b << ")\n";
-		return false;
-	}
-	return true;
-}
+////needed for comparing a float variable with a const float
+//template <typename T>
+//bool TestFunc(const char* msg, T& a, float b) {
+//	if (compare(a, b) == false) {
+//		std::cout << "Test failed: " << msg << "\n\tA: (" << a << ")\n\t - does not match -\n\tB: (" << b << ")\n";
+//		return false;
+//	}
+//	return true;
+//}
 
-#define TEST(a, b, c) {if (TestFunc(a, b, c) == false) {return false;}}
+//#define TEST(a, b) {if (assert(a, b) == false) {return false;}}
+#define TEST(a, b, c) {if (assert(a, b, c) == false) {return false;}}
 
 bool runUnitTests() {
 
@@ -130,6 +156,9 @@ bool runUnitTests() {
 	v3c = v3a + v3b;
 	Vector4 v4a(13.5f, -48.23f, 862, 0), v4b(5, 3.99f, -12, 1), v4c;
 	v4c = v4a + v4b;
+
+	int int1 = 3 + 2;
+	TEST("TESTY TEST", int1, int(5));
 
 	TEST("Vector2 addition", v2c, Vector2(18.5f,-44.24f));
 	TEST("Vector3 addition", v3c, Vector3(18.5f,-44.24f,850));
