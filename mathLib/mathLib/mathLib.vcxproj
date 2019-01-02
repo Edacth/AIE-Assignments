@@ -115,6 +115,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="mat3.h" />
     <ClInclude Include="random.h" />
     <ClInclude Include="utils.h" />
     <ClInclude Include="vec2.h" />
@@ -122,6 +123,7 @@
     <ClInclude Include="vec4.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="mat3.cpp" />
     <ClCompile Include="random.cpp" />
     <ClCompile Include="utils.cpp" />
     <ClCompile Include="vec2.cpp" />
