@@ -1,5 +1,5 @@
 #include "raylib.h"
-#undef PI;
+//#undef PI;
 #include "random.h"
 #include "mat3.h"
 #include "vec2.h"
@@ -41,9 +41,18 @@ int main()
 	 6, 5, 4,
 	 3, 2, 1 };
 
-	mat3 matrix3 = matrix1.getTranspose();
+	mat3 matrix3 =
+	{ 1, 3, 0,
+	 1, 1, 0,
+	 0, 0, 1 };
 
-	matrix3.print();
+	vec3 vector1 = { 6, 0, 2 };
+
+	vec3 vector2 = matrix1 * vector1;
+	mat3::rotation(PI / 2).print();
+	//std::cout << vector2.x << " " << vector2.y << " " << vector2.z << std::endl;
+	//mat3::translation(3, 4).print();
+	(matrix3 * mat3::rotation(DEG2RAD * 90)).print();
 
 	return 0;
 }

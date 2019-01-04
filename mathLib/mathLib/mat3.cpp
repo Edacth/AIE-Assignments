@@ -40,12 +40,6 @@ mat3::mat3(float m1, float m2, float m3,
 	m[8] = m9;
 }
 
-/*Deconstructor*/
-mat3::~mat3()
-{
-
-}
-
 /* implicit operator to convert mat3 into a float array */
 mat3::operator float *()
 {
@@ -66,7 +60,7 @@ mat3 mat3::operator*(const mat3 &rhs) const
 	{
 		for (size_t column = 0; column < 3; column++)
 		{
-			product.mm[column][row] =
+			product.mm[row][column] =
 				(mm[column][0] * rhs.mm[0][row] + mm[column][1] * rhs.mm[1][row] + mm[column][2] * rhs.mm[2][row]);
 		}
 	}
@@ -175,14 +169,79 @@ mat3 mat3::getTranspose() const
 	  m[2], m[5], m[8]);
 }
 
+mat3 mat3::translation(float x, float y)
+{
+	return mat3(1, 0, 0, 0, 1, 0, x, y, 1);
+}
+
+mat3 mat3::translation(const vec2 & vec)
+{
+	return mat3(1, 0, 0, 0, 1, 0, vec.x, vec.y, 1);
+}
+
+mat3 mat3::rotation(float rot)
+{
+	return mat3{
+		cos(rot), sin(rot), 0,
+		-sin(rot), cos(rot), 0,
+		0, 0, 1
+	};
+}
+
+mat3 mat3::scale(float xScale, float yScale)
+{
+	return mat3{
+		xScale, 0, 0,
+		0, yScale, 0,
+		0, 0, 1
+	};
+}
+
+mat3 mat3::scale(const vec2 & vec)
+{
+	return mat3{
+		vec.x, 0, 0,
+		0, vec.y, 0,
+		0, 0, 1
+	};
+}
+
+vec3 mat3::operator*(const vec3 & rhs) const
+{
+	vec3 product;
+			product.x =
+				(mm[0][0] * rhs.x + mm[0][1] * rhs.y + mm[0][2] * rhs.z);
+			product.y =
+				(mm[1][0] * rhs.x + mm[1][1] * rhs.y + mm[1][2] * rhs.z);
+			product.z =
+				(mm[2][0] * rhs.x + mm[2][1] * rhs.y + mm[2][2] * rhs.z);
+	return product;
+}
+
+vec2 mat3::operator*(const vec2 & rhs) const
+{
+	vec2 product = { m1 * rhs.x + m4 * rhs.y, m2 * rhs.x + m5 * rhs.y };
+	return product;
+}
+
 /* Print funtion for debugging purposes */
 void mat3::print()
 {
+	mat3 tmm = this->getTranspose();
 	for (size_t i = 0; i < 3; i++)
 	{
 		for (size_t j = 0; j < 3; j++)
 		{
-			std::cout << mm[i][j] << " ";
+			std::cout << tmm[i][j] << " ";
+		}
+		std::cout << std::endl;
+	}
+
+	for (size_t i = 0; i < 3; i++)
+	{
+		for (size_t j = 0; j < 3; j++)
+		{
+			std::cout << "mm[" << i << "][" << j << "] = " << mm[i][j] << std::endl;
 		}
 		std::cout << std::endl;
 	}

@@ -1,5 +1,6 @@
 #pragma once
 #include "vec3.h"
+#include "vec2.h"
 
 struct mat3
 {
@@ -35,8 +36,6 @@ struct mat3
 	mat3(float m1, float m2, float m3,
 		float m4, float m5, float m6,
 		float m7, float m8, float m9);
-	/*Deconstructor*/
-	~mat3();
 
 	// implicit operator to convert mat3 into a float array
 	operator float *();
@@ -69,6 +68,22 @@ struct mat3
 	void transpose();
 	// returns a transposed copy of the matrix
 	mat3 getTranspose() const;
+
+	// returns a translation matrix with the given changes for each axis
+	static mat3 translation(float x, float y);
+	// returns a translation matrix with the given changes for each axis
+	static mat3 translation(const vec2 &vec);
+	// returns a rotation matrix with the given rotation
+	static mat3 rotation(float rot);
+	// returns a translation matrix with the given changes for each axis
+	static mat3 scale(float xScale, float yScale);
+	// returns a translation matrix with the given changes for each axis
+	static mat3 scale(const vec2 &vec);
+
+	// transforms a 3D vector by performing 3x3 x 3x1 matrix multiplication
+	vec3 operator*(const vec3 &rhs) const;
+	// convenience function for transforming a 2D vector
+	vec2 operator*(const vec2 &rhs) const;
 
 	void print();
 
