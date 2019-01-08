@@ -6,6 +6,8 @@
 #include "vec4.h"
 #include "iostream"
 #include "unittest.h"
+#include "raylibTest.h"
+
 #undef assert;
 
 static const float DEFAULT_TOLERANCE = 0.00001f;
@@ -17,6 +19,8 @@ int main()
 	typedef vec2 Vector2;
 	typedef vec3 Vector3;
 	typedef vec4 Vector4;
+
+	runRaylibTest();
 	/*
 	vec4 v4a= { 13.5f, -48.23f, 862, 0 };
 	vec4 v4b= { 5, 3.99f, -12, 1 };

@@ -21,9 +21,15 @@
     <ClCompile Include="unittest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="raylibTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="unittest.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="raylibTest.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
