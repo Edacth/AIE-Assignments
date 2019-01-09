@@ -13,7 +13,7 @@
 		os << std::setprecision(12) << a[0] << "," << std::setprecision(12) << a[1] << "," << std::setprecision(12) << a[2] << "," << std::setprecision(12) << a[3]; return os; }
 	
 	/* -Commented out until I implement Matricies- */
-	/*std::ostream& operator << (std::ostream& os, Matrix3& rhs) {
+	std::ostream& operator << (std::ostream& os, Matrix3& rhs) {
 		float* a = (float*)rhs;
 		for (int i = 0; i < 9; ++i) {
 			os << std::setprecision(12) << a[i];
@@ -22,7 +22,7 @@
 		}
 		return os;
 	}
-	std::ostream& operator << (std::ostream& os, Matrix4& rhs) {
+	/*std::ostream& operator << (std::ostream& os, Matrix4& rhs) {
 		float* a = (float*)rhs;
 		for (int i = 0; i < 16; ++i) {
 			os << std::setprecision(12) << a[i];
@@ -66,17 +66,16 @@ static const float DEFAULT_TOLERANCE = 0.00001f;
 			return false;
 		return true;
 	}
-
-	/* -Commented out until I implement Matricies- */
-	//bool compare( Matrix3& A,  Matrix3& B, float tolerance = DEFAULT_TOLERANCE) {
-	//	 float* a = ( float*)A;
-	//	 float* b = ( float*)B;
-	//	if (abs(a[0] - b[0]) > tolerance || abs(a[1] - b[1]) > tolerance || abs(a[2] - b[2]) > tolerance ||
-	//		abs(a[3] - b[3]) > tolerance || abs(a[4] - b[4]) > tolerance || abs(a[5] - b[5]) > tolerance ||
-	//		abs(a[6] - b[6]) > tolerance || abs(a[7] - b[7]) > tolerance || abs(a[8] - b[8]) > tolerance)
-	//		return false;
-	//	return true;
-	//}
+	
+	bool compare( const Matrix3& A, const Matrix3& B, float tolerance = DEFAULT_TOLERANCE) {
+		 //const float* a = ( float*)A;
+		 //float* b = ( float*)B;
+		if (abs(A.m[0] - B.m[0]) > tolerance || abs(A[1] - B[1]) > tolerance || abs(A[2] - B[2]) > tolerance ||
+			abs(A.m[3] - B.m[3]) > tolerance || abs(A.m[4] - B.m[4]) > tolerance || abs(A.m[5] - B.m[5]) > tolerance ||
+			abs(A.m[6] - B.m[6]) > tolerance || abs(A.m[7] - B.m[7]) > tolerance || abs(A.m[8] - B.m[8]) > tolerance)
+			return false;
+		return true;
+	}
 
 	//bool compare( Matrix4& A,  Matrix4& B, float tolerance = DEFAULT_TOLERANCE) {
 	//	 float* a = ( float*)A;
@@ -145,7 +144,7 @@ bool TestFunc(const char* msg, const T& a, const T& b) {
 //}
 
 //#define TEST(a, b) {if (assert(a, b) == false) {return false;}}
-#define TEST(a, b, c) {if (assert(a, b, c) == false) {return false;}}
+#define TEST(a, b, c) {if (assert(a, b, c) == false) {}}
 
 bool runUnitTests() {
 
@@ -318,62 +317,62 @@ bool runUnitTests() {
 	TEST("Vector3 normalise", v3a, Vector3(0.0156349f,-0.0558571f,0.998316f));
 	TEST("Vector4 normalise", v4a, Vector4(0.270935f,-0.0537745f,0.961094f,0));
 
-	//// matrix rotation
-	//Matrix3 m3a, m3b, m3c, m3d;
+	// matrix rotation
+	Matrix3 m3a, m3b, m3c, m3d;
 	//Matrix4 m4a, m4b, m4c, m4d;
-	//m3a.setRotateX(3.98f);
-	//m4a.setRotateX(4.5f);
-	//m3b.setRotateY(1.76f);
-	//m4b.setRotateY(-2.6f);
-	//m3c.setRotateZ(9.62f);
-	//m4c.setRotateZ(0.72f);
+	m3a.rotationX(3.98f);
+	//m4a.rotationX(4.5f);
+	m3b.rotationY(1.76f);
+	//m4b.rotationY(-2.6f);
+	m3c.rotationZ(9.62f);
+	//m4c.rotationZ(0.72f);
 
-	//TEST("Matrix3 set rotate", m3a, Matrix3(1,0,0,0,-0.668648f,-0.743579f,0,0.743579f,-0.668648f));
-	//TEST("Matrix3 set rotate", m3b, Matrix3(-0.188077f,0,-0.982154f,0,1,0,0.982154f,0,-0.188077f));
-	//TEST("Matrix3 set rotate", m3c, Matrix3(-0.981005f,-0.193984f,0,0.193984f,-0.981005f,0,0,0,1));
+	TEST("Matrix3 set rotate", m3a, Matrix3(1,0,0,0,-0.668648f,-0.743579f,0,0.743579f,-0.668648f));
+	TEST("Matrix3 set rotate", m3b, Matrix3(-0.188077f,0,-0.982154f,0,1,0,0.982154f,0,-0.188077f));
+	TEST("Matrix3 set rotate", m3c, Matrix3(-0.981005f,-0.193984f,0,0.193984f,-0.981005f,0,0,0,1));
 	//TEST("Matrix4 set rotate", m4a, Matrix4(1,0,0,0,0,-0.210796f,-0.97753f,0,0,0.97753f,-0.210796f,0,0,0,0,1));
 	//TEST("Matrix4 set rotate", m4b, Matrix4(-0.856889f,0,0.515501f,0,0,1,0,0,-0.515501f,0,-0.856889f,0,0,0,0,1));
 	//TEST("Matrix4 set rotate", m4c, Matrix4(0.751806f,0.659385f,0,0,-0.659385f,0.751806f,0,0,0,0,1,0,0,0,0,1));
 
-	//// vector transform
-	//v2a = Vector2(13.5f, -48.23f);
-	//v3a = Vector3(13.5f, -48.23f, 862);
-	//v3b = m3b * v3a;
-	//v3c = m3c * v3a;
+	// vector transform
+	v2a = Vector2(13.5f, -48.23f);
+	v3a = Vector3(13.5f, -48.23f, 862);
+	v3b = m3b * v3a;
+	v3c = m3c * v3a;
 	//v4a = Vector4(13.5f, -48.23f, 862, 0);
 	//v4b = m4b * v4a;
 	//v4c = m4c * v4a;
 
-	//TEST("Vector3 matrix transform", v3b, Vector3(844.077941895f, -48.2299995422f, -175.38130188f));
-	//TEST("Vector3 matrix transform", v3c, Vector3(-22.5994224548f, 44.6950683594f, 862));
+	TEST("Vector3 matrix transform", v3b, Vector3(844.077941895f, -48.2299995422f, -175.38130188f));
+	TEST("Vector3 matrix transform", v3c, Vector3(-22.5994224548f, 44.6950683594f, 862));
 	//TEST("Vector4 matrix transform", v4b, Vector4(-455.930236816f, -48.2299995422f, -731.678771973f, 0));
 	//TEST("Vector4 matrix transform", v4c, Vector4(41.951499939f, -27.3578968048f, 862, 0));
 
-	//// matrix multiply
-	//m3d = m3a * m3c;
+	// matrix multiply
+	m3d = m3a * m3c;
 	//m4d = m4c * m4b;
 
-	//TEST("Matrix3 multiply", m3d, Matrix3(-0.981004655361f, 0.129707172513f, 0.14424264431f, 0.193984255195f, 0.655946731567f, 0.729454636574f, 0, 0.743579149246f, -0.668647944927f));
+	TEST("Matrix3 multiply", m3d, Matrix3(-0.981004655361f, 0.129707172513f, 0.14424264431f, 0.193984255195f, 0.655946731567f, 0.729454636574f, 0, 0.743579149246f, -0.668647944927f));
 	//TEST("Matrix4 multiply", m4d, Matrix4(-0.644213855267f, -0.565019249916f, 0.515501439571f, 0, -0.659384667873f, 0.751805722713f, 0, 0, -0.387556940317f, -0.339913755655f, -0.856888711452f, 0, 0, 0, 0, 1));
 
-	//// homogeneous point translation
-	//m3b = Matrix3(1, 0, 0,
-	//			  0, 1, 0,
-	//			  0, 0, 1);
-	//m3b[2] = Vector3(55, 44, 1);
-	//m3c.setRotateZ(2.2f);
-	//m3c[2] = Vector3(55, 44, 1);
+	// homogeneous point translation
+	m3b = Matrix3(1, 0, 0,
+				  0, 1, 0,
+				  0, 0, 1);
+	m3b[2] = Vector3(55, 44, 1);
+	//m3c.rotationZ(2.2f);
+	m3c[2] = Vector3(55, 44, 1);
 	//m4b = Matrix4(1, 0, 0, 0,
 	//			  0, 1, 0, 0,
 	//			  0, 0, 1, 0,
 	//			  0, 0, 0, 1);
 	//m4b[3] = Vector4(55, 44, 99, 1);
-	//m4c.setRotateZ(2.2f);
+	//m4c.rotationZ(2.2f);
 	//m4c[3] = Vector4(55, 44, 99, 1);
 
-	//v3a = Vector3(13.5f, -48.23f, 1);
-	//v3b = m3b * v3a;
-	//v3c = m3c * v3a;
+	v3a = Vector3(13.5f, -48.23f, 1);
+	v3b = m3b * v3a;
+	v3c = m3c * v3a;
 	//v4a = Vector4(13.5f, -48.23f, -54, 1);
 	//v4b = m4b * v4a;
 	//v4c = m4c * v4a;
@@ -384,18 +383,18 @@ bool runUnitTests() {
 	//TEST("Vector4 matrix translation B", v4c, Vector4(86.0490112305f, 83.2981109619f, 45, 1));
 
 	//// homogeneous vector translation
-	//m3b = Matrix3(1, 0, 0,
-	//			  0, 1, 0,
-	//			  0, 0, 1);
-	//m3b[2] = Vector3(55, 44, 1);
-	//m3c.setRotateZ(2.2f);
+	m3b = Matrix3(1, 0, 0,
+				  0, 1, 0,
+				  0, 0, 1);
+	m3b[2] = Vector3(55, 44, 1);
+	//m3c.rotationZ(2.2f);
 	//m3c[2] = Vector3(55, 44, 1);
 	//m4b = Matrix4(1, 0, 0, 0,
 	//			  0, 1, 0, 0,
 	//			  0, 0, 1, 0,
 	//			  0, 0, 0, 1);
 	//m4b[3] = Vector4(55, 44, 99, 1);
-	//m4c.setRotateZ(2.2f);
+	//m4c.rotationZ(2.2f);
 	//m4c[3] = Vector4(55, 44, 99, 1);
 
 	//v3a = Vector3(13.5f, -48.23f, 0);

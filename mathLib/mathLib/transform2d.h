@@ -27,7 +27,7 @@ public:
 	void setForward(const vec2 &newFwd);
 
 	mat3 getTRSMatrix() const;
-
+	
 private:
 	mat3 trsMatrix;
 };

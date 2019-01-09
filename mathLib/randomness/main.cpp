@@ -45,14 +45,10 @@ int main()
 	{1, 0, 0,
 	 0, 1, 0,
 	 0, 0, 1 };
+	
+	mat3 m3a;
 
-	mat3 matrix4 = mat3::translation(10, 10);
-
-	vec2 vector1 = { 6, 2};
-
-
-	vec2 vector2 = (matrix4 * vector1);
-	std::cout << vector2.x << " " << vector2.y;
+	mat3::rotation(9.62f).print();
 	//mat3::rotation(PI / 2).print();
 	//std::cout << vector2.x << " " << vector2.y << " " << vector2.z << std::endl;
 	//mat3::translation(3, 4).print();

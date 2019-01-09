@@ -83,7 +83,7 @@ void transform2d::rotate(const float angle)
 	trsMatrix.yAxis.x = newRot.x;
 	trsMatrix.yAxis.y = newRot.y;*/
 	float newAngle = angle + transform2d::localRotation();
-	std::cout << "Prerotation: " << RAD2DEG * localRotation();
+	std::cout << "Prerotation: " << cMath::RAD_TO_DEG * localRotation();
 	
 	vec3 newRot = mat3::rotation(angle) * vec3(1, 1, 1);
 	trsMatrix.yAxis.x = newRot.x;

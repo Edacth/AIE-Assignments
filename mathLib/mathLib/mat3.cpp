@@ -46,6 +46,11 @@ mat3::operator float *()
 	return m;
 }
 
+mat3::operator const float *() const
+{
+	return m;
+}
+
 /* returns vec3 objects when accessing by subscript operator */
 vec3& mat3::operator[](const int index)
 {
@@ -168,12 +173,16 @@ void mat3::set(float * ptr)
 
 void mat3::transpose()
 {
+	/* Old bad method
 	swap(&mm[1][0], &mm[0][1]);
 	swap(&mm[2][0], &mm[0][2]);
 	swap(&mm[2][1], &mm[1][2]);
+	*/
+
+	set((float*)(this->getTranspose()));
 }
 
-mat3 mat3::getTranspose() const
+mat3 mat3::getTranspose() const 
 {
 	return mat3
 	( m[0], m[3], m[6],
@@ -193,6 +202,33 @@ mat3 mat3::translation(const vec2 & vec)
 }
 
 mat3 mat3::rotation(float rot)
+{
+	return mat3{
+		cos(rot), -sin(rot), 0,
+		sin(rot), cos(rot), 0,
+		0, 0, 1
+	};
+}
+
+mat3 mat3::rotationX(float rot)
+{
+	return mat3{
+		1, 0, 0,
+		0, cos(rot), -sin(rot),
+		0, sin(rot), cos(rot)
+	};
+}
+
+mat3 mat3::rotationY(float rot)
+{
+	return mat3{
+		cos(rot), 0, sin(rot),
+		0, 1, 0,
+		-sin(rot), 0, cos(rot)
+	};
+}
+
+mat3 mat3::rotationZ(float rot)
 {
 	return mat3{
 		cos(rot), -sin(rot), 0,

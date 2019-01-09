@@ -20,7 +20,7 @@ int runRaylibTest()
 	0, 1, 0,
 	10, 10, 1 );
 
-	std::cout << "Rotation: " << (RAD_TO_DEG * character.localRotation()) << std::endl;
+	std::cout << "Rotation: " << (cMath::RAD_TO_DEG * character.localRotation()) << std::endl;
 
 	//--------------------------------------------------------------------------------------
 

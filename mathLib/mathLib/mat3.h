@@ -39,6 +39,7 @@ struct mat3
 
 	// implicit operator to convert mat3 into a float array
 	operator float *();
+	operator const float *() const;
 
 	// returns vec3 objects when accessing by subscript operator
 	vec3 &operator[](const int index);
@@ -77,6 +78,11 @@ struct mat3
 	static mat3 translation(const vec2 &vec);
 	// returns a rotation matrix with the given rotation
 	static mat3 rotation(float rot);
+	//Funtions for the unittest
+	static mat3 rotationX(float rot);
+	static mat3 rotationY(float rot);
+	static mat3 rotationZ(float rot);
+
 	// returns a translation matrix with the given changes for each axis
 	static mat3 scale(float xScale, float yScale);
 	// returns a translation matrix with the given changes for each axis
