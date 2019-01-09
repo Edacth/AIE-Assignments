@@ -42,17 +42,22 @@ int main()
 	 3, 2, 1 };
 
 	mat3 matrix3 =
-	{ 1, 3, 0,
-	 1, 1, 0,
+	{1, 0, 0,
+	 0, 1, 0,
 	 0, 0, 1 };
 
-	vec3 vector1 = { 6, 0, 2 };
+	mat3 matrix4 = mat3::translation(10, 10);
 
-	vec3 vector2 = matrix1 * vector1;
-	mat3::rotation(PI / 2).print();
+	vec2 vector1 = { 6, 2};
+
+
+	vec2 vector2 = (matrix4 * vector1);
+	std::cout << vector2.x << " " << vector2.y;
+	//mat3::rotation(PI / 2).print();
 	//std::cout << vector2.x << " " << vector2.y << " " << vector2.z << std::endl;
 	//mat3::translation(3, 4).print();
-	(matrix3 * mat3::rotation(DEG2RAD * 90)).print();
+
+	//(matrix3 * mat3::rotation(DEG2RAD * 90)).print();
 
 	return 0;
 }

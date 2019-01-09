@@ -29,6 +29,6 @@ public:
 	mat3 getTRSMatrix() const;
 
 private:
-	mat3 trsMatrix = { 1,0,0,0,1,0,0,0,1 };
+	mat3 trsMatrix;
 };
 

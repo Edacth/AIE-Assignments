@@ -60,7 +60,7 @@ mat3 mat3::operator*(const mat3 &rhs) const
 	{
 		for (size_t column = 0; column < 3; column++)
 		{
-			product.mm[row][column] =
+			product.mm[column][row] =
 				(mm[column][0] * rhs.mm[0][row] + mm[column][1] * rhs.mm[1][row] + mm[column][2] * rhs.mm[2][row]);
 		}
 	}
@@ -87,6 +87,18 @@ mat3& mat3::operator*=(const mat3 &rhs)
 		}
 	}
 	return product;
+}
+
+void mat3::operator=(const mat3 & rhs)
+{
+	for (size_t row = 0; row < 3; row++)
+	{
+		for (size_t column = 0; column < 3; column++)
+		{
+			mm[column][row] = rhs.mm[column][row];
+		}
+	}
+	
 }
 
 /* returns true if the matrices are equal */
@@ -176,14 +188,15 @@ mat3 mat3::translation(float x, float y)
 
 mat3 mat3::translation(const vec2 & vec)
 {
-	return mat3(1, 0, 0, 0, 1, 0, vec.x, vec.y, 1);
+	mat3 temp(1, 0, vec.x, 0, 1, vec.y, 0, 0, 1);
+	return temp;
 }
 
 mat3 mat3::rotation(float rot)
 {
 	return mat3{
-		cos(rot), sin(rot), 0,
-		-sin(rot), cos(rot), 0,
+		cos(rot), -sin(rot), 0,
+		sin(rot), cos(rot), 0,
 		0, 0, 1
 	};
 }
@@ -220,13 +233,18 @@ vec3 mat3::operator*(const vec3 & rhs) const
 
 vec2 mat3::operator*(const vec2 & rhs) const
 {
-	vec2 product = { m1 * rhs.x + m4 * rhs.y, m2 * rhs.x + m5 * rhs.y };
+	vec2 product;
+	product.x =
+		(mm[0][0] * rhs.x + mm[1][0] * rhs.y + mm[2][0] * 1);
+	product.y =
+		(mm[0][1] * rhs.x + mm[1][1] * rhs.y + mm[2][1] * 1);
 	return product;
 }
 
 /* Print funtion for debugging purposes */
 void mat3::print()
 {
+	mm;
 	mat3 tmm = this->getTranspose();
 	for (size_t i = 0; i < 3; i++)
 	{

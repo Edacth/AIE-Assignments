@@ -48,6 +48,8 @@ struct mat3
 	// concatenates and assigns the result to the matrix
 	mat3 &operator*=(const mat3 &rhs);
 
+	void operator=(const mat3 &rhs);
+
 	// returns true if the matrices are equal
 	bool operator==(const mat3 &rhs) const;
 	// returns true if the matrices are inequal
