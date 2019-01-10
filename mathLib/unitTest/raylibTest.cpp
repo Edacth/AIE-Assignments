@@ -2,7 +2,7 @@
 #include "raylib.h"
 #include "vec2.h"
 #include "vec3.h"
-#include "transform2d.h"
+#include "raylibTest.h"
 #include <iostream>
 
 int runRaylibTest()
@@ -16,11 +16,9 @@ int runRaylibTest()
 
 	vec2 mousePos;
 	transform2d character(
-	100, 100, 0,
-	0, 1, 0,
-	10, 10, 1 );
+		{100, 100}, 0, {10, 10});
 
-	std::cout << "Rotation: " << (cMath::RAD_TO_DEG * character.localRotation()) << std::endl;
+	//std::cout << "Rotation: " << (cMath::RAD_TO_DEG * character.localRotation()) << std::endl;
 
 	//--------------------------------------------------------------------------------------
 
@@ -46,35 +44,43 @@ int runRaylibTest()
 		{
 			translationAxis.x += 1;
 		}
-		if (IsKeyPressed(KEY_RIGHT))
+		if (IsKeyDown(KEY_RIGHT))
 		{
-			character.rotate(1);
-			std::cout << "Rotation: " << (RAD2DEG * character.localRotation()) << std::endl;
+			character.rotate(cMath::DEG_TO_RAD * 1);
+			//std::cout << "Rotation: " << (RAD2DEG * character.localRotation()) << std::endl;
 		}
-		if (IsKeyPressed(KEY_LEFT))
+		if (IsKeyDown(KEY_LEFT))
 		{
-			character.rotate(-1);
-			std::cout << "Rotation: " << (RAD2DEG * character.localRotation()) << std::endl;
+			character.rotate(cMath::DEG_TO_RAD * -1);
+			//std::cout << "Rotation: " << (RAD2DEG * character.localRotation()) << std::endl;
+		}
+		if (IsMouseButtonDown(MOUSE_LEFT_BUTTON))
+		{
+			character.lookAt(GetMousePosition());
 		}
 		if (translationAxis != vec2{0, 0})
 		{
 			character.translate(translationAxis);
 		}
-		//DrawLineV(character.localPosition(), (character.localPosition() + vec2(10, 10)), BLUE);
+		//DrawLineV(character.getLocalPosition(), (character.getLocalPosition() + vec2(10, 10)), BLUE);
 		
 		// Draw
 		//----------------------------------------------------------------------------------
 		BeginDrawing();
 		ClearBackground(RAYWHITE);
-		//DrawText(("Score " + (std::to_string(character.getTRSMatrix().m3))).c_str(), 100, 100, 20, BLACK);
 		
+		vec2 charPos = character.getLocalPosition();
+		float charRot = character.getLocalRotation();
+		vec2 charScale = character.getLocalScale();
+
+		DrawText(("Rotation: " + (std::to_string(charRot))).c_str(), 10, 10, 20, BLACK);
+
+		DrawCircleV(vec2(charPos.x +charScale.x, charPos.y +charScale.y), 3, RED);
+		DrawCircleV(vec2(charPos.x +charScale.x, charPos.y -charScale.y), 3, RED);
+		DrawCircleV(vec2(charPos.x -charScale.x, charPos.y -charScale.y), 3, RED);
+		DrawCircleV(vec2(charPos.x -charScale.x, charPos.y +charScale.y), 3, RED);
 		
-		DrawCircleV(vec2(character.localPosition().x + character.localScale().x, character.localPosition().y + character.localScale().y), 3, RED);
-		DrawCircleV(vec2(character.localPosition().x + character.localScale().x, character.localPosition().y - character.localScale().y), 3, RED);
-		DrawCircleV(vec2(character.localPosition().x - character.localScale().x, character.localPosition().y - character.localScale().y), 3, RED);
-		DrawCircleV(vec2(character.localPosition().x - character.localScale().x, character.localPosition().y + character.localScale().y), 3, RED);
-		
-		DrawCircleV(vec2(character.localPosition().x + character.getTRSMatrix().mm[1][0] * 20, character.localPosition().y + character.getTRSMatrix().mm[1][1] * 20), 3, BLUE);
+		DrawCircleV(charPos + character.getRight() * 20, 3, BLUE);
 		
 		EndDrawing();
 		//----------------------------------------------------------------------------------

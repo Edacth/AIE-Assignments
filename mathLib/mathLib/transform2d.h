@@ -7,13 +7,11 @@ struct transform2d
 public:
 	transform2d();
 	transform2d(float *ptr);
-	transform2d(float m1, float m2, float m3,
-		float m4, float m5, float m6,
-		float m7, float m8, float m9);
+	transform2d(vec2 _localPos, float _localRot, vec2 _localScale);
 
-	vec2 localPosition() const;
-	float localRotation() const;
-	vec2 localScale() const;
+	vec2 getLocalPosition() const;
+	float getLocalRotation() const;
+	vec2 getLocalScale() const;
 
 	void setLocalPosition(const vec2 & newPos);
 	void setLocalRotation(const float & newRot);
@@ -23,12 +21,15 @@ public:
 	void rotate(const float angle);
 
 	void lookAt(const transform2d &target);
-	vec2 forward() const;
-	void setForward(const vec2 &newFwd);
+	void lookAt(const vec2 &target);
+	vec2 getForward() const;
+	vec2 getRight();
 
 	mat3 getTRSMatrix() const;
 	
 private:
-	mat3 trsMatrix;
+	vec2 localPos;
+	float localRot;
+	vec2 localScale;
 };
 

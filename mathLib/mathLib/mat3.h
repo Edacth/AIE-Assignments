@@ -78,10 +78,6 @@ struct mat3
 	static mat3 translation(const vec2 &vec);
 	// returns a rotation matrix with the given rotation
 	static mat3 rotation(float rot);
-	//Funtions for the unittest
-	static mat3 rotationX(float rot);
-	static mat3 rotationY(float rot);
-	static mat3 rotationZ(float rot);
 
 	// returns a translation matrix with the given changes for each axis
 	static mat3 scale(float xScale, float yScale);

@@ -210,33 +210,6 @@ mat3 mat3::rotation(float rot)
 	};
 }
 
-mat3 mat3::rotationX(float rot)
-{
-	return mat3{
-		1, 0, 0,
-		0, cos(rot), -sin(rot),
-		0, sin(rot), cos(rot)
-	};
-}
-
-mat3 mat3::rotationY(float rot)
-{
-	return mat3{
-		cos(rot), 0, sin(rot),
-		0, 1, 0,
-		-sin(rot), 0, cos(rot)
-	};
-}
-
-mat3 mat3::rotationZ(float rot)
-{
-	return mat3{
-		cos(rot), -sin(rot), 0,
-		sin(rot), cos(rot), 0,
-		0, 0, 1
-	};
-}
-
 mat3 mat3::scale(float xScale, float yScale)
 {
 	return mat3{
