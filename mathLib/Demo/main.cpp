@@ -33,39 +33,7 @@ int main()
 	{
 		// Update
 		//----------------------------------------------------------------------------------
-		vec2 translationAxis = { 0, 0 };
-		if (IsKeyDown(KEY_W))
-		{
-			translationAxis.y += -1;
-		}
-		if (IsKeyDown(KEY_S))
-		{
-			translationAxis.y += 1;
-		}
-		if (IsKeyDown(KEY_A))
-		{
-			translationAxis.x += -1;
-		}
-		if (IsKeyDown(KEY_D))
-		{
-			translationAxis.x += 1;
-		}
-		if (IsKeyDown(KEY_RIGHT))
-		{
-			character.transform.rotate(cMath::DEG_TO_RAD * 1);
-		}
-		if (IsKeyDown(KEY_LEFT))
-		{
-			character.transform.rotate(cMath::DEG_TO_RAD * -1);
-		}
-		if (IsMouseButtonDown(MOUSE_LEFT_BUTTON))
-		{
-			character.transform.lookAt(GetMousePosition());
-		}
-		if (translationAxis != vec2{ 0, 0 })
-		{
-			character.transform.translate(translationAxis);
-		}
+		character.update();
 
 
 		vec2 charPos = character.transform.getLocalPosition();
