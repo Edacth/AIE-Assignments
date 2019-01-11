@@ -20,7 +20,7 @@ int main()
 	typedef vec3 Vector3;
 	typedef vec4 Vector4;
 
-	runRaylibTest();
+	//runRaylibTest();
 	/*
 	vec4 v4a= { 13.5f, -48.23f, 862, 0 };
 	vec4 v4b= { 5, 3.99f, -12, 1 };

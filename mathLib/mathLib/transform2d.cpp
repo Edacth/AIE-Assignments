@@ -7,12 +7,14 @@ transform2d::transform2d()
 	localPos = { 0, 0 };
 	localRot = 0;
 	localScale = { 0 , 0 };
+	parent = nullptr;
 }
 
 transform2d::transform2d(float * ptr)
 {
 	localPos = {ptr[0], ptr[1]};
 	localScale = { ptr[6], ptr[7] };
+	parent = nullptr;
 }
 
 transform2d::transform2d(vec2 _localPos, float _localRot, vec2 _localScale)
@@ -20,6 +22,7 @@ transform2d::transform2d(vec2 _localPos, float _localRot, vec2 _localScale)
 	localPos = _localPos;
 	localRot = _localRot;
 	localScale = _localScale;
+	parent = nullptr;
 }
 
 vec2 transform2d::getLocalPosition() const
@@ -133,6 +136,17 @@ vec2 transform2d::worldPosition() const //TODO Expand this funtion to go deeper 
 	return localPos;
 }
 
+vec2 transform2d::worldScale() const
+{
+	if (parent != nullptr) //If you have a parent
+	{
+		mat3 concat = getTSMatrix() * parent->getTSMatrix();
+		return vec2(concat.m1, concat.m5);
+	}
+
+	return localScale;
+}
+
 void transform2d::setParent(transform2d * _parent)
 {
 	parent = _parent;
@@ -147,6 +161,16 @@ transform2d * transform2d::getParent()
 transform2d const * transform2d::getParent() const
 {
 	return parent;
+}
+
+transform2d * transform2d::getChildren()
+{
+	return children[0];
+}
+
+transform2d * const * transform2d::getChildren() const
+{
+	return &children[0];
 }
 
 

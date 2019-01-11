@@ -149,11 +149,11 @@ bool TestFunc(const char* msg, const T& a, const T& b) {
 bool runUnitTests() {
 
 	// vector addition
-	Vector2 v2a(13.5f, -48.23f), v2b(5, 3.99f), v2c;
+	Vector2 v2a(13.5f, -48.23f), v2b(5, 3.99f), v2c, v2d;
 	v2c = v2a + v2b;
-	Vector3 v3a(13.5f, -48.23f, 862), v3b(5, 3.99f, -12), v3c;
+	Vector3 v3a(13.5f, -48.23f, 862), v3b(5, 3.99f, -12), v3c, v3d;
 	v3c = v3a + v3b;
-	Vector4 v4a(13.5f, -48.23f, 862, 0), v4b(5, 3.99f, -12, 1), v4c;
+	Vector4 v4a(13.5f, -48.23f, 862, 0), v4b(5, 3.99f, -12, 1), v4c, v4d;
 	v4c = v4a + v4b;
 
 	int int1 = 3 + 2;
@@ -337,17 +337,17 @@ bool runUnitTests() {
 		9, 10, 11, 12,
 		13, 14, 15, 16
 	};
-	m4a = {
+	m4b = {
 		16, 15, 14, 13,
 		12, 11, 10, 9,
-		9, 7, 6, 5,
+		8, 7, 6, 5,
 		4, 3, 2, 1
 	};
 	m3c = m3a * m3b;
 	m4c = m4a * m4b;
 
-	TEST("Matrix3 multiply", m3c, Matrix3(30, 24, 18, 84, 69, 54, 138, 114, 90));
-	TEST("Matrix4 multiply", m4c, Matrix4(-0.644213855267f, -0.565019249916f, 0.515501439571f, 0, -0.659384667873f, 0.751805722713f, 0, 0, -0.387556940317f, -0.339913755655f, -0.856888711452f, 0, 0, 0, 0, 1));
+	TEST("Matrix3 * Matrix3 multiply", m3c, Matrix3(30, 24, 18, 84, 69, 54, 138, 114, 90));
+	TEST("Matrix4 * Matrix4 multiply", m4c, Matrix4(80, 70, 60, 50, 240, 214, 188, 162, 400, 358, 316, 274, 560, 502, 444, 386));
 	}
 
 	// matrix * vector multiply
@@ -367,15 +367,16 @@ bool runUnitTests() {
 		v4a = Vector4(6, 4, 2, 1);
 		v2c = m3a * v2a;
 		v3c = m3a * v3a;
+		v3d = m4a * v3a;
 		v4c = m4a * v4a;
 		//v4a = Vector4(13.5f, -48.23f, 862, 0);
 		//v4b = m4b * v4a;
 		//v4c = m4c * v4a;
 
-		TEST("Vector2 matrix transform", v2c, Vector2(17, 50));
-		TEST("Vector3 matrix transform", v3c, Vector3(17, 50, 83));
-		//TEST("Vector4 matrix transform", v4c, Vector4(-455.930236816f, -48.2299995422f, -731.678771973f, 0));
-		//TEST("Vector4 matrix transform", v4c, Vector4(41.951499939f, -27.3578968048f, 862, 0));
+		TEST("Matrix3 * Vector2 matrix transform", v2c, Vector2(17, 50));
+		TEST("Matrix3 * Vector3 matrix transform", v3c, Vector3(17, 50, 83));
+		TEST("Matrix4 * Vector3 matrix transform", v3d, Vector3(197, 145, 93));
+		TEST("Matrix4 * Vector4 matrix transform", v4c, Vector4(197, 145, 93, 41));
 	}
 
 

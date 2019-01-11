@@ -5,15 +5,16 @@ tank::tank(vec2 _localPos, Texture2D _texture)
 	transform.setLocalPosition(_localPos);
 	transform.setLocalScale({ 1, 1 });
 	texture = _texture;
+	
 }
 
 void tank::draw()
 {
 	//DrawTextureEx(texture, transform.getLocalPosition(), transform.getLocalRotation(), 1, WHITE);
 	Rectangle sourceRect = { 0, 0, 38, 36 };
-	Rectangle destRect = { transform.getLocalPosition().x, transform.getLocalPosition().y, 36, 36 };
+	Rectangle destRect = { transform.worldPosition().x, transform.worldPosition().y, 36, 36 };
 
-	DrawTexturePro(texture, sourceRect, destRect, { 18, 18 }, transform.getLocalRotation() * cMath::RAD_TO_DEG, WHITE);
+	DrawTexturePro(texture, sourceRect, destRect, { 18, 18 }, transform.getLocalRotation() * cMath::RAD_TO_DEG - 90, WHITE);
 }
 
 void tank::update()
@@ -21,31 +22,21 @@ void tank::update()
 	vec2 translationAxis = { 0, 0 };
 	if (IsKeyDown(KEY_W))
 	{
-		translationAxis.y += -1;
+		translationAxis = transform.getForward();
 	}
 	if (IsKeyDown(KEY_S))
 	{
-		translationAxis.y += 1;
+		translationAxis = -transform.getForward();
 	}
 	if (IsKeyDown(KEY_A))
 	{
-		translationAxis.x += -1;
+		transform.rotate(cMath::DEG_TO_RAD * -2);
+		transform.getChildren()->rotate(cMath::DEG_TO_RAD * -2);
 	}
 	if (IsKeyDown(KEY_D))
 	{
-		translationAxis.x += 1;
-	}
-	if (IsKeyDown(KEY_RIGHT))
-	{
-		transform.rotate(cMath::DEG_TO_RAD * 1);
-	}
-	if (IsKeyDown(KEY_LEFT))
-	{
-		transform.rotate(cMath::DEG_TO_RAD * -1);
-	}
-	if (IsMouseButtonDown(MOUSE_LEFT_BUTTON))
-	{
-		transform.lookAt(GetMousePosition());
+		transform.rotate(cMath::DEG_TO_RAD * 2);
+		transform.getChildren()->rotate(cMath::DEG_TO_RAD * 2);
 	}
 	if (translationAxis != vec2{ 0, 0 })
 	{

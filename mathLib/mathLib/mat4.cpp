@@ -280,13 +280,13 @@ vec4 mat4::operator*(const vec4 & rhs) const
 {
 	vec4 product;
 	product.x =
-		(mm[0][0] * rhs.x + mm[0][1] * rhs.y + mm[0][2] * rhs.z);
+		(mm[0][0] * rhs.x + mm[0][1] * rhs.y + mm[0][2] * rhs.z + mm[0][3] * rhs.w);
 	product.y =
-		(mm[1][0] * rhs.x + mm[1][1] * rhs.y + mm[1][2] * rhs.z);
+		(mm[1][0] * rhs.x + mm[1][1] * rhs.y + mm[1][2] * rhs.z + mm[1][3] * rhs.w);
 	product.z =
-		(mm[2][0] * rhs.x + mm[2][1] * rhs.y + mm[2][2] * rhs.z);
+		(mm[2][0] * rhs.x + mm[2][1] * rhs.y + mm[2][2] * rhs.z + mm[2][3] * rhs.w);
 	product.w =
-		(mm[3][0] * rhs.x + mm[3][1] * rhs.y + mm[3][2] * rhs.z);
+		(mm[3][0] * rhs.x + mm[3][1] * rhs.y + mm[3][2] * rhs.z + mm[3][3] * rhs.w);
 	return product;
 }
 
@@ -294,10 +294,10 @@ vec3 mat4::operator*(const vec3 & rhs) const
 {
 	vec3 product;
 	product.x =
-		(mm[0][0] * rhs.x + mm[0][1] * rhs.y + mm[0][2] * 1);
+		(mm[0][0] * rhs.x + mm[0][1] * rhs.y + mm[0][2] * 1 + mm[0][3] * 1);
 	product.y =
-		(mm[1][0] * rhs.x + mm[1][1] * rhs.y + mm[1][2] * 1);
+		(mm[1][0] * rhs.x + mm[1][1] * rhs.y + mm[1][2] * 1 + mm[1][3] * 1);
 	product.z =
-		(mm[2][0] * rhs.x + mm[2][1] * rhs.y + mm[2][2] * 1);
+		(mm[2][0] * rhs.x + mm[2][1] * rhs.y + mm[2][2] * 1 + mm[2][3] * 1);
 	return product;
 }

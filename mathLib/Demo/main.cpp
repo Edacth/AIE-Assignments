@@ -4,6 +4,7 @@
 #include "vec3.h"
 #include "transform2d.h"
 #include "tank.h"
+#include "turret.h"
 #include <iostream>
 
 int main()
@@ -20,9 +21,8 @@ int main()
 		{ LoadTexture("resources//tankBody_green.png") },
 		{ LoadTexture("resources//tankGreen_barrel2_outline.png") } };
 	tank character({ 100, 100 }, tankTextures[0]);
-	transform2d turret(
-		{ 0, 0 }, 0, { 1, 1 });
-	turret.setParent(&(character.transform));
+	turret turret({ 0, 0 }, tankTextures[1]);
+	turret.transform.setParent(&(character.transform));
 
 	//std::cout << "Rotation: " << (cMath::RAD_TO_DEG * character.localRotation()) << std::endl;
 
@@ -34,13 +34,15 @@ int main()
 		// Update
 		//----------------------------------------------------------------------------------
 		character.update();
+		turret.update();
 
 
 		vec2 charPos = character.transform.getLocalPosition();
 		float charRot = character.transform.getLocalRotation();
 		vec2 charScale = character.transform.getLocalScale();
 
-		vec2 turretPos = turret.worldPosition();
+		vec2 tankPos = character.transform.worldPosition();
+		vec2 turretPos = turret.transform.worldPosition();
 		//DrawLineV(character.getLocalPosition(), (character.getLocalPosition() + vec2(10, 10)), BLUE);
 
 		// Draw
@@ -48,10 +50,11 @@ int main()
 		BeginDrawing();
 		ClearBackground(RAYWHITE);
 
-		DrawText(("Rotation: " + (std::to_string(charPos.x))).c_str(), 10, 10, 20, BLACK);
+		//DrawText(("Turret: " + (std::to_string(turret.transform.getLocalPosition().x))).c_str(), 10, 10, 20, BLACK);
 
 		character.draw();
-		DrawCircleV(turretPos, 3, GREEN);
+		turret.draw();
+		//DrawCircleV(turretPos, 3, RED);
 
 		//DrawCircleV(charPos + character.transform.getForward() * 20, 3, BLUE);
 
