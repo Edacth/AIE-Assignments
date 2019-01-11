@@ -1,5 +1,4 @@
 #include "transform2d.h"
-#include "utils.h"
 #include <iostream>
 
 
@@ -112,6 +111,42 @@ mat3 transform2d::getTRSMatrix() const
 	localPos.x, localPos.y, 0,
 	cos(localRot), sin(localRot), 0,
 	localScale.x, localScale.y, 0);
+}
+
+mat3 transform2d::getTSMatrix() const
+{
+	return mat3(
+	localScale.x, 0, localPos.x,
+	0, localScale.y, localPos.y,
+	0, 0 , 1);
+}
+
+vec2 transform2d::worldPosition() const //TODO Expand this funtion to go deeper than one parent check
+{
+	
+	if (parent != nullptr) //If you have a parent
+	{
+		mat3 concat = getTSMatrix() * parent->getTSMatrix();
+		return vec2(concat.m3, concat.m6);
+	}
+
+	return localPos;
+}
+
+void transform2d::setParent(transform2d * _parent)
+{
+	parent = _parent;
+	parent->children.push_back(this);
+}
+
+transform2d * transform2d::getParent()
+{
+	return parent;
+}
+
+transform2d const * transform2d::getParent() const
+{
+	return parent;
 }
 
 

@@ -77,16 +77,16 @@ static const float DEFAULT_TOLERANCE = 0.00001f;
 		return true;
 	}
 
-	//bool compare( Matrix4& A,  Matrix4& B, float tolerance = DEFAULT_TOLERANCE) {
-	//	 float* a = ( float*)A;
-	//	 float* b = ( float*)B;
-	//	if (abs(a[0] - b[0]) > tolerance || abs(a[1] - b[1]) > tolerance || abs(a[2] - b[2]) > tolerance || abs(a[3] - b[3]) > tolerance ||
-	//		abs(a[4] - b[4]) > tolerance || abs(a[5] - b[5]) > tolerance || abs(a[6] - b[6]) > tolerance || abs(a[7] - b[7]) > tolerance ||
-	//		abs(a[8] - b[8]) > tolerance || abs(a[9] - b[9]) > tolerance || abs(a[10] - b[10]) > tolerance || abs(a[11] - b[11]) > tolerance ||
-	//		abs(a[12] - b[12]) > tolerance || abs(a[13] - b[13]) > tolerance || abs(a[14] - b[14]) > tolerance || abs(a[15] - b[15]) > tolerance)
-	//		return false;
-	//	return true;
-	//}
+	bool compare( const Matrix4& A, const Matrix4& B, float tolerance = DEFAULT_TOLERANCE) {
+		 //float* a = ( float*)A;
+		 //float* b = ( float*)B;
+		if (abs(A.m[0] - B.m[0]) > tolerance || abs(A.m[1] - B.m[1]) > tolerance || abs(A.m[2] - B.m[2]) > tolerance || abs(A.m[3] - B.m[3]) > tolerance ||
+			abs(A.m[4] - B.m[4]) > tolerance || abs(A.m[5] - B.m[5]) > tolerance || abs(A.m[6] - B.m[6]) > tolerance || abs(A.m[7] - B.m[7]) > tolerance ||
+			abs(A.m[8] - B.m[8]) > tolerance || abs(A.m[9] - B.m[9]) > tolerance || abs(A.m[10] - B.m[10]) > tolerance || abs(A.m[11] - B.m[11]) > tolerance ||
+			abs(A.m[12] - B.m[12]) > tolerance || abs(A.m[13] - B.m[13]) > tolerance || abs(A.m[14] - B.m[14]) > tolerance || abs(A.m[15] - B.m[15]) > tolerance)
+			return false;
+		return true;
+	}
 
 
 bool assert(const char * testName, const bool expression)
@@ -159,9 +159,9 @@ bool runUnitTests() {
 	int int1 = 3 + 2;
 	TEST("TESTY TEST", int1, int(5));
 
-	TEST("Vector2 addition", v2c, Vector2(18.5f,-44.24f));
-	TEST("Vector3 addition", v3c, Vector3(18.5f,-44.24f,850));
-	TEST("Vector4 addition", v4c, Vector4(18.5f,-44.24f,850,1));
+	TEST("Vector2 addition", v2c, Vector2(18.5f, -44.24f));
+	TEST("Vector3 addition", v3c, Vector3(18.5f, -44.24f, 850));
+	TEST("Vector4 addition", v4c, Vector4(18.5f, -44.24f, 850, 1));
 
 	// vector subtraction
 	v2a = Vector2(13.5f, -48.23f); v2b = Vector2(5, 3.99f);
@@ -171,9 +171,9 @@ bool runUnitTests() {
 	v4a = Vector4(13.5f, -48.23f, 862, 0); v4b = Vector4(5, 3.99f, -12, 1);
 	v4c = v4a - v4b;
 
-	TEST("Vector2 subtraction", v2c, Vector2(8.5f,-52.22f));
-	TEST("Vector3 subtraction", v3c, Vector3(8.5f,-52.22f,874));
-	TEST("Vector4 subtraction", v4c, Vector4(8.5f,-52.22f,874,-1));
+	TEST("Vector2 subtraction", v2c, Vector2(8.5f, -52.22f));
+	TEST("Vector3 subtraction", v3c, Vector3(8.5f, -52.22f, 874));
+	TEST("Vector4 subtraction", v4c, Vector4(8.5f, -52.22f, 874, -1));
 
 	// vector += 
 	v2a = Vector2(13.5f, -48.23f); v2b = Vector2(5, 3.99f);
@@ -271,7 +271,7 @@ bool runUnitTests() {
 	TEST("Vector3 *=", v3a, Vector3(3.45600008965f, -12.3468809128f, 220.672012329f));
 	TEST("Vector4 *=", v4a, Vector4(66.0149993896f, -235.844696045f, 4215.1796875f, 0));
 
-	
+
 	// vector dot product
 	v2a = Vector2(13.5f, -48.23f); v2b = Vector2(5, 3.99f);
 	float dot2 = v2a.dot(v2b);
@@ -292,7 +292,7 @@ bool runUnitTests() {
 
 	TEST("Vector3 cross", v3c, Vector3(-2860.62011719f, 4472.00000000f, 295.01498413f));
 	TEST("Vector4 cross", v4c, Vector4(-2860.62011719f, 4472.00000000f, 295.01498413f, 0));
-	
+
 	// vector magnitude
 	v2a = Vector2(13.5f, -48.23f);
 	float mag2 = v2a.magnitude();
@@ -313,13 +313,72 @@ bool runUnitTests() {
 	v4a = Vector4(243, -48.23f, 862, 0);
 	v4a.normalise();
 
-	TEST("Vector2 normalise", v2a, Vector2(-0.269548f,-0.962987f));
-	TEST("Vector3 normalise", v3a, Vector3(0.0156349f,-0.0558571f,0.998316f));
-	TEST("Vector4 normalise", v4a, Vector4(0.270935f,-0.0537745f,0.961094f,0));
+	TEST("Vector2 normalise", v2a, Vector2(-0.269548f, -0.962987f));
+	TEST("Vector3 normalise", v3a, Vector3(0.0156349f, -0.0558571f, 0.998316f));
+	TEST("Vector4 normalise", v4a, Vector4(0.270935f, -0.0537745f, 0.961094f, 0));
 
-	// matrix rotation
+
 	Matrix3 m3a, m3b, m3c, m3d;
-	//Matrix4 m4a, m4b, m4c, m4d;
+	Matrix4 m4a, m4b, m4c, m4d;
+
+	// matrix * matrix multiply
+	{
+	m3a = {
+		1, 2, 3,
+		4, 5, 6,
+		7, 8, 9 };
+	m3b = {
+		9, 8, 7,
+		6, 5, 4,
+		3, 2, 1 };
+	m4a = {
+		1, 2, 3, 4,
+		5, 6, 7, 8,
+		9, 10, 11, 12,
+		13, 14, 15, 16
+	};
+	m4a = {
+		16, 15, 14, 13,
+		12, 11, 10, 9,
+		9, 7, 6, 5,
+		4, 3, 2, 1
+	};
+	m3c = m3a * m3b;
+	m4c = m4a * m4b;
+
+	TEST("Matrix3 multiply", m3c, Matrix3(30, 24, 18, 84, 69, 54, 138, 114, 90));
+	TEST("Matrix4 multiply", m4c, Matrix4(-0.644213855267f, -0.565019249916f, 0.515501439571f, 0, -0.659384667873f, 0.751805722713f, 0, 0, -0.387556940317f, -0.339913755655f, -0.856888711452f, 0, 0, 0, 0, 1));
+	}
+
+	// matrix * vector multiply
+	{
+		m3a = {
+			1, 2, 3,
+			4, 5, 6,
+			7, 8, 9 };
+		m4a = {
+			16, 15, 14, 13,
+			12, 11, 10, 9,
+			8, 7, 6, 5,
+			4, 3, 2, 1
+		};
+		v2a = Vector2(6, 4);
+		v3a = Vector3(6, 4, 1);
+		v4a = Vector4(6, 4, 2, 1);
+		v2c = m3a * v2a;
+		v3c = m3a * v3a;
+		v4c = m4a * v4a;
+		//v4a = Vector4(13.5f, -48.23f, 862, 0);
+		//v4b = m4b * v4a;
+		//v4c = m4c * v4a;
+
+		TEST("Vector2 matrix transform", v2c, Vector2(17, 50));
+		TEST("Vector3 matrix transform", v3c, Vector3(17, 50, 83));
+		//TEST("Vector4 matrix transform", v4c, Vector4(-455.930236816f, -48.2299995422f, -731.678771973f, 0));
+		//TEST("Vector4 matrix transform", v4c, Vector4(41.951499939f, -27.3578968048f, 862, 0));
+	}
+
+
 	//m3a.rotationX(3.98f);
 	//m4a.rotationX(4.5f);
 	//m3b.rotationY(1.76f);
@@ -334,34 +393,13 @@ bool runUnitTests() {
 	//TEST("Matrix4 set rotate", m4b, Matrix4(-0.856889f,0,0.515501f,0,0,1,0,0,-0.515501f,0,-0.856889f,0,0,0,0,1));
 	//TEST("Matrix4 set rotate", m4c, Matrix4(0.751806f,0.659385f,0,0,-0.659385f,0.751806f,0,0,0,0,1,0,0,0,0,1));
 
-	// vector transform
-	v2a = Vector2(13.5f, -48.23f);
-	v3a = Vector3(13.5f, -48.23f, 862);
-	v3b = m3b * v3a;
-	v3c = m3c * v3a;
-	//v4a = Vector4(13.5f, -48.23f, 862, 0);
-	//v4b = m4b * v4a;
-	//v4c = m4c * v4a;
-
-	TEST("Vector3 matrix transform", v3b, Vector3(844.077941895f, -48.2299995422f, -175.38130188f));
-	TEST("Vector3 matrix transform", v3c, Vector3(-22.5994224548f, 44.6950683594f, 862));
-	//TEST("Vector4 matrix transform", v4b, Vector4(-455.930236816f, -48.2299995422f, -731.678771973f, 0));
-	//TEST("Vector4 matrix transform", v4c, Vector4(41.951499939f, -27.3578968048f, 862, 0));
-
-	// matrix multiply
-	m3d = m3a * m3c;
-	//m4d = m4c * m4b;
-
-	TEST("Matrix3 multiply", m3d, Matrix3(-0.981004655361f, 0.129707172513f, 0.14424264431f, 0.193984255195f, 0.655946731567f, 0.729454636574f, 0, 0.743579149246f, -0.668647944927f));
-	//TEST("Matrix4 multiply", m4d, Matrix4(-0.644213855267f, -0.565019249916f, 0.515501439571f, 0, -0.659384667873f, 0.751805722713f, 0, 0, -0.387556940317f, -0.339913755655f, -0.856888711452f, 0, 0, 0, 0, 1));
+	
 
 	// homogeneous point translation
-	m3b = Matrix3(1, 0, 0,
+	m3a = Matrix3(1, 0, 0,
 				  0, 1, 0,
 				  0, 0, 1);
 	m3b[2] = Vector3(55, 44, 1);
-	//m3c.rotationZ(2.2f);
-	m3c[2] = Vector3(55, 44, 1);
 	//m4b = Matrix4(1, 0, 0, 0,
 	//			  0, 1, 0, 0,
 	//			  0, 0, 1, 0,
@@ -372,13 +410,11 @@ bool runUnitTests() {
 
 	v3a = Vector3(13.5f, -48.23f, 1);
 	v3b = m3b * v3a;
-	v3c = m3c * v3a;
 	//v4a = Vector4(13.5f, -48.23f, -54, 1);
 	//v4b = m4b * v4a;
 	//v4c = m4c * v4a;
 
-	//TEST("Vector3 matrix translation A", v3b, Vector3(68.5f, -4.23f, 1));
-	//TEST("Vector3 matrix translation B", v3c, Vector3(86.0490112305f, 83.2981109619f, 1));
+	TEST("Vector3 matrix translation A", v3b, Vector3(-257.339996f, -156.149994f, -1378.61987));
 	//TEST("Vector4 matrix translation A", v4b, Vector4(68.5f, -4.23f, 45, 1));
 	//TEST("Vector4 matrix translation B", v4c, Vector4(86.0490112305f, 83.2981109619f, 45, 1));
 
@@ -387,8 +423,7 @@ bool runUnitTests() {
 				  0, 1, 0,
 				  0, 0, 1);
 	m3b[2] = Vector3(55, 44, 1);
-	//m3c.rotationZ(2.2f);
-	//m3c[2] = Vector3(55, 44, 1);
+	m3c[2] = Vector3(55, 44, 1);
 	//m4b = Matrix4(1, 0, 0, 0,
 	//			  0, 1, 0, 0,
 	//			  0, 0, 1, 0,
@@ -397,15 +432,13 @@ bool runUnitTests() {
 	//m4c.rotationZ(2.2f);
 	//m4c[3] = Vector4(55, 44, 99, 1);
 
-	//v3a = Vector3(13.5f, -48.23f, 0);
-	//v3b = m3b * v3a;
-	//v3c = m3c * v3a;
+	v3a = Vector3(13.5f, -48.23f, 0);
+	v3b = m3b * v3a;
 	//v4a = Vector4(13.5f, -48.23f, -54, 0);
 	//v4b = m4b * v4a;
 	//v4c = m4c * v4a;
 
-	//TEST("Vector3 matrix translation C", v3b, Vector3(13.5f, -48.23f, 0));
-	//TEST("Vector3 matrix translation D", v3c, Vector3(31.0490131378f, 39.2981109619f, 0));
+	TEST("Vector3 matrix translation C", v3b, Vector3(13.5f, -48.2299995, -1379.61987));
 	//TEST("Vector4 matrix translation C", v4b, Vector4(13.5f, -48.23f, -54, 0));
 	//TEST("Vector4 matrix translation D", v4c, Vector4(31.0490131378f, 39.2981109619f, -54, 0));
 	

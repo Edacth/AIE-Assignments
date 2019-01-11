@@ -192,12 +192,18 @@ mat3 mat3::getTranspose() const
 
 mat3 mat3::translation(float x, float y)
 {
-	return mat3(1, 0, 0, 0, 1, 0, x, y, 1);
+	return mat3(
+			1, 0, x,
+			0, 1, y,
+			0, 0, 1);
 }
 
 mat3 mat3::translation(const vec2 & vec)
 {
-	mat3 temp(1, 0, vec.x, 0, 1, vec.y, 0, 0, 1);
+	mat3 temp(
+			1, 0, vec.x,
+			0, 1, vec.y,
+			0, 0, 1);
 	return temp;
 }
 
@@ -244,9 +250,9 @@ vec2 mat3::operator*(const vec2 & rhs) const
 {
 	vec2 product;
 	product.x =
-		(mm[0][0] * rhs.x + mm[1][0] * rhs.y + mm[2][0] * 1);
+		(mm[0][0] * rhs.x + mm[0][1] * rhs.y + mm[0][2] * 1);
 	product.y =
-		(mm[0][1] * rhs.x + mm[1][1] * rhs.y + mm[2][1] * 1);
+		(mm[1][0] * rhs.x + mm[1][1] * rhs.y + mm[1][2] * 1);
 	return product;
 }
 
