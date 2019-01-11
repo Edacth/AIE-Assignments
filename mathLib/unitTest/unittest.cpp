@@ -380,7 +380,28 @@ bool runUnitTests() {
 		TEST("Matrix4 * Vector4 matrix transform", v4c, Vector4(197, 145, 93, 41));
 	}
 
+	// identity matrix
+	m3a = mat3::identity();
+	m4a = mat4::identity();
 
+	TEST("Matrix3 identity", m3a, mat3(1, 0, 0, 0, 1, 0, 0, 0, 1));
+	TEST("Matrix4 identity", m4a, mat4(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1));
+
+
+	m3a = {
+		1, 2, 3,
+		4, 5, 6,
+		7, 8, 9 };
+	m4a = {
+		1, 2,  3,  4,
+		5, 6,  7,  8,
+		9, 10, 11, 12,
+		13, 14, 15, 16
+	};
+	m3a.transpose();
+	m4a.transpose();
+	TEST("Matrix3 transpose", m3a, mat3(1, 4, 7, 2, 5, 8, 3, 6, 9));
+	TEST("Matrix4 transpose", m4a, mat4(1, 5, 9, 13, 2, 6, 10, 14, 3, 7, 11, 15, 4, 8, 12, 16));
 	//m3a.rotationX(3.98f);
 	//m4a.rotationX(4.5f);
 	//m3b.rotationY(1.76f);

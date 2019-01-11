@@ -171,7 +171,7 @@ void mat3::transpose()
 	swap(&mm[2][1], &mm[1][2]);
 	*/
 
-	set((float*)(this->getTranspose()));
+	set((this->getTranspose()));
 }
 
 mat3 mat3::getTranspose() const 
