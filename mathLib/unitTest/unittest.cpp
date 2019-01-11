@@ -365,9 +365,10 @@ bool runUnitTests() {
 		v2a = Vector2(6, 4);
 		v3a = Vector3(6, 4, 1);
 		v4a = Vector4(6, 4, 2, 1);
+		v3b = Vector3(6, 4, 2);
 		v2c = m3a * v2a;
 		v3c = m3a * v3a;
-		v3d = m4a * v3a;
+		v3d = m4a * v3b;
 		v4c = m4a * v4a;
 		//v4a = Vector4(13.5f, -48.23f, 862, 0);
 		//v4b = m4b * v4a;
