@@ -1,5 +1,6 @@
 #pragma once
 #include "raylib.h"
+#undef PI
 #include "transform2d.h"
 #include "vec2.h"
 

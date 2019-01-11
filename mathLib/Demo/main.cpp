@@ -1,6 +1,5 @@
 #include "raylib.h"
 #undef PI
-#include "utils.h"
 #include "vec2.h"
 #include "vec3.h"
 #include "transform2d.h"
@@ -81,18 +80,12 @@ int main()
 		BeginDrawing();
 		ClearBackground(RAYWHITE);
 
+		DrawText(("Rotation: " + (std::to_string(charPos.x))).c_str(), 10, 10, 20, BLACK);
 
-
-		DrawText(("Rotation: " + (std::to_string(charRot))).c_str(), 10, 10, 20, BLACK);
-
-		DrawCircleV(vec2(charPos.x + charScale.x, charPos.y + charScale.y), 3, RED);
-		DrawCircleV(vec2(charPos.x + charScale.x, charPos.y - charScale.y), 3, RED);
-		DrawCircleV(vec2(charPos.x - charScale.x, charPos.y - charScale.y), 3, RED);
-		DrawCircleV(vec2(charPos.x - charScale.x, charPos.y + charScale.y), 3, RED);
-
-		DrawCircleV(charPos + character.transform.getForward() * 20, 3, BLUE);
-
+		character.draw();
 		DrawCircleV(turretPos, 3, GREEN);
+
+		//DrawCircleV(charPos + character.transform.getForward() * 20, 3, BLUE);
 
 		EndDrawing();
 		//----------------------------------------------------------------------------------
