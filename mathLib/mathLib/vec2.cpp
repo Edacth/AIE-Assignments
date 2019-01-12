@@ -131,7 +131,8 @@ vec2 vec2::getPerpCCW() const
 
 float vec2::angleBetween(const vec2 & rhs) const
 {
-	return 0.0f;
+
+	return -(atan2(x, y)) - -(atan2(rhs.x, rhs.y));
 }
 
 vec2 vec2::operator*(const float rhs) const

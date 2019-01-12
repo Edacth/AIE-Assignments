@@ -5,6 +5,8 @@
 #include "vec2.h"
 #include <string>
 #include <iostream>
+#undef PI
+#include "utils.h"
 
 int main()
 {
@@ -14,8 +16,10 @@ int main()
 	cMath::random randomizer1;
 	cMath::random randomizer2(seed2);
 	randomizer1.seedRand(seed1);
+	vec2 vec2a(1, 0);
+	vec2 vec2b(.7, .7);
 
-
+	std::cout << "Test rot" << cMath::RAD_TO_DEG * vec2a.angleBetween(vec2b) << std::endl;
 	/*cMath::seedRand(seed);
 	for (size_t i = 0; i < 100; i++)
 	{
@@ -46,9 +50,9 @@ int main()
 	 0, 1, 0,
 	 0, 0, 1 };
 	
-	mat3 m3a;
+	matrix1 *= matrix2;
 
-	mat3::rotation(9.62f).print();
+	mat3::rotation(1.76f).print();
 	//mat3::rotation(PI / 2).print();
 	//std::cout << vector2.x << " " << vector2.y << " " << vector2.z << std::endl;
 	//mat3::translation(3, 4).print();

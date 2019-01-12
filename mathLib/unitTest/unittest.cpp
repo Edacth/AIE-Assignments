@@ -402,6 +402,48 @@ bool runUnitTests() {
 	m4a.transpose();
 	TEST("Matrix3 transpose", m3a, mat3(1, 4, 7, 2, 5, 8, 3, 6, 9));
 	TEST("Matrix4 transpose", m4a, mat4(1, 5, 9, 13, 2, 6, 10, 14, 3, 7, 11, 15, 4, 8, 12, 16));
+	
+	// homogeneous point translation
+	m3a = Matrix3(1, 0, 0,
+				  0, 1, 0,
+				  0, 0, 1);
+	m3b[2] = Vector3(55, 44, 1);
+	m4b = Matrix4(1, 0, 0, 0,
+				  0, 1, 0, 0,
+				  0, 0, 1, 0,
+				  0, 0, 0, 1);
+	m4b[3] = Vector4(55, 44, 99, 1);
+
+	m4c[3] = Vector4(55, 44, 99, 1);
+
+	v3a = Vector3(13.5f, -48.23f, 1);
+	v3b = m3b * v3a;
+	v4a = Vector4(13.5f, -48.23f, -54, 1);
+	v4b = m4b * v4a;
+
+	TEST("Vector3 matrix translation A", v3b, Vector3(-257.339996f, -156.149994f, -1378.61987));
+	TEST("Vector4 matrix translation A", v4b, Vector4(68.5f, -4.23f, 45, 1));
+
+	//// homogeneous vector translation
+	m3b = Matrix3(1, 0, 0,
+				  0, 1, 0,
+				  0, 0, 1);
+	m3b[2] = Vector3(55, 44, 1);
+	m4b = Matrix4(1, 0, 0, 0,
+				  0, 1, 0, 0,
+				  0, 0, 1, 0,
+				  0, 0, 0, 1);
+	m4b[3] = Vector4(55, 44, 99, 1);
+
+
+	v3a = Vector3(13.5f, -48.23f, 0);
+	v3b = m3b * v3a;
+	v4a = Vector4(13.5f, -48.23f, -54, 0);
+	v4b = m4b * v4a;
+
+	TEST("Vector3 matrix translation C", v3b, Vector3(13.5f, -48.2299995, -1379.61987));
+	TEST("Vector4 matrix translation C", v4b, Vector4(13.5f, -48.23f, -54, 0));
+	
 	//m3a.rotationX(3.98f);
 	//m4a.rotationX(4.5f);
 	//m3b.rotationY(1.76f);
@@ -415,55 +457,5 @@ bool runUnitTests() {
 	//TEST("Matrix4 set rotate", m4a, Matrix4(1,0,0,0,0,-0.210796f,-0.97753f,0,0,0.97753f,-0.210796f,0,0,0,0,1));
 	//TEST("Matrix4 set rotate", m4b, Matrix4(-0.856889f,0,0.515501f,0,0,1,0,0,-0.515501f,0,-0.856889f,0,0,0,0,1));
 	//TEST("Matrix4 set rotate", m4c, Matrix4(0.751806f,0.659385f,0,0,-0.659385f,0.751806f,0,0,0,0,1,0,0,0,0,1));
-
-	
-
-	// homogeneous point translation
-	m3a = Matrix3(1, 0, 0,
-				  0, 1, 0,
-				  0, 0, 1);
-	m3b[2] = Vector3(55, 44, 1);
-	//m4b = Matrix4(1, 0, 0, 0,
-	//			  0, 1, 0, 0,
-	//			  0, 0, 1, 0,
-	//			  0, 0, 0, 1);
-	//m4b[3] = Vector4(55, 44, 99, 1);
-	//m4c.rotationZ(2.2f);
-	//m4c[3] = Vector4(55, 44, 99, 1);
-
-	v3a = Vector3(13.5f, -48.23f, 1);
-	v3b = m3b * v3a;
-	//v4a = Vector4(13.5f, -48.23f, -54, 1);
-	//v4b = m4b * v4a;
-	//v4c = m4c * v4a;
-
-	TEST("Vector3 matrix translation A", v3b, Vector3(-257.339996f, -156.149994f, -1378.61987));
-	//TEST("Vector4 matrix translation A", v4b, Vector4(68.5f, -4.23f, 45, 1));
-	//TEST("Vector4 matrix translation B", v4c, Vector4(86.0490112305f, 83.2981109619f, 45, 1));
-
-	//// homogeneous vector translation
-	m3b = Matrix3(1, 0, 0,
-				  0, 1, 0,
-				  0, 0, 1);
-	m3b[2] = Vector3(55, 44, 1);
-	m3c[2] = Vector3(55, 44, 1);
-	//m4b = Matrix4(1, 0, 0, 0,
-	//			  0, 1, 0, 0,
-	//			  0, 0, 1, 0,
-	//			  0, 0, 0, 1);
-	//m4b[3] = Vector4(55, 44, 99, 1);
-	//m4c.rotationZ(2.2f);
-	//m4c[3] = Vector4(55, 44, 99, 1);
-
-	v3a = Vector3(13.5f, -48.23f, 0);
-	v3b = m3b * v3a;
-	//v4a = Vector4(13.5f, -48.23f, -54, 0);
-	//v4b = m4b * v4a;
-	//v4c = m4c * v4a;
-
-	TEST("Vector3 matrix translation C", v3b, Vector3(13.5f, -48.2299995, -1379.61987));
-	//TEST("Vector4 matrix translation C", v4b, Vector4(13.5f, -48.23f, -54, 0));
-	//TEST("Vector4 matrix translation D", v4c, Vector4(31.0490131378f, 39.2981109619f, -54, 0));
-	
 	return true;
 }

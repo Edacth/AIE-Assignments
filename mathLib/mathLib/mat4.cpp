@@ -82,24 +82,11 @@ mat4 mat4::operator*(const mat4 &rhs) const
 
 mat4& mat4::operator*=(const mat4 &rhs)
 {
-	mat4 product;
-	for (size_t row = 0; row < 4; row++)
-	{
-		for (size_t column = 0; column < 4; column++)
-		{
-			product.mm[column][row] =
-				(mm[column][0] * rhs.mm[0][row] + mm[column][1] * rhs.mm[1][row] + mm[column][2] * rhs.mm[2][row] + mm[column][3] * rhs.mm[3][row]);
-		}
-	}
+	mat4 temp = *this * rhs;
 
-	for (size_t row = 0; row < 4; row++)
-	{
-		for (size_t column = 0; column < 4; column++)
-		{
-			mm[column][row] = product.mm[column][row];
-		}
-	}
-	return product;
+	set(temp);
+
+	return *this;
 }
 
 void mat4::operator=(const mat4 & rhs)

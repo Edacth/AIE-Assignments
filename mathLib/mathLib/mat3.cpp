@@ -74,16 +74,11 @@ mat3 mat3::operator*(const mat3 &rhs) const
 
 mat3& mat3::operator*=(const mat3 &rhs)
 {
-	mat3 product = *this * rhs;
-	
-	for (size_t row = 0; row < 3; row++)
-	{
-		for (size_t column = 0; column < 3; column++)
-		{
-			mm[column][row] = product.mm[column][row];
-		}
-	}
-	return product;
+	mat3 temp = *this * rhs;
+
+	set(temp);
+
+	return *this;
 }
 
 void mat3::operator=(const mat3 & rhs)
