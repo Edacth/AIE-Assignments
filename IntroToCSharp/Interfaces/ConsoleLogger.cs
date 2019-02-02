@@ -8,6 +8,11 @@ namespace Interfaces
 {
     class ConsoleLogger : ILogger
     {
+        public ConsoleLogger(int _SeverityMin)
+        {
+
+        }
+
         public int SeverityMin { get; private set; }
 
         public void Log(string message, int severity)
