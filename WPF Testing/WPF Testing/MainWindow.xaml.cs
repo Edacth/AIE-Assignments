@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Microsoft.Win32
+using Microsoft.Win32;
 
 
 namespace WPF_Testing
@@ -30,12 +30,17 @@ namespace WPF_Testing
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-           OpenFileDialoge()
-
+            //OpenFileDialoge()
+            OpenFileDialog();
 
         }
 
         private void pg2_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
         {
 
         }
