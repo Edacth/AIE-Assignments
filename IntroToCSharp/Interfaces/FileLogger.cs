@@ -14,7 +14,7 @@ namespace Interfaces
 
         public void Log(string message, int severity)
         {
-            FS.Write()
+            //FS.Write()
         }
 
         public void Assert(bool condition, string message, int severity)
