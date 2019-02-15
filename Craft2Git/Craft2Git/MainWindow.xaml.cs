@@ -20,12 +20,28 @@ namespace Craft2Git
     /// Interaction logic for MainWindow.xaml
     /// </summary>
     /// 
-    public class MyData : ObservableCollection<string>
+    public class addonEntry
     {
-        public MyData()
+        private string name;
+        private string filePath;
+
+        public string Name { get => name; set => name = value; }
+        public string FilePath { get => filePath; set => filePath = value; }
+
+        public addonEntry(string _name, string _filePath)
         {
-            Add("Item 1");
-            Add("Item 2");
+            name = _name;
+            filePath = _filePath;
+        }
+    }
+
+    public class addonList : ObservableCollection<addonEntry>
+    {
+        public addonList()
+        {
+            addonEntry entry1 = new addonEntry("Arena", "C://");
+            Add(entry1);
+            Add(new addonEntry("Battle", "C://"));
             
         }
     }
@@ -35,7 +51,7 @@ namespace Craft2Git
         public MainWindow()
         {
             InitializeComponent();
-            MyData listData = new MyData();
+            addonList listData = new addonList();
             Binding binding1 = new Binding();
 
             binding1.Source = listData;
@@ -45,6 +61,7 @@ namespace Craft2Git
         private void OnClickLeft(object sender, RoutedEventArgs e)
         {
             ////list_left.Items.
+            //txtbox_left.Text = list_left.Items[0];
         }
     }
 }

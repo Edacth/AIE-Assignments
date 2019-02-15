@@ -6,6 +6,10 @@
         xmlns:local="clr-namespace:Craft2Git"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
+    <Window.Resources>
+        
+    </Window.Resources>
+    
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition></ColumnDefinition>
@@ -32,6 +36,6 @@
 
             <TextBlock>String in a TextBlock</TextBlock>
         </ListBox>
-        <TextBox HorizontalAlignment="Left" Height="23" Margin="10,382,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="190"/>
+        <TextBox x:Name="txtbox_left" HorizontalAlignment="Left" Height="23" Margin="10,382,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="190"/>
     </Grid>
 </Window>
