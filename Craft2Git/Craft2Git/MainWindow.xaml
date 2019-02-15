@@ -7,35 +7,47 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Window.Resources>
-        
+        <DataTemplate x:Key="addonEntry" >
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <Image Source="{Binding Path=iconPath}" Grid.Column="0" Height="50" Margin="1.5"/>
+                <TextBlock Text="{Binding Path=header.name}" Grid.Column="1"  VerticalAlignment="Top" Margin="10,10,0,0" FontSize="15"/>
+                <TextBlock Text="{Binding Path=header.description}" Grid.Column="1" VerticalAlignment="Top" Margin="10,25,0,0"/>
+            </Grid>
+
+            <!--<StackPanel.Resources>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="Margin" Value="20"/>
+                    </Style>
+                    <Style TargetType="Image">
+                        <Setter Property="Height" Value="50"/>
+                    </Style>
+                </StackPanel.Resources>
+                -->
+
+        </DataTemplate>
     </Window.Resources>
-    
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
-        <Button Content="Left" Grid.Column="0" Margin="10,0,0,49" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="75" Click="OnClickLeft"/>
         <Button Content="Right" Grid.Column="1" Margin="0,0,10,44" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="75"/>
 
-        <ListBox x:Name="list_left" Margin="10,10,112,206" />
-        <ListBox xmlns:sys="clr-namespace:System;assembly=mscorlib"
-         Name="simpleListBox" Grid.Column="1" Margin="27,25,129,169">
-
-            <!-- The <ListBox.Items> element is implicitly used.-->
-            This is a string in a ListBox
-
-            <sys:DateTime>2004/3/4 13:6:55</sys:DateTime>
-
-            <Rectangle Height="40" Width="40"  Fill="Blue"/>
-
-            <StackPanel Name="itemToSelect">
-                <Ellipse Height="40" Fill="Blue"/>
-                <TextBlock>Text below an Ellipse</TextBlock>
-            </StackPanel>
-
-            <TextBlock>String in a TextBlock</TextBlock>
-        </ListBox>
-        <TextBox x:Name="txtbox_left" HorizontalAlignment="Left" Height="23" Margin="10,382,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="190"/>
+        <ListBox x:Name="list_left" Margin="30,24,106,176" ItemsSource="{Binding}" ItemTemplate="{DynamicResource ResourceKey=addonEntry}"/>
+        <TextBox x:Name="txtbox_left" HorizontalAlignment="Left" Height="23" Margin="10,382,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="280" TextChanged="txtbox_left_TextChanged"/>
+        <Button Content="Left" Grid.Column="0" Margin="311,0,0,15" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="75" Click="OnClickLeft"/>
+        <TabControl HorizontalAlignment="Left" Height="235" Margin="41,45,0,0" VerticalAlignment="Top" Width="299" Grid.Column="1">
+            <TabItem Header="TabItem">
+                <Grid Background="#FFE5E5E5"/>
+            </TabItem>
+            <TabItem Header="TabItem">
+                <Grid Background="#FFE5E5E5"/>
+            </TabItem>
+        </TabControl>
     </Grid>
 </Window>
