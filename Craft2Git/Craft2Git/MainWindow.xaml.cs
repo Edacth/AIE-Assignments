@@ -31,24 +31,38 @@ namespace Craft2Git
 
     public partial class MainWindow : Window
     {
-        PackList listData;
+        PackList[] leftListGroup;
         string defaultFilePath = "C:/Users/s189062/Desktop/Addon Source/";
         string filePath = "C:/Users/s189062/Desktop/Addon Source/";
+        int leftTabSelected = 0;
+        Binding leftBinding1;
+        Binding leftBinding2;
+        Binding leftBinding3;
 
         public MainWindow()
         {
+            ////////////////////
+            //Left Side init////
+            ////////////////////
             
-            listData = new PackList();
-            Binding binding1 = new Binding();
-            binding1.Source = listData;
+            leftListGroup = new PackList[3];
+            for (int i = 0; i < leftListGroup.Length; i++)
+            {
+                leftListGroup[i] = new PackList();
+            }
+            leftBinding1 = new Binding();
+            leftBinding2 = new Binding();
+            leftBinding3 = new Binding();
+            leftBinding1.Source = leftListGroup[0];
+            leftBinding2.Source = leftListGroup[1];
+            leftBinding3.Source = leftListGroup[2];
             
             InitializeComponent();
 
             txtbox_left.Text = defaultFilePath;
 
-            loadPacks(filePath);
-
-            list_left.SetBinding(ListBox.ItemsSourceProperty, binding1);
+            //list_left.SetBinding(ListBox.ItemsSourceProperty, leftBinding1);
+            UpdateLeftFocus();
         }
 
         private void OnClickLeft(object sender, RoutedEventArgs e)
@@ -56,7 +70,7 @@ namespace Craft2Git
             ////list_left.Items.
             //txtbox_left.Text = list_left.Items[0];
             PackEntry entry1 = loadPack(filePath);
-            listData.Add(entry1);
+            leftListGroup[0].Add(entry1);
         }
 
         public PackEntry loadPack(string filePath)
@@ -66,7 +80,7 @@ namespace Craft2Git
 
         }
 
-        public void loadPacks(string filePath)
+        private void loadPacks(string filePath)
         {
             string[] subDirectories;
             try
@@ -90,20 +104,60 @@ namespace Craft2Git
 
                     newEntry.iconPath = subDirectories[i] + "/pack_icon.png";
 
-                    listData.Add(newEntry);
+                    leftListGroup[0].Add(newEntry);
+                }
+                if (File.Exists(subDirectories[i] + "/development_resource_packs"))
+                {
+                    Console.WriteLine("Found dev");
                 }
             }
         }
 
         private void txtbox_left_TextChanged(object sender, TextChangedEventArgs e)
         {
-           filePath = txtbox_left.Text;
-            while (listData.Count >= 1)
-            {
-                listData.RemoveAt(0);
-            }
+            filePath = txtbox_left.Text;
+            leftListGroup[0].Clear();
+            Console.WriteLine("Ran");
             loadPacks(filePath);
+
         }
+
+        private void LeftTabChanged(object sender, RoutedEventArgs e)
+        {
+            if (tab_leftUncat.IsSelected)
+            {
+                leftTabSelected = 0;
+            }
+            else if (tab_leftBehavior.IsSelected)
+            {
+                leftTabSelected = 1;
+            }
+            else if (tab_leftResource.IsSelected)
+            {
+                leftTabSelected = 2;
+            }
+            UpdateLeftFocus();
+        }
+
+        private void UpdateLeftFocus()
+        {
+            switch (leftTabSelected)
+            {
+                case 0:
+                    list_left.SetBinding(ListBox.ItemsSourceProperty, leftBinding1);
+                    break;
+                case 1:
+                    list_left.SetBinding(ListBox.ItemsSourceProperty, leftBinding2);
+                    break;
+                case 2:
+                    list_left.SetBinding(ListBox.ItemsSourceProperty, leftBinding3);
+                    break;
+                default:
+                    list_left.SetBinding(ListBox.ItemsSourceProperty, leftBinding1);
+                    break;
+            }
+        }
+
     }
 
     

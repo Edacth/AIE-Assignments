@@ -37,17 +37,26 @@
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Button Content="Right" Grid.Column="1" Margin="0,0,10,44" HorizontalAlignment="Right" VerticalAlignment="Bottom" Width="75"/>
-
-        <ListBox x:Name="list_left" Margin="30,24,106,176" ItemsSource="{Binding}" ItemTemplate="{DynamicResource ResourceKey=addonEntry}"/>
         <TextBox x:Name="txtbox_left" HorizontalAlignment="Left" Height="23" Margin="10,382,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="280" TextChanged="txtbox_left_TextChanged"/>
         <Button Content="Left" Grid.Column="0" Margin="311,0,0,15" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="75" Click="OnClickLeft"/>
-        <TabControl HorizontalAlignment="Left" Height="235" Margin="41,45,0,0" VerticalAlignment="Top" Width="299" Grid.Column="1">
-            <TabItem Header="TabItem">
+        <TabControl HorizontalAlignment="Left" Height="302" Margin="10,8,0,0" VerticalAlignment="Top" Width="299" SelectionChanged="LeftTabChanged" >
+            <TabItem x:Name="tab_leftUncat" Header="Uncategorized">
+                <Grid Background="#FFE5E5E5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="173*"/>
+                        <ColumnDefinition Width="79*"/>
+                        <ColumnDefinition Width="37*"/>
+                    </Grid.ColumnDefinitions>
+                </Grid>
+            </TabItem>
+            <TabItem x:Name="tab_leftBehavior" Header="Behavior">
                 <Grid Background="#FFE5E5E5"/>
             </TabItem>
-            <TabItem Header="TabItem">
+            <TabItem x:Name="tab_leftResource" Header="Resource">
                 <Grid Background="#FFE5E5E5"/>
             </TabItem>
+
         </TabControl>
+        <ListBox x:Name="list_left" Margin="22,42,97,120" ItemsSource="{Binding}" ItemTemplate="{DynamicResource ResourceKey=addonEntry}"/>
     </Grid>
 </Window>
