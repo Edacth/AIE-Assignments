@@ -33,11 +33,13 @@ namespace Craft2Git
     {
         PackList[] leftListGroup;
         string defaultFilePath = "C:/Users/s189062/Desktop/Addon Source/";
-        string filePath = "C:/Users/s189062/Desktop/Addon Source/";
+        string leftFilePath = "C:/Users/s189062/Desktop/Addon Source/";
+        string rightFilePath = "C:/Users/s189062/Desktop/Addon Destination";
         int leftTabSelected = 0;
         Binding leftBinding1;
         Binding leftBinding2;
         Binding leftBinding3;
+        Binding leftBinding4;
 
         public MainWindow()
         {
@@ -45,7 +47,7 @@ namespace Craft2Git
             //Left Side init////
             ////////////////////
             
-            leftListGroup = new PackList[3];
+            leftListGroup = new PackList[4];
             for (int i = 0; i < leftListGroup.Length; i++)
             {
                 leftListGroup[i] = new PackList();
@@ -53,36 +55,89 @@ namespace Craft2Git
             leftBinding1 = new Binding();
             leftBinding2 = new Binding();
             leftBinding3 = new Binding();
+            leftBinding4 = new Binding();
             leftBinding1.Source = leftListGroup[0];
             leftBinding2.Source = leftListGroup[1];
             leftBinding3.Source = leftListGroup[2];
+            leftBinding4.Source = leftListGroup[3];
             
             InitializeComponent();
 
             txtbox_left.Text = defaultFilePath;
 
+
             //list_left.SetBinding(ListBox.ItemsSourceProperty, leftBinding1);
             UpdateLeftFocus();
         }
 
-        private void OnClickLeft(object sender, RoutedEventArgs e)
+        private void LeftCopy(object sender, RoutedEventArgs e)
         {
-            ////list_left.Items.
-            //txtbox_left.Text = list_left.Items[0];
-            PackEntry entry1 = loadPack(filePath);
-            leftListGroup[0].Add(entry1);
-        }
-
-        public PackEntry loadPack(string filePath)
-        {
-            string contents = File.ReadAllText(filePath);
-            return Newtonsoft.Json.JsonConvert.DeserializeObject<PackEntry>(contents);
-
+            string sourceFilePath = leftListGroup[leftTabSelected][list_left.SelectedIndex].filePath;
+            string destFilePath = rightFilePath;
+            //DirectoryCopy("C:/Users/s189062/Desktop/Addon Source/Vanilla_Behavior_Pack_1.9.0", "C:/Users/s189062/Desktop/Addon Destination/Vanilla_Behavior_Pack_1.9.0", true);
+            DirectoryCopy("C:/Users/s189062/Desktop/Addon Source/Vanilla_Behavior_Pack_1.9.0", "C:/Users/s189062/Desktop/Addon Destination/Vanilla_Behavior_Pack_1.9.0", true);
         }
 
         private void loadPacks(string filePath)
         {
+
+            ////////////////////
+            //Behavior packs////
+            ////////////////////
             string[] subDirectories;
+            try
+            {
+                subDirectories = Directory.GetDirectories(filePath + "/development_behavior_packs");
+            }
+            catch (Exception)
+            {
+
+                return;
+            }
+            for (int i = 0; i < subDirectories.Length; i++)
+            {
+                string filePathAppended = subDirectories[i] + "/manifest.json";
+                if (File.Exists(filePathAppended))
+                {
+
+                    string contents = File.ReadAllText(filePathAppended);
+                    PackEntry newEntry = Newtonsoft.Json.JsonConvert.DeserializeObject<PackEntry>(contents);
+                    newEntry.filePath = filePathAppended;
+
+                    newEntry.iconPath = subDirectories[i] + "/pack_icon.png";
+
+                    leftListGroup[0].Add(newEntry);
+                }
+            }
+            ////////////////////
+            //Resource packs////
+            ////////////////////
+            try
+            {
+                subDirectories = Directory.GetDirectories(filePath + "/development_resource_packs");
+            }
+            catch (Exception)
+            {
+                return;
+            }
+            for (int i = 0; i < subDirectories.Length; i++)
+            {
+                string filePathAppended = subDirectories[i] + "/manifest.json";
+                if (File.Exists(filePathAppended))
+                {
+
+                    string contents = File.ReadAllText(filePathAppended);
+                    PackEntry newEntry = Newtonsoft.Json.JsonConvert.DeserializeObject<PackEntry>(contents);
+                    newEntry.filePath = filePathAppended;
+
+                    newEntry.iconPath = subDirectories[i] + "/pack_icon.png";
+
+                    leftListGroup[1].Add(newEntry);
+                }
+            }
+            ////////////////////
+            //Uncategorized/////
+            ////////////////////
             try
             {
                 subDirectories = Directory.GetDirectories(filePath);
@@ -97,44 +152,45 @@ namespace Craft2Git
                 string filePathAppended = subDirectories[i] + "/manifest.json";
                 if (File.Exists(filePathAppended))
                 {
-                    
+
                     string contents = File.ReadAllText(filePathAppended);
                     PackEntry newEntry = Newtonsoft.Json.JsonConvert.DeserializeObject<PackEntry>(contents);
                     newEntry.filePath = filePathAppended;
 
                     newEntry.iconPath = subDirectories[i] + "/pack_icon.png";
 
-                    leftListGroup[0].Add(newEntry);
-                }
-                if (File.Exists(subDirectories[i] + "/development_resource_packs"))
-                {
-                    Console.WriteLine("Found dev");
+                    leftListGroup[3].Add(newEntry);
                 }
             }
         }
 
         private void txtbox_left_TextChanged(object sender, TextChangedEventArgs e)
         {
-            filePath = txtbox_left.Text;
+            leftFilePath = txtbox_left.Text;
             leftListGroup[0].Clear();
             Console.WriteLine("Ran");
-            loadPacks(filePath);
+            loadPacks(leftFilePath);
 
         }
 
         private void LeftTabChanged(object sender, RoutedEventArgs e)
         {
-            if (tab_leftUncat.IsSelected)
+            
+            if (tab_leftBehavior.IsSelected)
             {
                 leftTabSelected = 0;
             }
-            else if (tab_leftBehavior.IsSelected)
+            else if (tab_leftResource.IsSelected)
             {
                 leftTabSelected = 1;
             }
-            else if (tab_leftResource.IsSelected)
+            else if (tab_leftWorld.IsSelected)
             {
                 leftTabSelected = 2;
+            }
+            else if (tab_leftUncat.IsSelected)
+            {
+                leftTabSelected = 3;
             }
             UpdateLeftFocus();
         }
@@ -152,9 +208,50 @@ namespace Craft2Git
                 case 2:
                     list_left.SetBinding(ListBox.ItemsSourceProperty, leftBinding3);
                     break;
+                case 3:
+                    list_left.SetBinding(ListBox.ItemsSourceProperty, leftBinding4);
+                    break;
                 default:
                     list_left.SetBinding(ListBox.ItemsSourceProperty, leftBinding1);
                     break;
+            }
+        }
+
+        private static void DirectoryCopy(string sourceDirName, string destDirName, bool copySubDirs)
+        {
+            // Get the subdirectories for the specified directory.
+            DirectoryInfo dir = new DirectoryInfo(sourceDirName);
+
+            if (!dir.Exists)
+            {
+                throw new DirectoryNotFoundException(
+                    "Source directory does not exist or could not be found: "
+                    + sourceDirName);
+            }
+
+            DirectoryInfo[] dirs = dir.GetDirectories();
+            // If the destination directory doesn't exist, create it.
+            if (!Directory.Exists(destDirName))
+            {
+                Directory.CreateDirectory(destDirName);
+            }
+
+            // Get the files in the directory and copy them to the new location.
+            FileInfo[] files = dir.GetFiles();
+            foreach (FileInfo file in files)
+            {
+                string temppath = (destDirName + "/" + file.Name);
+                file.CopyTo(temppath, false);
+            }
+
+            // If copying subdirectories, copy them and their contents to new location.
+            if (copySubDirs)
+            {
+                foreach (DirectoryInfo subdir in dirs)
+                {
+                    string temppath = (destDirName + "/" + subdir.Name);
+                    DirectoryCopy(subdir.FullName, temppath, copySubDirs);
+                }
             }
         }
 
