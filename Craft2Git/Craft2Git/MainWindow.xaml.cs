@@ -16,6 +16,8 @@ using System.Windows.Shapes;
 using System.IO;
 using Craft2Git;
 using Newtonsoft;
+using System.Windows.Forms;
+using System.Drawing;
 
 namespace Craft2Git
 {
@@ -33,14 +35,21 @@ namespace Craft2Git
     {
         #region Class-wide Variables
         PackList[] leftListGroup;
-        string defaultFilePath = "C:\\Users\\s189062\\Desktop\\Addon Source";
-        string leftFilePath = "C:\\Users\\s189062\\Desktop\\Addon Source";
+        PackList[] rightListGroup;
+        string defaultLeftFilePath = "C:\\Users\\s189062\\Desktop\\Addon Source";
+        string defaultRightFilePath = "C:\\Users\\s189062\\Desktop\\Addon Destination";
+        string leftFilePath = "C:\\Users\\s189062\\Desktop\\Addon Source";   
         string rightFilePath = "C:\\Users\\s189062\\Desktop\\Addon Destination";
         int leftTabSelected = 0;
-        Binding leftBinding1;
-        Binding leftBinding2;
-        Binding leftBinding3;
-        Binding leftBinding4;
+        int rightTabSelected = 0;
+        System.Windows.Data.Binding leftBinding1;
+        System.Windows.Data.Binding leftBinding2;
+        System.Windows.Data.Binding leftBinding3;
+        System.Windows.Data.Binding leftBinding4;
+        System.Windows.Data.Binding rightBinding1;
+        System.Windows.Data.Binding rightBinding2;
+        System.Windows.Data.Binding rightBinding3;
+        System.Windows.Data.Binding rightBinding4;
         #endregion
 
         public MainWindow()
@@ -55,24 +64,52 @@ namespace Craft2Git
             {
                 leftListGroup[i] = new PackList();
             }
-            leftBinding1 = new Binding();
-            leftBinding2 = new Binding();
-            leftBinding3 = new Binding();
-            leftBinding4 = new Binding();
+
+            leftBinding1 = new System.Windows.Data.Binding();
+            leftBinding2 = new System.Windows.Data.Binding();
+            leftBinding3 = new System.Windows.Data.Binding();
+            leftBinding4 = new System.Windows.Data.Binding();
             leftBinding1.Source = leftListGroup[0];
             leftBinding2.Source = leftListGroup[1];
             leftBinding3.Source = leftListGroup[2];
             leftBinding4.Source = leftListGroup[3];
+
+
+            #endregion
+
+            #region Right Side Init
+            ////////////////////
+            //Right Side init///
+            ////////////////////
+
+            rightListGroup = new PackList[4];
+            for (int i = 0; i < rightListGroup.Length; i++)
+            {
+                rightListGroup[i] = new PackList();
+            }
+
+            rightBinding1 = new System.Windows.Data.Binding();
+            rightBinding2 = new System.Windows.Data.Binding();
+            rightBinding3 = new System.Windows.Data.Binding();
+            rightBinding4 = new System.Windows.Data.Binding();
+            rightBinding1.Source = rightListGroup[0];
+            rightBinding2.Source = rightListGroup[1];
+            rightBinding3.Source = rightListGroup[2];
+            rightBinding4.Source = rightListGroup[3];
+
             #endregion
 
             InitializeComponent();
 
-            txtbox_left.Text = defaultFilePath;
+            txtbox_left.Text = defaultLeftFilePath;
+            txtbox_right.Text = defaultRightFilePath;
             list_left.SelectedIndex = leftTabSelected;
+            list_right.SelectedIndex = rightTabSelected;
 
             //list_left.SetBinding(ListBox.ItemsSourceProperty, leftBinding1);
             //DirectoryCopy("C:/Users/s189062/Desktop/Addon Source/Vanilla_Behavior_Pack_1.9.0", "C:/Users/s189062/Desktop/Addon Destination/Vanilla_Behavior_Pack_1.9.0", true);
             UpdateLeftFocus();
+            UpdateRightFocus();
         }
 
         private void LeftCopy(object sender, RoutedEventArgs e)
@@ -91,105 +128,250 @@ namespace Craft2Git
                 destFilePath = System.IO.Path.Combine(rightFilePath, splitEntryPath[splitEntryPath.Length - 3], splitEntryPath[splitEntryPath.Length - 2]);
             }
             DirectoryCopy(sourceFilePath, destFilePath, true);
+            loadRightPacks(rightFilePath);
         }
 
-        private void loadPacks(string filePath)
+        private void RightCopy(object sender, RoutedEventArgs e)
         {
+            string sourceFilePath = System.IO.Path.GetDirectoryName(rightListGroup[rightTabSelected][list_right.SelectedIndex].filePath);
+            string[] stringSeparators = new string[] { "\\" };
+            string[] splitEntryPath = rightListGroup[rightTabSelected][list_right.SelectedIndex].filePath.Split(stringSeparators, StringSplitOptions.None);
+
+            string destFilePath;
+            if (rightTabSelected == 3)
+            {
+                destFilePath = System.IO.Path.Combine(leftFilePath, splitEntryPath[splitEntryPath.Length - 2]);
+            }
+            else
+            {
+                destFilePath = System.IO.Path.Combine(leftFilePath, splitEntryPath[splitEntryPath.Length - 3], splitEntryPath[splitEntryPath.Length - 2]);
+            }
+            DirectoryCopy(sourceFilePath, destFilePath, true);
+            loadLeftPacks(leftFilePath);
+        }
+
+        private void loadLeftPacks(string filePath)
+        {
+            
             #region Behavior Packs
             ////////////////////
             //Behavior packs////
             ////////////////////
             string[] subDirectories;
+            leftListGroup[0].Clear();
             try
             {
                 subDirectories = Directory.GetDirectories(System.IO.Path.Combine(filePath, "development_behavior_packs"));
+
+                for (int i = 0; i < subDirectories.Length; i++)
+                {
+                    string filePathAppended = System.IO.Path.Combine(subDirectories[i], "manifest.json");
+                    if (File.Exists(filePathAppended))
+                    {
+
+                        string contents = File.ReadAllText(filePathAppended);
+                        PackEntry newEntry = Newtonsoft.Json.JsonConvert.DeserializeObject<PackEntry>(contents);
+                        newEntry.filePath = filePathAppended;
+
+                        newEntry.iconPath = System.IO.Path.Combine(subDirectories[i], "pack_icon.png");
+
+                        
+                        BitmapImage icon = new BitmapImage();
+                        icon.BeginInit();
+                        //TODO YOU CAN LOAD BITMAPS FROM IMAGES ON THE DISK
+                        bitmap.UriSource = new Uri(
+                        icon.EndInit();
+
+                        leftListGroup[0].Add(newEntry);
+                    }
+                }
             }
             catch (Exception)
             {
 
-                return;
             }
-            for (int i = 0; i < subDirectories.Length; i++)
-            {
-                string filePathAppended = System.IO.Path.Combine(subDirectories[i], "manifest.json");
-                if (File.Exists(filePathAppended))
-                {
-
-                    string contents = File.ReadAllText(filePathAppended);
-                    PackEntry newEntry = Newtonsoft.Json.JsonConvert.DeserializeObject<PackEntry>(contents);
-                    newEntry.filePath = filePathAppended;
-
-                    newEntry.iconPath = System.IO.Path.Combine(subDirectories[i], "pack_icon.png");
-
-                    leftListGroup[0].Add(newEntry);
-                }
-            }
+            
             #endregion
             #region Resource Packs
             ////////////////////
             //Resource packs////
             ////////////////////
+            leftListGroup[1].Clear();
             try
             {
                 subDirectories = Directory.GetDirectories(System.IO.Path.Combine(filePath, "development_resource_packs"));
+
+                for (int i = 0; i < subDirectories.Length; i++)
+                {
+                    string filePathAppended = System.IO.Path.Combine(subDirectories[i], "manifest.json");
+                    if (File.Exists(filePathAppended))
+                    {
+
+                        string contents = File.ReadAllText(filePathAppended);
+                        PackEntry newEntry = Newtonsoft.Json.JsonConvert.DeserializeObject<PackEntry>(contents);
+                        newEntry.filePath = filePathAppended;
+
+                        newEntry.iconPath = System.IO.Path.Combine(subDirectories[i], "pack_icon.png");
+
+                        leftListGroup[1].Add(newEntry);
+                    }
+                }
             }
             catch (Exception)
             {
-                return;
+
+
             }
-            for (int i = 0; i < subDirectories.Length; i++)
-            {
-                string filePathAppended = System.IO.Path.Combine(subDirectories[i], "manifest.json");
-                if (File.Exists(filePathAppended))
-                {
 
-                    string contents = File.ReadAllText(filePathAppended);
-                    PackEntry newEntry = Newtonsoft.Json.JsonConvert.DeserializeObject<PackEntry>(contents);
-                    newEntry.filePath = filePathAppended;
-
-                    newEntry.iconPath = System.IO.Path.Combine(subDirectories[i], "pack_icon.png");
-
-                    leftListGroup[1].Add(newEntry);
-                }
-            }
             #endregion
             #region Uncategorized
             ////////////////////
             //Uncategorized/////
             ////////////////////
+            leftListGroup[3].Clear();
             try
             {
                 subDirectories = Directory.GetDirectories(filePath);
+
+                for (int i = 0; i < subDirectories.Length; i++)
+                {
+                    string filePathAppended = System.IO.Path.Combine(subDirectories[i], "manifest.json");
+                    if (File.Exists(filePathAppended))
+                    {
+
+                        string contents = File.ReadAllText(filePathAppended);
+                        PackEntry newEntry = Newtonsoft.Json.JsonConvert.DeserializeObject<PackEntry>(contents);
+                        newEntry.filePath = filePathAppended;
+
+                        newEntry.iconPath = System.IO.Path.Combine(subDirectories[i], "pack_icon.png");
+
+                        leftListGroup[3].Add(newEntry);
+                    }
+                }
             }
             catch (Exception)
             {
 
-                return;
+                
             }
-            for (int i = 0; i < subDirectories.Length; i++)
+            
+            #endregion
+        }
+
+        private void loadRightPacks(string filePath)
+        {
+
+            #region Behavior Packs
+            ////////////////////
+            //Behavior packs////
+            ////////////////////
+            string[] subDirectories;
+            rightListGroup[0].Clear();
+            try
             {
-                string filePathAppended = System.IO.Path.Combine(subDirectories[i], "manifest.json");
-                if (File.Exists(filePathAppended))
+                subDirectories = Directory.GetDirectories(System.IO.Path.Combine(filePath, "development_behavior_packs"));
+
+                for (int i = 0; i < subDirectories.Length; i++)
                 {
+                    string filePathAppended = System.IO.Path.Combine(subDirectories[i], "manifest.json");
+                    if (File.Exists(filePathAppended))
+                    {
 
-                    string contents = File.ReadAllText(filePathAppended);
-                    PackEntry newEntry = Newtonsoft.Json.JsonConvert.DeserializeObject<PackEntry>(contents);
-                    newEntry.filePath = filePathAppended;
+                        string contents = File.ReadAllText(filePathAppended);
+                        PackEntry newEntry = Newtonsoft.Json.JsonConvert.DeserializeObject<PackEntry>(contents);
+                        newEntry.filePath = filePathAppended;
 
-                    newEntry.iconPath = System.IO.Path.Combine(subDirectories[i], "pack_icon.png");
+                        newEntry.iconPath = System.IO.Path.Combine(subDirectories[i], "pack_icon.png");
 
-                    leftListGroup[3].Add(newEntry);
+                        rightListGroup[0].Add(newEntry);
+                    }
                 }
             }
+            catch (Exception)
+            {
+
+            }
+
+            #endregion
+            #region Resource Packs
+            ////////////////////
+            //Resource packs////
+            ////////////////////
+            rightListGroup[1].Clear();
+            try
+            {
+                subDirectories = Directory.GetDirectories(System.IO.Path.Combine(filePath, "development_resource_packs"));
+
+                for (int i = 0; i < subDirectories.Length; i++)
+                {
+                    string filePathAppended = System.IO.Path.Combine(subDirectories[i], "manifest.json");
+                    if (File.Exists(filePathAppended))
+                    {
+
+                        string contents = File.ReadAllText(filePathAppended);
+                        PackEntry newEntry = Newtonsoft.Json.JsonConvert.DeserializeObject<PackEntry>(contents);
+                        newEntry.filePath = filePathAppended;
+
+                        newEntry.iconPath = System.IO.Path.Combine(subDirectories[i], "pack_icon.png");
+
+                        rightListGroup[1].Add(newEntry);
+                    }
+                }
+            }
+            catch (Exception)
+            {
+
+
+            }
+
+            #endregion
+            #region Uncategorized
+            ////////////////////
+            //Uncategorized/////
+            ////////////////////
+            rightListGroup[3].Clear();
+            try
+            {
+                subDirectories = Directory.GetDirectories(filePath);
+
+                for (int i = 0; i < subDirectories.Length; i++)
+                {
+                    string filePathAppended = System.IO.Path.Combine(subDirectories[i], "manifest.json");
+                    if (File.Exists(filePathAppended))
+                    {
+
+                        string contents = File.ReadAllText(filePathAppended);
+                        PackEntry newEntry = Newtonsoft.Json.JsonConvert.DeserializeObject<PackEntry>(contents);
+                        newEntry.filePath = filePathAppended;
+
+                        newEntry.iconPath = System.IO.Path.Combine(subDirectories[i], "pack_icon.png");
+
+                        rightListGroup[3].Add(newEntry);
+                    }
+                }
+            }
+            catch (Exception)
+            {
+
+
+            }
+
             #endregion
         }
 
         private void txtbox_left_TextChanged(object sender, TextChangedEventArgs e)
         {
             leftFilePath = txtbox_left.Text;
-            leftListGroup[0].Clear();
-            Console.WriteLine("Ran");
-            loadPacks(leftFilePath);
+            loadLeftPacks(leftFilePath);
+            
+
+        }
+
+        private void txtbox_right_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            rightFilePath = txtbox_right.Text;
+            loadRightPacks(rightFilePath);
+
 
         }
 
@@ -215,27 +397,72 @@ namespace Craft2Git
             UpdateLeftFocus();
         }
 
+        private void RightTabChanged(object sender, RoutedEventArgs e)
+        {
+
+            if (tab_rightBehavior.IsSelected)
+            {
+                rightTabSelected = 0;
+            }
+            else if (tab_rightResource.IsSelected)
+            {
+                rightTabSelected = 1;
+            }
+            else if (tab_rightWorld.IsSelected)
+            {
+                rightTabSelected = 2;
+            }
+            else if (tab_rightUncat.IsSelected)
+            {
+                rightTabSelected = 3;
+            }
+            UpdateRightFocus();
+        }
+
         private void UpdateLeftFocus()
         {
             switch (leftTabSelected)
             {
                 case 0:
-                    list_left.SetBinding(ListBox.ItemsSourceProperty, leftBinding1);
+                    list_left.SetBinding(System.Windows.Controls.ListBox.ItemsSourceProperty, leftBinding1);
                     break;
                 case 1:
-                    list_left.SetBinding(ListBox.ItemsSourceProperty, leftBinding2);
+                    list_left.SetBinding(System.Windows.Controls.ListBox.ItemsSourceProperty, leftBinding2);
                     break;
                 case 2:
-                    list_left.SetBinding(ListBox.ItemsSourceProperty, leftBinding3);
+                    list_left.SetBinding(System.Windows.Controls.ListBox.ItemsSourceProperty, leftBinding3);
                     break;
                 case 3:
-                    list_left.SetBinding(ListBox.ItemsSourceProperty, leftBinding4);
+                    list_left.SetBinding(System.Windows.Controls.ListBox.ItemsSourceProperty, leftBinding4);
                     break;
                 default:
-                    list_left.SetBinding(ListBox.ItemsSourceProperty, leftBinding1);
+                    list_left.SetBinding(System.Windows.Controls.ListBox.ItemsSourceProperty, leftBinding1);
                     break;
             }
             list_left.SelectedIndex = 0;
+        }
+
+        private void UpdateRightFocus()
+        {
+            switch (rightTabSelected)
+            {
+                case 0:
+                    list_right.SetBinding(System.Windows.Controls.ListBox.ItemsSourceProperty, rightBinding1);
+                    break;
+                case 1:
+                    list_right.SetBinding(System.Windows.Controls.ListBox.ItemsSourceProperty, rightBinding2);
+                    break;
+                case 2:
+                    list_right.SetBinding(System.Windows.Controls.ListBox.ItemsSourceProperty, rightBinding3);
+                    break;
+                case 3:
+                    list_right.SetBinding(System.Windows.Controls.ListBox.ItemsSourceProperty, rightBinding4);
+                    break;
+                default:
+                    list_right.SetBinding(System.Windows.Controls.ListBox.ItemsSourceProperty, rightBinding1);
+                    break;
+            }
+            list_right.SelectedIndex = 0;
         }
 
         private static void DirectoryCopy(string sourceDirName, string destDirName, bool copySubDirs)
@@ -279,6 +506,32 @@ namespace Craft2Git
                     
                     DirectoryCopy(subdir.FullName, temppath, copySubDirs);
                 }
+            }
+        }
+
+        private void leftOpenDialog(object sender, RoutedEventArgs e)
+        {
+            FolderBrowserDialog dialog = new FolderBrowserDialog();
+            DialogResult result = dialog.ShowDialog();
+
+            if ((int)result == 1)
+            { 
+                leftFilePath = dialog.SelectedPath;
+                txtbox_left.Text = leftFilePath;
+                loadLeftPacks(leftFilePath);
+            }
+        }
+
+        private void rightOpenDialog(object sender, RoutedEventArgs e)
+        {
+            FolderBrowserDialog dialog = new FolderBrowserDialog();
+            DialogResult result = dialog.ShowDialog();
+
+            if ((int)result == 1)
+            {
+                rightFilePath = dialog.SelectedPath;
+                txtbox_right.Text = rightFilePath;
+                loadRightPacks(rightFilePath);
             }
         }
 
