@@ -18,6 +18,7 @@ using Craft2Git;
 using Newtonsoft;
 using System.Windows.Forms;
 using System.Drawing;
+using System.Diagnostics;
 
 namespace Craft2Git
 {
@@ -175,20 +176,17 @@ namespace Craft2Git
 
                         newEntry.iconPath = System.IO.Path.Combine(subDirectories[i], "pack_icon.png");
 
+                        newEntry.loadIcon();
                         
-                        BitmapImage icon = new BitmapImage();
-                        icon.BeginInit();
-                        //TODO YOU CAN LOAD BITMAPS FROM IMAGES ON THE DISK
-                        bitmap.UriSource = new Uri(
-                        icon.EndInit();
-
                         leftListGroup[0].Add(newEntry);
                     }
                 }
             }
-            catch (Exception)
-            {
-
+            catch (Exception ex)
+           {
+                Console.WriteLine(ex);
+                var st = new StackTrace(ex, true);
+                Console.WriteLine(ex.ToString());
             }
             
             #endregion
@@ -212,6 +210,8 @@ namespace Craft2Git
                         newEntry.filePath = filePathAppended;
 
                         newEntry.iconPath = System.IO.Path.Combine(subDirectories[i], "pack_icon.png");
+
+                        newEntry.loadIcon();
 
                         leftListGroup[1].Add(newEntry);
                     }
@@ -244,6 +244,8 @@ namespace Craft2Git
                         newEntry.filePath = filePathAppended;
 
                         newEntry.iconPath = System.IO.Path.Combine(subDirectories[i], "pack_icon.png");
+
+                        newEntry.loadIcon();
 
                         leftListGroup[3].Add(newEntry);
                     }
@@ -283,6 +285,8 @@ namespace Craft2Git
 
                         newEntry.iconPath = System.IO.Path.Combine(subDirectories[i], "pack_icon.png");
 
+                        newEntry.loadIcon();
+
                         rightListGroup[0].Add(newEntry);
                     }
                 }
@@ -313,6 +317,8 @@ namespace Craft2Git
                         newEntry.filePath = filePathAppended;
 
                         newEntry.iconPath = System.IO.Path.Combine(subDirectories[i], "pack_icon.png");
+
+                        newEntry.loadIcon();
 
                         rightListGroup[1].Add(newEntry);
                     }
@@ -345,6 +351,8 @@ namespace Craft2Git
                         newEntry.filePath = filePathAppended;
 
                         newEntry.iconPath = System.IO.Path.Combine(subDirectories[i], "pack_icon.png");
+
+                        newEntry.loadIcon();
 
                         rightListGroup[3].Add(newEntry);
                     }
@@ -465,13 +473,18 @@ namespace Craft2Git
             list_right.SelectedIndex = 0;
         }
 
+        
         private static void DirectoryCopy(string sourceDirName, string destDirName, bool copySubDirs)
         {
+            //The majority of this function is from MSDN
+            //https://docs.microsoft.com/en-us/dotnet/standard/io/how-to-copy-directories
+
             // Get the subdirectories for the specified directory.
             DirectoryInfo sourceDir = new DirectoryInfo(sourceDirName);
             DirectoryInfo destDir = new DirectoryInfo(destDirName);
             if (!sourceDir.Exists)
             {
+                return;
                 throw new DirectoryNotFoundException(
                     "Source directory does not exist or could not be found: "
                     + sourceDirName);

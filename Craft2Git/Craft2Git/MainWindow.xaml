@@ -13,7 +13,7 @@
                     <ColumnDefinition />
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-                <Image Source="{Binding Path=iconPath}" Grid.Column="0" Height="50" Margin="1.5"/>
+                <Image Source="{Binding Path=iconSource}" Grid.Column="0" Height="50" Margin="1.5"/>
                 <TextBlock Text="{Binding Path=header.name}" Grid.Column="2"  VerticalAlignment="Top" Margin="10,10,0,0" FontSize="15"/>
                 <TextBlock Text="{Binding Path=header.description}" Grid.Column="2" VerticalAlignment="Top" Margin="10,25,0,0"/>
             </Grid>

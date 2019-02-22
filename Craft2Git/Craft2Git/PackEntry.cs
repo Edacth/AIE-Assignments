@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
+using System.Drawing;
+using System.Windows.Media;
 
 namespace Craft2Git
 {
@@ -15,12 +17,46 @@ namespace Craft2Git
         public Module[] modules { get; set; }
         public Dependency[] dependencies { get; set; }
         public string filePath { get; set; }
-        public string iconPath { get; set;} 
-        //public PackEntry(string _name)
-        //{
-        //    //header.name = new string;
-        //    header.name = _name;
-        //}
+        public string iconPath { get; set;}
+
+        public ImageSource iconSource { get; set; }
+        
+        //public BitmapImage icon { get; set; }
+        public void loadIcon()
+        {
+            try
+            {
+                
+                BitmapImage icon = new BitmapImage();
+                icon.BeginInit();
+                icon.CacheOption = BitmapCacheOption.OnLoad;
+                icon.CreateOptions = BitmapCreateOptions.IgnoreImageCache;
+                icon.UriSource = new Uri(iconPath);
+                icon.EndInit();
+
+                iconSource = icon;
+                
+                
+            }
+            catch
+            {
+
+                BitmapSource icon = BitmapImage.Create(
+                2,
+                2,
+                96,
+                96,
+                PixelFormats.Indexed1,
+                new BitmapPalette(new List<System.Windows.Media.Color> { Colors.Transparent }),
+                new byte[] { 0, 0, 0, 0 },
+                1);
+                iconSource = icon;
+                //icon.UriSource = BitmapImage.Create(2,2,96,96,PixelFormats.Indexed1,new BitmapPalette(new List<Color> { Colors.Transparent }),new byte[] { 0, 0, 0, 0 },1);
+
+                //icon = new Bitmap(1, 1);
+            }
+
+        }
     }
 
     public class Header
