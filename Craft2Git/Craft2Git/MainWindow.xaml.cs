@@ -102,22 +102,20 @@ namespace Craft2Git
 
             InitializeComponent();
 
-            txtbox_left.Text = defaultLeftFilePath;
-            txtbox_right.Text = defaultRightFilePath;
-            list_left.SelectedIndex = leftTabSelected;
-            list_right.SelectedIndex = rightTabSelected;
+            leftText.Text = defaultLeftFilePath;
+            rightText.Text = defaultRightFilePath;
+            leftList.SelectedIndex = leftTabSelected;
+            rightList.SelectedIndex = rightTabSelected;
 
-            //list_left.SetBinding(ListBox.ItemsSourceProperty, leftBinding1);
-            //DirectoryCopy("C:/Users/s189062/Desktop/Addon Source/Vanilla_Behavior_Pack_1.9.0", "C:/Users/s189062/Desktop/Addon Destination/Vanilla_Behavior_Pack_1.9.0", true);
             UpdateLeftFocus();
             UpdateRightFocus();
         }
 
         private void LeftCopy(object sender, RoutedEventArgs e)
         {
-            string sourceFilePath = System.IO.Path.GetDirectoryName(leftListGroup[leftTabSelected][list_left.SelectedIndex].filePath);
+            string sourceFilePath = System.IO.Path.GetDirectoryName(leftListGroup[leftTabSelected][leftList.SelectedIndex].filePath);
             string[] stringSeparators = new string[] { "\\" };
-            string[] splitEntryPath = leftListGroup[leftTabSelected][list_left.SelectedIndex].filePath.Split(stringSeparators, StringSplitOptions.None);
+            string[] splitEntryPath = leftListGroup[leftTabSelected][leftList.SelectedIndex].filePath.Split(stringSeparators, StringSplitOptions.None);
 
             string destFilePath;
             if (leftTabSelected == 3)
@@ -130,13 +128,17 @@ namespace Craft2Git
             }
             DirectoryCopy(sourceFilePath, destFilePath, true);
             loadRightPacks(rightFilePath);
+            if (rightList.SelectedIndex == -1)
+            {
+                rightList.SelectedIndex = 0;
+            }
         }
 
         private void RightCopy(object sender, RoutedEventArgs e)
         {
-            string sourceFilePath = System.IO.Path.GetDirectoryName(rightListGroup[rightTabSelected][list_right.SelectedIndex].filePath);
+            string sourceFilePath = System.IO.Path.GetDirectoryName(rightListGroup[rightTabSelected][rightList.SelectedIndex].filePath);
             string[] stringSeparators = new string[] { "\\" };
-            string[] splitEntryPath = rightListGroup[rightTabSelected][list_right.SelectedIndex].filePath.Split(stringSeparators, StringSplitOptions.None);
+            string[] splitEntryPath = rightListGroup[rightTabSelected][rightList.SelectedIndex].filePath.Split(stringSeparators, StringSplitOptions.None);
 
             string destFilePath;
             if (rightTabSelected == 3)
@@ -149,6 +151,10 @@ namespace Craft2Git
             }
             DirectoryCopy(sourceFilePath, destFilePath, true);
             loadLeftPacks(leftFilePath);
+            if (leftList.SelectedIndex == -1)
+            {
+                leftList.SelectedIndex = 0;
+            }
         }
 
         private void loadLeftPacks(string filePath)
@@ -367,17 +373,17 @@ namespace Craft2Git
             #endregion
         }
 
-        private void txtbox_left_TextChanged(object sender, TextChangedEventArgs e)
+        private void leftText_TextChanged(object sender, TextChangedEventArgs e)
         {
-            leftFilePath = txtbox_left.Text;
+            leftFilePath = leftText.Text;
             loadLeftPacks(leftFilePath);
             
 
         }
 
-        private void txtbox_right_TextChanged(object sender, TextChangedEventArgs e)
+        private void rightText_TextChanged(object sender, TextChangedEventArgs e)
         {
-            rightFilePath = txtbox_right.Text;
+            rightFilePath = rightText.Text;
             loadRightPacks(rightFilePath);
 
 
@@ -386,19 +392,19 @@ namespace Craft2Git
         private void LeftTabChanged(object sender, RoutedEventArgs e)
         {
             
-            if (tab_leftBehavior.IsSelected)
+            if (leftBehaviorTab.IsSelected)
             {
                 leftTabSelected = 0;
             }
-            else if (tab_leftResource.IsSelected)
+            else if (leftResourceTab.IsSelected)
             {
                 leftTabSelected = 1;
             }
-            else if (tab_leftWorld.IsSelected)
+            else if (leftWorldTab.IsSelected)
             {
                 leftTabSelected = 2;
             }
-            else if (tab_leftUncat.IsSelected)
+            else if (leftUncatTab.IsSelected)
             {
                 leftTabSelected = 3;
             }
@@ -408,19 +414,19 @@ namespace Craft2Git
         private void RightTabChanged(object sender, RoutedEventArgs e)
         {
 
-            if (tab_rightBehavior.IsSelected)
+            if (rightBehaviorTab.IsSelected)
             {
                 rightTabSelected = 0;
             }
-            else if (tab_rightResource.IsSelected)
+            else if (rightResourceTab.IsSelected)
             {
                 rightTabSelected = 1;
             }
-            else if (tab_rightWorld.IsSelected)
+            else if (rightWorldTab.IsSelected)
             {
                 rightTabSelected = 2;
             }
-            else if (tab_rightUncat.IsSelected)
+            else if (rightUncatTab.IsSelected)
             {
                 rightTabSelected = 3;
             }
@@ -432,22 +438,22 @@ namespace Craft2Git
             switch (leftTabSelected)
             {
                 case 0:
-                    list_left.SetBinding(System.Windows.Controls.ListBox.ItemsSourceProperty, leftBinding1);
+                    leftList.SetBinding(System.Windows.Controls.ListBox.ItemsSourceProperty, leftBinding1);
                     break;
                 case 1:
-                    list_left.SetBinding(System.Windows.Controls.ListBox.ItemsSourceProperty, leftBinding2);
+                    leftList.SetBinding(System.Windows.Controls.ListBox.ItemsSourceProperty, leftBinding2);
                     break;
                 case 2:
-                    list_left.SetBinding(System.Windows.Controls.ListBox.ItemsSourceProperty, leftBinding3);
+                    leftList.SetBinding(System.Windows.Controls.ListBox.ItemsSourceProperty, leftBinding3);
                     break;
                 case 3:
-                    list_left.SetBinding(System.Windows.Controls.ListBox.ItemsSourceProperty, leftBinding4);
+                    leftList.SetBinding(System.Windows.Controls.ListBox.ItemsSourceProperty, leftBinding4);
                     break;
                 default:
-                    list_left.SetBinding(System.Windows.Controls.ListBox.ItemsSourceProperty, leftBinding1);
+                    leftList.SetBinding(System.Windows.Controls.ListBox.ItemsSourceProperty, leftBinding1);
                     break;
             }
-            list_left.SelectedIndex = 0;
+            leftList.SelectedIndex = 0;
         }
 
         private void UpdateRightFocus()
@@ -455,22 +461,22 @@ namespace Craft2Git
             switch (rightTabSelected)
             {
                 case 0:
-                    list_right.SetBinding(System.Windows.Controls.ListBox.ItemsSourceProperty, rightBinding1);
+                    rightList.SetBinding(System.Windows.Controls.ListBox.ItemsSourceProperty, rightBinding1);
                     break;
                 case 1:
-                    list_right.SetBinding(System.Windows.Controls.ListBox.ItemsSourceProperty, rightBinding2);
+                    rightList.SetBinding(System.Windows.Controls.ListBox.ItemsSourceProperty, rightBinding2);
                     break;
                 case 2:
-                    list_right.SetBinding(System.Windows.Controls.ListBox.ItemsSourceProperty, rightBinding3);
+                    rightList.SetBinding(System.Windows.Controls.ListBox.ItemsSourceProperty, rightBinding3);
                     break;
                 case 3:
-                    list_right.SetBinding(System.Windows.Controls.ListBox.ItemsSourceProperty, rightBinding4);
+                    rightList.SetBinding(System.Windows.Controls.ListBox.ItemsSourceProperty, rightBinding4);
                     break;
                 default:
-                    list_right.SetBinding(System.Windows.Controls.ListBox.ItemsSourceProperty, rightBinding1);
+                    rightList.SetBinding(System.Windows.Controls.ListBox.ItemsSourceProperty, rightBinding1);
                     break;
             }
-            list_right.SelectedIndex = 0;
+            rightList.SelectedIndex = 0;
         }
 
         
@@ -530,7 +536,7 @@ namespace Craft2Git
             if ((int)result == 1)
             { 
                 leftFilePath = dialog.SelectedPath;
-                txtbox_left.Text = leftFilePath;
+                leftText.Text = leftFilePath;
                 loadLeftPacks(leftFilePath);
             }
         }
@@ -543,11 +549,60 @@ namespace Craft2Git
             if ((int)result == 1)
             {
                 rightFilePath = dialog.SelectedPath;
-                txtbox_right.Text = rightFilePath;
+                rightText.Text = rightFilePath;
                 loadRightPacks(rightFilePath);
             }
         }
 
+        private void leftRefreshClick(object sender, RoutedEventArgs e)
+        {
+            loadLeftPacks(leftFilePath);
+        }
+
+        private void rightRefreshClick(object sender, RoutedEventArgs e)
+        {
+            loadRightPacks(rightFilePath);
+        }
+
+        private void leftDeleteClick(object sender, RoutedEventArgs e)
+        {
+            string filePath = System.IO.Path.GetDirectoryName(leftListGroup[leftTabSelected][leftList.SelectedIndex].filePath);
+
+            DirectoryInfo dir = new DirectoryInfo(filePath);
+            if (!dir.Exists)
+            {
+                return;
+                throw new DirectoryNotFoundException(
+                    "Source directory does not exist or could not be found: "
+                    + filePath);
+            }
+
+            if (dir.Exists)
+            {
+                Directory.Delete(filePath, true);
+                loadLeftPacks(leftFilePath);
+            }
+        }
+
+        private void rightDeleteClick(object sender, RoutedEventArgs e)
+        {
+            string filePath = System.IO.Path.GetDirectoryName(rightListGroup[rightTabSelected][rightList.SelectedIndex].filePath);
+
+            DirectoryInfo dir = new DirectoryInfo(filePath);
+            if (!dir.Exists)
+            {
+                return;
+                throw new DirectoryNotFoundException(
+                    "Source directory does not exist or could not be found: "
+                    + filePath);
+            }
+
+            if (dir.Exists)
+            {
+                Directory.Delete(filePath, true);
+                loadRightPacks(rightFilePath);
+            }
+        }
     }
 
     
