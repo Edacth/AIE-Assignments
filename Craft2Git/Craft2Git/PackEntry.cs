@@ -18,10 +18,14 @@ namespace Craft2Git
         public Dependency[] dependencies { get; set; }
         public string filePath { get; set; }
         public string iconPath { get; set;}
-
         public ImageSource iconSource { get; set; }
-        
-        //public BitmapImage icon { get; set; }
+
+        public PackEntry()
+        {
+            header = new Header();
+            
+        }
+
         public void loadIcon()
         {
             try
@@ -35,8 +39,6 @@ namespace Craft2Git
                 icon.EndInit();
 
                 iconSource = icon;
-                
-                
             }
             catch
             {
@@ -51,9 +53,6 @@ namespace Craft2Git
                 new byte[] { 0, 0, 0, 0 },
                 1);
                 iconSource = icon;
-                //icon.UriSource = BitmapImage.Create(2,2,96,96,PixelFormats.Indexed1,new BitmapPalette(new List<Color> { Colors.Transparent }),new byte[] { 0, 0, 0, 0 },1);
-
-                //icon = new Bitmap(1, 1);
             }
 
         }

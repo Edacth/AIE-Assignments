@@ -230,6 +230,43 @@ namespace Craft2Git
             }
 
             #endregion
+
+            #region Worlds
+            ////////////////////
+            //Worlds////////////
+            ////////////////////
+            leftListGroup[2].Clear();
+            try
+            {
+                subDirectories = Directory.GetDirectories(System.IO.Path.Combine(filePath, "minecraftWorlds"));
+
+                for (int i = 0; i < subDirectories.Length; i++)
+                {
+                    string filePathAppended = System.IO.Path.Combine(subDirectories[i], "levelname.txt");
+                    if (File.Exists(filePathAppended))
+                    {
+
+                        string contents = File.ReadAllText(filePathAppended);
+                        PackEntry newEntry = new PackEntry();
+                        newEntry.header.name = contents;
+                        newEntry.filePath = filePathAppended;
+
+                        newEntry.iconPath = System.IO.Path.Combine(subDirectories[i], "world_icon.jpeg");
+
+                        newEntry.loadIcon();
+
+                        leftListGroup[2].Add(newEntry);
+                    }
+                }
+            }
+            catch (Exception)
+            {
+
+
+            }
+
+            #endregion
+
             #region Uncategorized
             ////////////////////
             //Uncategorized/////
@@ -337,6 +374,43 @@ namespace Craft2Git
             }
 
             #endregion
+
+            #region Worlds
+            ////////////////////
+            //Worlds////////////
+            ////////////////////
+            rightListGroup[2].Clear();
+            try
+            {
+                subDirectories = Directory.GetDirectories(System.IO.Path.Combine(filePath, "minecraftWorlds"));
+
+                for (int i = 0; i < subDirectories.Length; i++)
+                {
+                    string filePathAppended = System.IO.Path.Combine(subDirectories[i], "levelname.txt");
+                    if (File.Exists(filePathAppended))
+                    {
+
+                        string contents = File.ReadAllText(filePathAppended);
+                        PackEntry newEntry = new PackEntry();
+                        newEntry.header.name = contents;
+                        newEntry.filePath = filePathAppended;
+
+                        newEntry.iconPath = System.IO.Path.Combine(subDirectories[i], "world_icon.jpeg");
+
+                        newEntry.loadIcon();
+
+                        rightListGroup[2].Add(newEntry);
+                    }
+                }
+            }
+            catch (Exception)
+            {
+
+
+            }
+
+            #endregion
+
             #region Uncategorized
             ////////////////////
             //Uncategorized/////
@@ -478,7 +552,6 @@ namespace Craft2Git
             }
             rightList.SelectedIndex = 0;
         }
-
         
         private static void DirectoryCopy(string sourceDirName, string destDirName, bool copySubDirs)
         {
