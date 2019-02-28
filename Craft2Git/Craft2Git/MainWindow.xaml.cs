@@ -19,6 +19,7 @@ using Newtonsoft;
 using System.Windows.Forms;
 using System.Drawing;
 using System.Diagnostics;
+using System.Security.Permissions;
 
 namespace Craft2Git
 {
@@ -31,6 +32,33 @@ namespace Craft2Git
         }
     }
 
+    public class FileWatcher
+    {
+        public string folderDir;
+
+        public FileWatcher(string _folderDir)
+        {
+            folderDir = _folderDir;
+            Run();
+        }
+
+
+        [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
+        private void Run()
+        {
+            
+
+            using (FileSystemWatcher watcher = new FileSystemWatcher())
+            {
+                
+            }
+        }
+
+        public void OnChanged(object source, FileSystemEventArgs e)
+        {
+            
+        }
+    }
 
     public partial class MainWindow : Window
     {
@@ -51,10 +79,13 @@ namespace Craft2Git
         System.Windows.Data.Binding rightBinding2;
         System.Windows.Data.Binding rightBinding3;
         System.Windows.Data.Binding rightBinding4;
+        FileSystemWatcher leftWatcher;
+        FileSystemWatcher rightWatcher;
         #endregion
 
         public MainWindow()
         {
+            #region Load in defaults
             ////////////////////
             //Load in defaults//
             ////////////////////
@@ -80,13 +111,14 @@ namespace Craft2Git
                 }
                 
             }
+            #endregion
 
-                #region Left Side Init
-                ////////////////////
-                //Left Side init////
-                ////////////////////
+            #region Left Side Init
+            ////////////////////
+            //Left Side init////
+            ////////////////////
 
-                leftListGroup = new PackList[4];
+            leftListGroup = new PackList[4];
             for (int i = 0; i < leftListGroup.Length; i++)
             {
                 leftListGroup[i] = new PackList();
@@ -135,6 +167,30 @@ namespace Craft2Git
 
             UpdateLeftFocus();
             UpdateRightFocus();
+
+            #region Left File Watcher
+            //This region is based on an example from MSDN
+            //https://docs.microsoft.com/en-us/dotnet/api/system.io.filesystemwatcher?redirectedfrom=MSDN&view=netframework-4.7.2
+            leftWatcher = new FileSystemWatcher(leftFilePath, "*.*");
+            leftWatcher.EnableRaisingEvents = true;
+            leftWatcher.IncludeSubdirectories = true;
+
+            leftWatcher.Created += onLeftDirectoryChange;
+            leftWatcher.Changed += onLeftDirectoryChange;
+            leftWatcher.Renamed += onLeftDirectoryChange;
+            leftWatcher.Deleted += onLeftDirectoryChange;
+            #endregion
+
+            #region Right File Watcher
+            rightWatcher = new FileSystemWatcher(rightFilePath, "*.*");
+            rightWatcher.EnableRaisingEvents = true;
+            rightWatcher.IncludeSubdirectories = true;
+
+            rightWatcher.Created += onRightDirectoryChange;
+            rightWatcher.Changed += onRightDirectoryChange;
+            rightWatcher.Renamed += onRightDirectoryChange;
+            rightWatcher.Deleted += onRightDirectoryChange;
+            #endregion
         }
 
         private void LeftCopy(object sender, RoutedEventArgs e)
@@ -152,8 +208,10 @@ namespace Craft2Git
             {
                 destFilePath = System.IO.Path.Combine(rightFilePath, splitEntryPath[splitEntryPath.Length - 3], splitEntryPath[splitEntryPath.Length - 2]);
             }
+            rightWatcher.EnableRaisingEvents = false;
             DirectoryCopy(sourceFilePath, destFilePath, true);
-            loadRightPacks(rightFilePath);
+            rightWatcher.EnableRaisingEvents = true;
+            LoadRightPacks(rightFilePath);
             if (rightList.SelectedIndex == -1)
             {
                 rightList.SelectedIndex = 0;
@@ -175,15 +233,17 @@ namespace Craft2Git
             {
                 destFilePath = System.IO.Path.Combine(leftFilePath, splitEntryPath[splitEntryPath.Length - 3], splitEntryPath[splitEntryPath.Length - 2]);
             }
+            leftWatcher.EnableRaisingEvents = false;
             DirectoryCopy(sourceFilePath, destFilePath, true);
-            loadLeftPacks(leftFilePath);
+            leftWatcher.EnableRaisingEvents = true;
+            LoadLeftPacks(leftFilePath);
             if (leftList.SelectedIndex == -1)
             {
                 leftList.SelectedIndex = 0;
             }
         }
 
-        private void loadLeftPacks(string filePath)
+        private void LoadLeftPacks(string filePath)
         {
             
             #region Behavior Packs
@@ -326,7 +386,7 @@ namespace Craft2Git
             #endregion
         }
 
-        private void loadRightPacks(string filePath)
+        private void LoadRightPacks(string filePath)
         {
 
             #region Behavior Packs
@@ -470,19 +530,42 @@ namespace Craft2Git
             #endregion
         }
 
-        private void leftText_TextChanged(object sender, TextChangedEventArgs e)
+        private void LeftText_TextChanged(object sender, TextChangedEventArgs e)
         {
             leftFilePath = leftText.Text;
-            loadLeftPacks(leftFilePath);
-            
+            LoadLeftPacks(leftFilePath);
+            if (leftWatcher != null)
+            {
+                try
+                {
+                    leftWatcher.Path = leftFilePath;
+                }
+                catch (Exception)
+                {
 
+                    
+                }
+                
+            }
         }
 
-        private void rightText_TextChanged(object sender, TextChangedEventArgs e)
+        private void RightText_TextChanged(object sender, TextChangedEventArgs e)
         {
             rightFilePath = rightText.Text;
-            loadRightPacks(rightFilePath);
+            LoadRightPacks(rightFilePath);
+            if (rightWatcher != null)
+            {
+                try
+                {
+                    rightWatcher.Path = rightFilePath;
+                }
+                catch (Exception)
+                {
 
+
+                }
+
+            }
 
         }
 
@@ -578,7 +661,7 @@ namespace Craft2Git
         
         private static void DirectoryCopy(string sourceDirName, string destDirName, bool copySubDirs)
         {
-            //The majority of this function is from MSDN
+            //This function is based on an example from MSDN
             //https://docs.microsoft.com/en-us/dotnet/standard/io/how-to-copy-directories
 
             // Get the subdirectories for the specified directory.
@@ -624,7 +707,7 @@ namespace Craft2Git
             }
         }
 
-        private void leftOpenDialog(object sender, RoutedEventArgs e)
+        private void LeftOpenDialog(object sender, RoutedEventArgs e)
         {
             FolderBrowserDialog dialog = new FolderBrowserDialog();
             DialogResult result = dialog.ShowDialog();
@@ -633,11 +716,12 @@ namespace Craft2Git
             { 
                 leftFilePath = dialog.SelectedPath;
                 leftText.Text = leftFilePath;
-                loadLeftPacks(leftFilePath);
+                LoadLeftPacks(leftFilePath);
+                //leftWatcher.Path = leftFilePath;
             }
         }
 
-        private void rightOpenDialog(object sender, RoutedEventArgs e)
+        private void RightOpenDialog(object sender, RoutedEventArgs e)
         {
             FolderBrowserDialog dialog = new FolderBrowserDialog();
             DialogResult result = dialog.ShowDialog();
@@ -646,21 +730,24 @@ namespace Craft2Git
             {
                 rightFilePath = dialog.SelectedPath;
                 rightText.Text = rightFilePath;
-                loadRightPacks(rightFilePath);
+                LoadRightPacks(rightFilePath);
+                //rightWatcher.Path = rightFilePath;
             }
         }
 
-        private void leftRefreshClick(object sender, RoutedEventArgs e)
+        private void LeftRefreshClick(object sender, RoutedEventArgs e)
         {
-            loadLeftPacks(leftFilePath);
+            LoadLeftPacks(leftFilePath);
+            leftList.SelectedIndex = 0;
         }
 
-        private void rightRefreshClick(object sender, RoutedEventArgs e)
+        private void RightRefreshClick(object sender, RoutedEventArgs e)
         {
-            loadRightPacks(rightFilePath);
+            LoadRightPacks(rightFilePath);
+            leftList.SelectedIndex = 0;
         }
 
-        private void leftDeleteClick(object sender, RoutedEventArgs e)
+        private void LeftDeleteClick(object sender, RoutedEventArgs e)
         {
             if (leftList.SelectedIndex > -1)
             {
@@ -678,8 +765,10 @@ namespace Craft2Git
 
                 if (dir.Exists)
                 {
+                    leftWatcher.EnableRaisingEvents = false;
                     Directory.Delete(filePath, true);
-                    loadLeftPacks(leftFilePath);
+                    leftWatcher.EnableRaisingEvents = true;
+                    LoadLeftPacks(leftFilePath);
                 }
                 if (leftListGroup[leftTabSelected].Count() - 1 >= storedIndex)
                 {
@@ -693,7 +782,7 @@ namespace Craft2Git
             }
         }
 
-        private void rightDeleteClick(object sender, RoutedEventArgs e)
+        private void RightDeleteClick(object sender, RoutedEventArgs e)
         {
             if (leftList.SelectedIndex > -1)
             {
@@ -711,8 +800,10 @@ namespace Craft2Git
 
                 if (dir.Exists)
                 {
+                    rightWatcher.EnableRaisingEvents = false;
                     Directory.Delete(filePath, true);
-                    loadRightPacks(rightFilePath);
+                    rightWatcher.EnableRaisingEvents = true;
+                    LoadRightPacks(rightFilePath);
                 }
 
                 if (rightListGroup[rightTabSelected].Count() - 1 >= storedIndex)
@@ -726,24 +817,41 @@ namespace Craft2Git
             }
         }
 
-        private void setLeftDefault(object sender, RoutedEventArgs e)
+        private void SetLeftDefault(object sender, RoutedEventArgs e)
         {
             defaultLeftFilePath = leftText.Text;
-            writeSettings();
+            WriteSettings();
         }
 
-        private void setRightDefault(object sender, RoutedEventArgs e)
+        private void SetRightDefault(object sender, RoutedEventArgs e)
         {
             defaultRightFilePath = rightText.Text;
-            writeSettings();
+            WriteSettings();
         }
 
-        private void writeSettings()
+        private void WriteSettings()
         {
             string[] contents = new string[] { "leftDefaultPath=" + defaultLeftFilePath, "rightDefaultPath=" + defaultRightFilePath };
             File.WriteAllLines(@"settings.txt", contents);
         }
 
+        private void onLeftDirectoryChange(object source, FileSystemEventArgs e)
+        {
+            Console.WriteLine($"File: {e.FullPath} {e.ChangeType}");
+            App.Current.Dispatcher.Invoke((Action)delegate
+            {
+                LoadLeftPacks(leftFilePath);
+            });
+        }
+
+        private void onRightDirectoryChange(object source, FileSystemEventArgs e)
+        {
+            Console.WriteLine($"File: {e.FullPath} {e.ChangeType}");
+            App.Current.Dispatcher.Invoke((Action)delegate
+            {
+                LoadRightPacks(rightFilePath);
+            });
+        }
     }
 
     

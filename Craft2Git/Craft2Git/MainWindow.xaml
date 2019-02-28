@@ -38,7 +38,7 @@
             <ColumnDefinition Width="65*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Button x:Name="rightCopy" Content="Copy" Grid.Column="2" Margin="43,0,0,77" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="75" Click="RightCopy"/>
-        <TextBox x:Name="leftText" Height="23" Margin="10,0,90,15" Text="TextBox" TextChanged="leftText_TextChanged" VerticalAlignment="Bottom"/>
+        <TextBox x:Name="leftText" Height="23" Margin="10,0,90,15" Text="TextBox" TextChanged="LeftText_TextChanged" VerticalAlignment="Bottom"/>
         <Button x:Name="leftCopy" Content="Copy" Grid.Column="0" Margin="10,0,0,77" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="75" Click="LeftCopy" Height="22"/>
         <TabControl x:Name="leftTabControl" Margin="10,27,43,110" SelectionChanged="LeftTabChanged" >
 
@@ -68,7 +68,7 @@
 
         </TabControl>
         <ListBox x:Name="leftList" Margin="22,59,54,120" ItemsSource="{Binding}" ItemTemplate="{DynamicResource ResourceKey=addonEntry}"/>
-        <TextBox x:Name="rightText" Height="23" Margin="10,0,90,15" Text="TextBox" TextChanged="rightText_TextChanged" Grid.Column="2" VerticalAlignment="Bottom"/>
+        <TextBox x:Name="rightText" Height="23" Margin="10,0,90,15" Text="TextBox" TextChanged="RightText_TextChanged" Grid.Column="2" VerticalAlignment="Bottom"/>
         <TabControl x:Name="rightTabControl" Margin="43,27,10,110" SelectionChanged="RightTabChanged" Grid.Column="2" >
 
             <TabItem x:Name="rightBehaviorTab" Header="Behavior">
@@ -98,17 +98,19 @@
         </TabControl>
         <ListBox x:Name="rightList" Margin="54,59,27,120" ItemsSource="{Binding}" ItemTemplate="{DynamicResource ResourceKey=addonEntry}" Grid.Column="2"/>
         <Grid VerticalAlignment="Stretch"  Background="#FFE5E5E5" Grid.Column="1" HorizontalAlignment="Left" Width="12"/>
-        <Button x:Name="leftOpen" Content="Open" HorizontalAlignment="Right" Margin="0,0,10,15" VerticalAlignment="Bottom" Width="75" Click="leftOpenDialog"/>
-        <Button x:Name="rightOpen" Content="Open" HorizontalAlignment="Right" Margin="0,0,10,15" VerticalAlignment="Bottom" Width="75" Click="rightOpenDialog" Grid.Column="2"/>
-        <Button Content="Refresh" HorizontalAlignment="Left" Margin="90,0,0,77" VerticalAlignment="Bottom" Width="75" Click="leftRefreshClick"/>
-        <Button Content="Refresh" HorizontalAlignment="Left" Margin="123,0,0,77" VerticalAlignment="Bottom" Width="75" Click="rightRefreshClick" Grid.Column="2"/>
-        <Button Content="Delete" HorizontalAlignment="Left" Margin="170,0,0,77" VerticalAlignment="Bottom" Width="75" Click="leftDeleteClick"/>
-        <Button Content="Delete" HorizontalAlignment="Left" Margin="203,0,0,77" VerticalAlignment="Bottom" Width="75" Click="rightDeleteClick" Grid.Column="2"/>
+        <Button x:Name="leftOpen" Content="Open" HorizontalAlignment="Right" Margin="0,0,10,15" VerticalAlignment="Bottom" Width="75" Click="LeftOpenDialog"/>
+        <Button x:Name="rightOpen" Content="Open" HorizontalAlignment="Right" Margin="0,0,10,15" VerticalAlignment="Bottom" Width="75" Click="RightOpenDialog" Grid.Column="2"/>
+        <Button Content="Refresh" HorizontalAlignment="Left" Margin="90,0,0,77" VerticalAlignment="Bottom" Width="75" Click="LeftRefreshClick"/>
+        <Button Content="Refresh" HorizontalAlignment="Left" Margin="123,0,0,77" VerticalAlignment="Bottom" Width="75" Click="RightRefreshClick" Grid.Column="2"/>
+        <Button Content="Delete" HorizontalAlignment="Left" Margin="170,0,0,77" VerticalAlignment="Bottom" Width="75" Click="LeftDeleteClick"/>
+        <Button Content="Delete" HorizontalAlignment="Left" Margin="203,0,0,77" VerticalAlignment="Bottom" Width="75" Click="RightDeleteClick" Grid.Column="2"/>
         <Menu HorizontalAlignment="Left" Height="22" VerticalAlignment="Top" Width="792" Grid.ColumnSpan="3">
-            <MenuItem Header="File"/>
+            <MenuItem Header="File">
+                <MenuItem Header="There's Nothing Here Yet"/>
+            </MenuItem>
             <MenuItem Header="Preferences">
-                <MenuItem Header="Set left path as default" Click="setLeftDefault"/>
-                <MenuItem Header="Set right path as default" Click="setRightDefault"/>
+                <MenuItem Header="Set left path as default" Click="SetLeftDefault"/>
+                <MenuItem Header="Set right path as default" Click="SetRightDefault"/>
             </MenuItem>
         </Menu>
     </Grid>
