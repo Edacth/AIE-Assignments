@@ -37,8 +37,8 @@ namespace Craft2Git
         #region Class-wide Variables
         PackList[] leftListGroup;
         PackList[] rightListGroup;
-        string defaultLeftFilePath = "C:\\Users\\s189062\\Desktop\\Addon Source";
-        string defaultRightFilePath = "C:\\Users\\s189062\\Desktop\\Addon Destination";
+        string defaultLeftFilePath = "";
+        string defaultRightFilePath = "";
         string leftFilePath = "C:\\Users\\s189062\\Desktop\\Addon Source";   
         string rightFilePath = "C:\\Users\\s189062\\Desktop\\Addon Destination";
         int leftTabSelected = 0;
@@ -55,12 +55,38 @@ namespace Craft2Git
 
         public MainWindow()
         {
-            #region Left Side Init
             ////////////////////
-            //Left Side init////
+            //Load in defaults//
             ////////////////////
+            if (File.Exists(@"settings.txt"))
+            {
+                string[] lines = File.ReadAllLines(@"settings.txt");
+                for (int i = 0; i < lines.Length; i++)
+                {
+                    if (lines[i].StartsWith("leftDefaultPath="))
+                    {
+                        string[] stringSeparators = new string[] { "=" };
+                        string[] splitLine = lines[i].Split(stringSeparators, StringSplitOptions.None);
+                        
+                        defaultLeftFilePath = splitLine[1];
+                    }
+                    else if (lines[i].StartsWith("rightDefaultPath="))
+                    {
+                        string[] stringSeparators = new string[] { "=" };
+                        string[] splitLine = lines[i].Split(stringSeparators, StringSplitOptions.None);
 
-            leftListGroup = new PackList[4];
+                        defaultRightFilePath = splitLine[1];
+                    }
+                }
+                
+            }
+
+                #region Left Side Init
+                ////////////////////
+                //Left Side init////
+                ////////////////////
+
+                leftListGroup = new PackList[4];
             for (int i = 0; i < leftListGroup.Length; i++)
             {
                 leftListGroup[i] = new PackList();
@@ -188,11 +214,8 @@ namespace Craft2Git
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
            {
-                Console.WriteLine(ex);
-                var st = new StackTrace(ex, true);
-                Console.WriteLine(ex.ToString());
             }
             
             #endregion
@@ -639,43 +662,88 @@ namespace Craft2Git
 
         private void leftDeleteClick(object sender, RoutedEventArgs e)
         {
-            string filePath = System.IO.Path.GetDirectoryName(leftListGroup[leftTabSelected][leftList.SelectedIndex].filePath);
-
-            DirectoryInfo dir = new DirectoryInfo(filePath);
-            if (!dir.Exists)
+            if (leftList.SelectedIndex > -1)
             {
-                return;
-                throw new DirectoryNotFoundException(
-                    "Source directory does not exist or could not be found: "
-                    + filePath);
-            }
+                string filePath = System.IO.Path.GetDirectoryName(leftListGroup[leftTabSelected][leftList.SelectedIndex].filePath);
+                int storedIndex = rightList.SelectedIndex;
 
-            if (dir.Exists)
-            {
-                Directory.Delete(filePath, true);
-                loadLeftPacks(leftFilePath);
+                DirectoryInfo dir = new DirectoryInfo(filePath);
+                if (!dir.Exists)
+                {
+                    return;
+                    throw new DirectoryNotFoundException(
+                        "Source directory does not exist or could not be found: "
+                        + filePath);
+                }
+
+                if (dir.Exists)
+                {
+                    Directory.Delete(filePath, true);
+                    loadLeftPacks(leftFilePath);
+                }
+                if (leftListGroup[leftTabSelected].Count() - 1 >= storedIndex)
+                {
+                    leftList.SelectedIndex = storedIndex;
+                }
+                else if (leftListGroup[leftTabSelected].Count() - 1 < storedIndex)
+                {
+                    leftList.SelectedIndex = storedIndex - 1;
+                }
+                Console.WriteLine(leftList.SelectedIndex);
             }
         }
 
         private void rightDeleteClick(object sender, RoutedEventArgs e)
         {
-            string filePath = System.IO.Path.GetDirectoryName(rightListGroup[rightTabSelected][rightList.SelectedIndex].filePath);
-
-            DirectoryInfo dir = new DirectoryInfo(filePath);
-            if (!dir.Exists)
+            if (leftList.SelectedIndex > -1)
             {
-                return;
-                throw new DirectoryNotFoundException(
-                    "Source directory does not exist or could not be found: "
-                    + filePath);
-            }
+                string filePath = System.IO.Path.GetDirectoryName(rightListGroup[rightTabSelected][rightList.SelectedIndex].filePath);
+                int storedIndex = rightList.SelectedIndex;
 
-            if (dir.Exists)
-            {
-                Directory.Delete(filePath, true);
-                loadRightPacks(rightFilePath);
+                DirectoryInfo dir = new DirectoryInfo(filePath);
+                if (!dir.Exists)
+                {
+                    return;
+                    throw new DirectoryNotFoundException(
+                        "Source directory does not exist or could not be found: "
+                        + filePath);
+                }
+
+                if (dir.Exists)
+                {
+                    Directory.Delete(filePath, true);
+                    loadRightPacks(rightFilePath);
+                }
+
+                if (rightListGroup[rightTabSelected].Count() - 1 >= storedIndex)
+                {
+                    rightList.SelectedIndex = storedIndex;
+                }
+                else if (rightListGroup[rightTabSelected].Count() - 1 < storedIndex)
+                {
+                    rightList.SelectedIndex = storedIndex - 1;
+                }
             }
         }
+
+        private void setLeftDefault(object sender, RoutedEventArgs e)
+        {
+            defaultLeftFilePath = leftText.Text;
+            writeSettings();
+        }
+
+        private void setRightDefault(object sender, RoutedEventArgs e)
+        {
+            defaultRightFilePath = rightText.Text;
+            writeSettings();
+        }
+
+        private void writeSettings()
+        {
+            string[] contents = new string[] { "leftDefaultPath=" + defaultLeftFilePath, "rightDefaultPath=" + defaultRightFilePath };
+            File.WriteAllLines(@"settings.txt", contents);
+        }
+
     }
 
     
