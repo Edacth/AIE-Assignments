@@ -158,10 +158,10 @@ namespace Craft2Git
             leftWatcher.EnableRaisingEvents = true;
             leftWatcher.IncludeSubdirectories = true;
 
-            leftWatcher.Created += onLeftDirectoryChange;
-            leftWatcher.Changed += onLeftDirectoryChange;
-            leftWatcher.Renamed += onLeftDirectoryChange;
-            leftWatcher.Deleted += onLeftDirectoryChange;
+            leftWatcher.Created += OnLeftDirectoryChange;
+            leftWatcher.Changed += OnLeftDirectoryChange;
+            leftWatcher.Renamed += OnLeftDirectoryChange;
+            leftWatcher.Deleted += OnLeftDirectoryChange;
             #endregion
 
             #region Right File Watcher
@@ -180,10 +180,10 @@ namespace Craft2Git
             rightWatcher.EnableRaisingEvents = true;
             rightWatcher.IncludeSubdirectories = true;
 
-            rightWatcher.Created += onRightDirectoryChange;
-            rightWatcher.Changed += onRightDirectoryChange;
-            rightWatcher.Renamed += onRightDirectoryChange;
-            rightWatcher.Deleted += onRightDirectoryChange;
+            rightWatcher.Created += OnRightDirectoryChange;
+            rightWatcher.Changed += OnRightDirectoryChange;
+            rightWatcher.Renamed += OnRightDirectoryChange;
+            rightWatcher.Deleted += OnRightDirectoryChange;
             #endregion
 
             leftText.Text = leftFilePath;
@@ -628,7 +628,14 @@ namespace Craft2Git
                     leftList.SetBinding(System.Windows.Controls.ListBox.ItemsSourceProperty, leftBinding1);
                     break;
             }
-            leftList.SelectedIndex = 0;
+            if (leftListGroup[leftTabSelected].Count > 0)
+            {
+                leftList.SelectedIndex = 0;
+            }
+            else
+            {
+                leftList.SelectedIndex = -1;
+            }
         }
 
         private void UpdateRightFocus()
@@ -651,7 +658,14 @@ namespace Craft2Git
                     rightList.SetBinding(System.Windows.Controls.ListBox.ItemsSourceProperty, rightBinding1);
                     break;
             }
-            rightList.SelectedIndex = 0;
+            if (rightListGroup[rightTabSelected].Count > 0)
+            {
+                rightList.SelectedIndex = 0;
+            }
+            else
+            {
+                rightList.SelectedIndex = -1;
+            }
         }
         
         private static void DirectoryCopy(string sourceDirName, string destDirName, bool copySubDirs)
@@ -777,7 +791,7 @@ namespace Craft2Git
 
         private void RightDeleteClick(object sender, RoutedEventArgs e)
         {
-            if (leftList.SelectedIndex > -1)
+            if (rightList.SelectedIndex > -1)
             {
                 string filePath = System.IO.Path.GetDirectoryName(rightListGroup[rightTabSelected][rightList.SelectedIndex].filePath);
                 int storedIndex = rightList.SelectedIndex;
@@ -828,7 +842,7 @@ namespace Craft2Git
             File.WriteAllLines(@"settings.txt", contents);
         }
 
-        private void onLeftDirectoryChange(object source, FileSystemEventArgs e)
+        private void OnLeftDirectoryChange(object source, FileSystemEventArgs e)
         {
             Console.WriteLine($"File: {e.FullPath} {e.ChangeType}");
             App.Current.Dispatcher.Invoke((Action)delegate
@@ -837,7 +851,7 @@ namespace Craft2Git
             });
         }
 
-        private void onRightDirectoryChange(object source, FileSystemEventArgs e)
+        private void OnRightDirectoryChange(object source, FileSystemEventArgs e)
         {
             Console.WriteLine($"File: {e.FullPath} {e.ChangeType}");
             App.Current.Dispatcher.Invoke((Action)delegate
