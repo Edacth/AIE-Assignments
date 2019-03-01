@@ -39,7 +39,7 @@
         </Grid.ColumnDefinitions>
         <Button x:Name="rightCopy" Content="Copy" Grid.Column="2" Margin="43,0,0,77" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="75" Click="RightCopy"/>
         <TextBox x:Name="leftText" Height="23" Margin="10,0,90,15" Text="TextBox" TextChanged="LeftText_TextChanged" VerticalAlignment="Bottom"/>
-        <Button x:Name="leftCopy" Content="Copy" Grid.Column="0" Margin="10,0,0,77" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="75" Click="LeftCopy" Height="22"/>
+        <Button x:Name="leftCopy" Content="Copy" Grid.Column="0" Margin="10,0,0,77" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="75" Click="LeftCopy"/>
         <TabControl x:Name="leftTabControl" Margin="10,27,43,110" SelectionChanged="LeftTabChanged" >
 
             <TabItem x:Name="leftBehaviorTab" Header="Behavior">
@@ -72,7 +72,7 @@
         <TabControl x:Name="rightTabControl" Margin="43,27,10,110" SelectionChanged="RightTabChanged" Grid.Column="2" >
 
             <TabItem x:Name="rightBehaviorTab" Header="Behavior">
-                <Grid Background="#FFE5E5E5" Margin="0,17,0,1"/>
+                <Grid Background="#FFE5E5E5" Margin="0,-1,0,1"/>
             </TabItem>
             <TabItem x:Name="rightResourceTab" Header="Resource" Height="23" VerticalAlignment="Top">
                 <Grid Background="#FFE5E5E5">
@@ -96,15 +96,15 @@
             </TabItem>
 
         </TabControl>
-        <ListBox x:Name="rightList" Margin="54,59,27,120" ItemsSource="{Binding}" ItemTemplate="{DynamicResource ResourceKey=addonEntry}" Grid.Column="2"/>
+        <ListBox x:Name="rightList" Margin="54,59,22,120" ItemsSource="{Binding}" ItemTemplate="{DynamicResource ResourceKey=addonEntry}" Grid.Column="2"/>
         <Grid VerticalAlignment="Stretch"  Background="#FFE5E5E5" Grid.Column="1" HorizontalAlignment="Left" Width="12"/>
-        <Button x:Name="leftOpen" Content="Open" HorizontalAlignment="Right" Margin="0,0,10,15" VerticalAlignment="Bottom" Width="75" Click="LeftOpenDialog"/>
-        <Button x:Name="rightOpen" Content="Open" HorizontalAlignment="Right" Margin="0,0,10,15" VerticalAlignment="Bottom" Width="75" Click="RightOpenDialog" Grid.Column="2"/>
+        <Button x:Name="leftOpen" Content="Browse" HorizontalAlignment="Right" Margin="0,0,10,15" VerticalAlignment="Bottom" Width="75" Click="LeftOpenDialog"/>
+        <Button x:Name="rightOpen" Content="Browse" HorizontalAlignment="Right" Margin="0,0,10,15" VerticalAlignment="Bottom" Width="75" Click="RightOpenDialog" Grid.Column="2"/>
         <Button Content="Refresh" HorizontalAlignment="Left" Margin="90,0,0,77" VerticalAlignment="Bottom" Width="75" Click="LeftRefreshClick"/>
         <Button Content="Refresh" HorizontalAlignment="Left" Margin="123,0,0,77" VerticalAlignment="Bottom" Width="75" Click="RightRefreshClick" Grid.Column="2"/>
         <Button Content="Delete" HorizontalAlignment="Left" Margin="170,0,0,77" VerticalAlignment="Bottom" Width="75" Click="LeftDeleteClick"/>
         <Button Content="Delete" HorizontalAlignment="Left" Margin="203,0,0,77" VerticalAlignment="Bottom" Width="75" Click="RightDeleteClick" Grid.Column="2"/>
-        <Menu HorizontalAlignment="Left" Height="22" VerticalAlignment="Top" Width="792" Grid.ColumnSpan="3">
+        <Menu HorizontalAlignment="Left" Height="22" VerticalAlignment="Top" Grid.ColumnSpan="3" Width="792">
             <MenuItem Header="File">
                 <MenuItem Header="There's Nothing Here Yet"/>
             </MenuItem>

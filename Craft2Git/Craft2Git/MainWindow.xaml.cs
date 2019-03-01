@@ -32,34 +32,6 @@ namespace Craft2Git
         }
     }
 
-    public class FileWatcher
-    {
-        public string folderDir;
-
-        public FileWatcher(string _folderDir)
-        {
-            folderDir = _folderDir;
-            Run();
-        }
-
-
-        [PermissionSet(SecurityAction.Demand, Name = "FullTrust")]
-        private void Run()
-        {
-            
-
-            using (FileSystemWatcher watcher = new FileSystemWatcher())
-            {
-                
-            }
-        }
-
-        public void OnChanged(object source, FileSystemEventArgs e)
-        {
-            
-        }
-    }
-
     public partial class MainWindow : Window
     {
         #region Class-wide Variables
@@ -67,8 +39,8 @@ namespace Craft2Git
         PackList[] rightListGroup;
         string defaultLeftFilePath = "";
         string defaultRightFilePath = "";
-        string leftFilePath = "C:\\Users\\s189062\\Desktop\\Addon Source";   
-        string rightFilePath = "C:\\Users\\s189062\\Desktop\\Addon Destination";
+        string leftFilePath = "";   
+        string rightFilePath = "";
         int leftTabSelected = 0;
         int rightTabSelected = 0;
         System.Windows.Data.Binding leftBinding1;
@@ -160,8 +132,8 @@ namespace Craft2Git
 
             InitializeComponent();
 
-            leftText.Text = defaultLeftFilePath;
-            rightText.Text = defaultRightFilePath;
+            leftFilePath = defaultLeftFilePath;
+            rightFilePath = defaultRightFilePath;
             leftList.SelectedIndex = leftTabSelected;
             rightList.SelectedIndex = rightTabSelected;
 
@@ -171,7 +143,18 @@ namespace Craft2Git
             #region Left File Watcher
             //This region is based on an example from MSDN
             //https://docs.microsoft.com/en-us/dotnet/api/system.io.filesystemwatcher?redirectedfrom=MSDN&view=netframework-4.7.2
-            leftWatcher = new FileSystemWatcher(leftFilePath, "*.*");
+            leftWatcher = new FileSystemWatcher();
+            if (Directory.Exists(leftFilePath) && leftFilePath != "")
+            {
+                leftWatcher.Path = leftFilePath;
+            }
+            else
+            {
+                leftFilePath = Directory.GetCurrentDirectory();
+                leftWatcher.Path = Directory.GetCurrentDirectory();
+            }
+                
+            leftWatcher.Filter = "*.*";
             leftWatcher.EnableRaisingEvents = true;
             leftWatcher.IncludeSubdirectories = true;
 
@@ -182,7 +165,18 @@ namespace Craft2Git
             #endregion
 
             #region Right File Watcher
-            rightWatcher = new FileSystemWatcher(rightFilePath, "*.*");
+            rightWatcher = new FileSystemWatcher();
+            if (Directory.Exists(rightFilePath) && rightFilePath != "")
+            {
+                rightWatcher.Path = rightFilePath;
+            }
+            else
+            {
+                rightFilePath = Directory.GetCurrentDirectory();
+                rightWatcher.Path = Directory.GetCurrentDirectory();
+            }
+
+            rightWatcher.Filter = "*.*";
             rightWatcher.EnableRaisingEvents = true;
             rightWatcher.IncludeSubdirectories = true;
 
@@ -191,55 +185,68 @@ namespace Craft2Git
             rightWatcher.Renamed += onRightDirectoryChange;
             rightWatcher.Deleted += onRightDirectoryChange;
             #endregion
+
+            leftText.Text = leftFilePath;
+            rightText.Text = rightFilePath;
         }
 
         private void LeftCopy(object sender, RoutedEventArgs e)
         {
-            string sourceFilePath = System.IO.Path.GetDirectoryName(leftListGroup[leftTabSelected][leftList.SelectedIndex].filePath);
-            string[] stringSeparators = new string[] { "\\" };
-            string[] splitEntryPath = leftListGroup[leftTabSelected][leftList.SelectedIndex].filePath.Split(stringSeparators, StringSplitOptions.None);
+            if (leftList.SelectedIndex > -1)
+            {
 
-            string destFilePath;
-            if (leftTabSelected == 3)
-            {
-                destFilePath = System.IO.Path.Combine(rightFilePath, splitEntryPath[splitEntryPath.Length - 2]);
-            }
-            else
-            {
-                destFilePath = System.IO.Path.Combine(rightFilePath, splitEntryPath[splitEntryPath.Length - 3], splitEntryPath[splitEntryPath.Length - 2]);
-            }
-            rightWatcher.EnableRaisingEvents = false;
-            DirectoryCopy(sourceFilePath, destFilePath, true);
-            rightWatcher.EnableRaisingEvents = true;
-            LoadRightPacks(rightFilePath);
-            if (rightList.SelectedIndex == -1)
-            {
-                rightList.SelectedIndex = 0;
+
+                string sourceFilePath = System.IO.Path.GetDirectoryName(leftListGroup[leftTabSelected][leftList.SelectedIndex].filePath);
+                string[] stringSeparators = new string[] { "\\" };
+                string[] splitEntryPath = leftListGroup[leftTabSelected][leftList.SelectedIndex].filePath.Split(stringSeparators, StringSplitOptions.None);
+
+                string destFilePath;
+                if (leftTabSelected == 3)
+                {
+                    destFilePath = System.IO.Path.Combine(rightFilePath, splitEntryPath[splitEntryPath.Length - 2]);
+                }
+                else
+                {
+                    destFilePath = System.IO.Path.Combine(rightFilePath, splitEntryPath[splitEntryPath.Length - 3], splitEntryPath[splitEntryPath.Length - 2]);
+                }
+                rightWatcher.EnableRaisingEvents = false;
+                DirectoryCopy(sourceFilePath, destFilePath, true);
+                rightWatcher.EnableRaisingEvents = true;
+                LoadRightPacks(rightFilePath);
+                if (rightList.SelectedIndex == -1)
+                {
+                    rightList.SelectedIndex = 0;
+                }
             }
         }
 
         private void RightCopy(object sender, RoutedEventArgs e)
         {
-            string sourceFilePath = System.IO.Path.GetDirectoryName(rightListGroup[rightTabSelected][rightList.SelectedIndex].filePath);
-            string[] stringSeparators = new string[] { "\\" };
-            string[] splitEntryPath = rightListGroup[rightTabSelected][rightList.SelectedIndex].filePath.Split(stringSeparators, StringSplitOptions.None);
+            if (rightList.SelectedIndex > -1)
+            {
 
-            string destFilePath;
-            if (rightTabSelected == 3)
-            {
-                destFilePath = System.IO.Path.Combine(leftFilePath, splitEntryPath[splitEntryPath.Length - 2]);
-            }
-            else
-            {
-                destFilePath = System.IO.Path.Combine(leftFilePath, splitEntryPath[splitEntryPath.Length - 3], splitEntryPath[splitEntryPath.Length - 2]);
-            }
-            leftWatcher.EnableRaisingEvents = false;
-            DirectoryCopy(sourceFilePath, destFilePath, true);
-            leftWatcher.EnableRaisingEvents = true;
-            LoadLeftPacks(leftFilePath);
-            if (leftList.SelectedIndex == -1)
-            {
-                leftList.SelectedIndex = 0;
+
+                string sourceFilePath = System.IO.Path.GetDirectoryName(rightListGroup[rightTabSelected][rightList.SelectedIndex].filePath);
+                string[] stringSeparators = new string[] { "\\" };
+                string[] splitEntryPath = rightListGroup[rightTabSelected][rightList.SelectedIndex].filePath.Split(stringSeparators, StringSplitOptions.None);
+
+                string destFilePath;
+                if (rightTabSelected == 3)
+                {
+                    destFilePath = System.IO.Path.Combine(leftFilePath, splitEntryPath[splitEntryPath.Length - 2]);
+                }
+                else
+                {
+                    destFilePath = System.IO.Path.Combine(leftFilePath, splitEntryPath[splitEntryPath.Length - 3], splitEntryPath[splitEntryPath.Length - 2]);
+                }
+                leftWatcher.EnableRaisingEvents = false;
+                DirectoryCopy(sourceFilePath, destFilePath, true);
+                leftWatcher.EnableRaisingEvents = true;
+                LoadLeftPacks(leftFilePath);
+                if (leftList.SelectedIndex == -1)
+                {
+                    leftList.SelectedIndex = 0;
+                }
             }
         }
 
@@ -536,14 +543,9 @@ namespace Craft2Git
             LoadLeftPacks(leftFilePath);
             if (leftWatcher != null)
             {
-                try
+                if (Directory.Exists(leftFilePath) && leftFilePath != "")
                 {
                     leftWatcher.Path = leftFilePath;
-                }
-                catch (Exception)
-                {
-
-                    
                 }
                 
             }
@@ -555,18 +557,11 @@ namespace Craft2Git
             LoadRightPacks(rightFilePath);
             if (rightWatcher != null)
             {
-                try
+                if (Directory.Exists(rightFilePath) && rightFilePath != "")
                 {
                     rightWatcher.Path = rightFilePath;
                 }
-                catch (Exception)
-                {
-
-
-                }
-
             }
-
         }
 
         private void LeftTabChanged(object sender, RoutedEventArgs e)
@@ -717,7 +712,6 @@ namespace Craft2Git
                 leftFilePath = dialog.SelectedPath;
                 leftText.Text = leftFilePath;
                 LoadLeftPacks(leftFilePath);
-                //leftWatcher.Path = leftFilePath;
             }
         }
 
@@ -731,7 +725,6 @@ namespace Craft2Git
                 rightFilePath = dialog.SelectedPath;
                 rightText.Text = rightFilePath;
                 LoadRightPacks(rightFilePath);
-                //rightWatcher.Path = rightFilePath;
             }
         }
 
@@ -853,6 +846,4 @@ namespace Craft2Git
             });
         }
     }
-
-    
 }
