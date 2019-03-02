@@ -566,24 +566,33 @@ namespace Craft2Git
 
         private void LeftTabChanged(object sender, RoutedEventArgs e)
         {
-            
+
             if (leftBehaviorTab.IsSelected)
             {
                 leftTabSelected = 0;
+                rightTabSelected = 0;
+                rightTabControl.SelectedIndex = 0;
             }
             else if (leftResourceTab.IsSelected)
             {
                 leftTabSelected = 1;
+                rightTabSelected = 1;
+                rightTabControl.SelectedIndex = 1;
             }
             else if (leftWorldTab.IsSelected)
             {
                 leftTabSelected = 2;
+                rightTabSelected = 2;
+                rightTabControl.SelectedIndex = 2;
             }
             else if (leftUncatTab.IsSelected)
             {
                 leftTabSelected = 3;
+                rightTabSelected = 3;
+                rightTabControl.SelectedIndex = 3;
             }
             UpdateLeftFocus();
+            UpdateRightFocus();
         }
 
         private void RightTabChanged(object sender, RoutedEventArgs e)
@@ -592,18 +601,26 @@ namespace Craft2Git
             if (rightBehaviorTab.IsSelected)
             {
                 rightTabSelected = 0;
+                leftTabSelected = 0;
+                leftTabControl.SelectedIndex = 0;
             }
             else if (rightResourceTab.IsSelected)
             {
                 rightTabSelected = 1;
+                leftTabSelected = 1;
+                leftTabControl.SelectedIndex = 1;
             }
             else if (rightWorldTab.IsSelected)
             {
                 rightTabSelected = 2;
+                leftTabSelected = 2;
+                leftTabControl.SelectedIndex = 2;
             }
             else if (rightUncatTab.IsSelected)
             {
                 rightTabSelected = 3;
+                leftTabSelected = 3;
+                leftTabControl.SelectedIndex = 3;
             }
             UpdateRightFocus();
         }
