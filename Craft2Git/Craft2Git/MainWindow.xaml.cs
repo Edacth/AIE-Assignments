@@ -276,6 +276,26 @@ namespace Craft2Git
                         newEntry.iconPath = System.IO.Path.Combine(subDirectories[i], "pack_icon.png");
 
                         newEntry.loadIcon();
+
+                        //Handing name/desc stored in lang files
+                        if (newEntry.header.name == "pack.name")
+                        {
+                            filePathAppended = System.IO.Path.Combine(subDirectories[i], "texts/en_US.lang");
+                            if (File.Exists(filePathAppended))
+                            {
+                                string[] langLines = File.ReadAllLines(filePathAppended);
+                                for (int j = 0; j < langLines.Length; j++)
+                                {
+                                    string[] stringSeparators = new string[] { "=" };
+                                    string[] splitLine = langLines[i].Split(stringSeparators, StringSplitOptions.None);
+                                    if (splitLine[0] == "pack.name" && splitLine.Length > 1)
+                                    {
+                                        newEntry.header.name = splitLine[1];
+                                    }
+                                }
+                            }
+                            
+                        }
                         
                         leftListGroup[0].Add(newEntry);
                     }
